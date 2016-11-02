@@ -49,9 +49,8 @@
     },
     "cordova-plugin-calendar": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-plugin-calendar"
         },
         "is_top_level": true,
         "variables": {}
