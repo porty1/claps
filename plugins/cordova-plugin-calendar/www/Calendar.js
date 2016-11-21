@@ -1,3 +1,6 @@
+//@author schmf4
+// Calendar Plugin
+
 "use strict";
 function Calendar() {
 }
