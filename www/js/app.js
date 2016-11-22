@@ -27,6 +27,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
   });
 })
 
+
+// Controller für List- / Appointment View im Kalender.html
+// Anhand der offiziellen Beschreibung von Ionic: http://ionicframework.com/docs/api/directive/ionList/
+// - schmf4
 .controller('MyCtrl', function($scope) {
 
   $scope.data = {
@@ -49,6 +53,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
     $scope.items.splice($scope.items.indexOf(item), 1);
   };
 
+// Alle anzuzeigenden Items im Kalender mit Startdatum, Enddatum und Beschreibung
+// Wird bei einer MiData Anbindung ersetzt
+// - schmf4
   $scope.items = [
     { start: "14:00", end:"15:00", title:"Test Appointment"},
     { start: "15:00", end:"16:00", title:"Test Appointment"},
