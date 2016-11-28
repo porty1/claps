@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Formular Medikamentverordnen</title>
+<link rel="stylesheet" type="text/css" href="view.css" media="all">
+<script type="text/javascript" src="view.js"></script>
+
+</head>
+
+<body>
+
+<!-- hugil1: Hier beginnt der Code -->
+
+<!-- hugil1: Header des bodys ;) -->
+
+<div id="header">
+		<h1><a>Mediplaner</a></h1>
+
+</div>
+
+<!-- hugil1: hier befindet sich die Patientenübersicht auf der linken Seite -->
+<div id="patubersicht">
+ <ul>
+    <li><a href="#">Yannis Porty</a></li>
+    <li><a href="#">Fabi Schmied</a></li>
+    <li><a href="#">Lisa Fetsch</a></li>
+    <li><a href="#">Julia Frei</a></li>
+    <li><a href="#">Joel Jäggi</a></li>
+    <li><a href="#">Anna Meier</a></li>
+    <li><a href="#">Dominic Leu</a></li>
+    <li><a href="#">Arwa Radschi</a></li>
+    <li><a href="#">Angus Bell</a></li>
+    <li><a href="#">Peter Müller</a></li>
+    <li><a href="#">Reto Senn</a></li>
+    <li><a href="#">Fabian Kipf</a></li>
+    <li><a href="#">Sergio Witt</a></li>
+    <li><a href="#">Melanie Danz</a></li>
+  </ul>
+
+</div>
+
+<!-- hugil1: hier befindet sich die Tabelle mit den verabreichten Medikamenten oberhalb des Verordnungsformular-->
+<div id="medikamente">
+<h2> <a>Patient: Yannis Porty</a></h2>
+	<table>
+		<thead>
+  		<tr>
+  			<th>Datum</th>
+    		<th>Name</th>
+    		<th>Dosis</th>
+    		<th>Form</th>
+    		<th>Blister</th>
+    		<th>Dauer</th>
+  		</tr>
+		</thead>
+		<tbody id="Mediview">
+		</tbody>
+	</table>
+</div>
+
+
+
+<!-- hugil1: hier befindet sich das Formular um ein Medikament zu verordnen. -->
+<div id="verordnen" >
+
+	<div>
+		<form id="form_verordnen" class="appnitro"  method="post" action="">
+			<div>
+				<h2>Medikament erfassen</h2>
+			</div>
+				<label class="description">Datum </label>
+					<div>
+						<input id="elementDatum" name="element_2" class="element text medium" type="text" maxlength="255" value=""/>
+					</div>
+
+				<label class="description">Dosis </label>
+					<div>
+						<input id="elementDosis" name="element_2" class="element text medium" type="text" maxlength="255" value=""/>
+					</div>
+
+				<label class="description">Handelsname </label>
+					<div>
+						<input id="elementName" name="element_1" class="element text medium" type="text" maxlength="255" value=""/>
+					</div>
+
+				<label class="description">Dauer </label>
+						<div>
+							<input id="elementDauer" name="element_1" class="element text medium" type="text" maxlength="255" value=""/>
+						</div>
+
+				<label class="description">Blister </label>
+							<div>
+								<input id="elementBlister" name="element_1" class="element text medium" type="text" maxlength="255" value=""/>
+							</div>
+
+				<label class="description">Form </label>
+								<div>
+									<input id="elementForm" name="element_1" class="element text medium" type="text" maxlength="255" value=""/>
+								</div>
+
+
+<!--
+		<label class="description" for="element_6">Form </label>
+			<div>
+				<select class="element select medium" id="element_6" name="element_6">
+					<option value="" selected="selected"></option>
+						<option value="1" >Tablette</option>
+						<option value="2" >Spritze</option>
+						<option value="3" >Salbe</option>
+				</select>
+			</div>
+		<br>
+
+		<label class="description" for="element_4">Verabreichungszeitpunkt </label>
+		<span>
+		<li>
+			<input id="element_4_1" name="element_4_1" class="element checkbox" type="checkbox" value="1" />
+				<label class="choice" for="element_4_1">Morgens</label><br>
+			<input id="element_4_2" name="element_4_2" class="element checkbox" type="checkbox" value="1" />
+				<label class="choice" for="element_4_2">Mittags</label><br>
+			<input id="element_4_3" name="element_4_3" class="element checkbox" type="checkbox" value="1" />
+				<label class="choice" for="element_4_3">Abends</label><br>
+			<input id="element_4_4" name="element_4_4" class="element checkbox" type="checkbox" value="1" />
+				<label class="choice" for="element_4_4">Nachts</label>
+				</li>
+		</span>
+		<br>
+
+		<label class="description" for="element_7">Verabreichung </label>
+		<div>
+		<select class="element select medium" id="element_7" name="element_7">
+			<option value="" selected="selected"></option>
+<option value="1" >oral</option>
+<option value="2" >rektal</option>
+<option value="3" >intravenös</option>
+
+		</select>
+		</div>
+
+
+		<label class="description" for="element_3">Hinweise </label>
+		<div>
+			<textarea id="element_3" name="element_3" class="element textarea medium"></textarea>
+		</div>
+-->
+		<br>
+				<button id="submitBtn" onclick="submitClick()" class="button button-block button-stable">Hinzufügen</button>
+		</form>
+	</div>
+
+
+	<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCXvegZEIikHPazfjoCg55dqO8y1fC_3oI",
+			authDomain: "clapstest-76d40.firebaseapp.com",
+			databaseURL: "https://clapstest-76d40.firebaseio.com",
+			storageBucket: "clapstest-76d40.appspot.com",
+			messagingSenderId: "81865488549"
+		};
+		firebase.initializeApp(config);
+	</script>
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script src="webcmd_firebase.js"></script>
+
+	</body>
+</html>

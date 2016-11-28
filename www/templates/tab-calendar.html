@@ -1,0 +1,23 @@
+<ion-view view-title="Calendar">
+  <ion-content class="padding">
+
+    <div class="bar bar-header bar-calm item-input-inset">
+            <label class="item item-input" style="background-color:rgba(255,0,0,0)">
+              <span class="input-label" style="color:white">Datum</span>
+              <input id="changeDatum" type="date" onchange="setDatum()">
+            </label>
+    </div>
+  <br>
+
+  <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
+  <!-- <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+      <ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}" class="item-remove-animate">
+          <b>{{ item.start }} - {{ item.end }} Uhr </b> <br> {{ item.title }}
+      </ion-item>
+  </ion-list> -->
+
+  <ul class="list" id="list_body">
+  </ul>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,25 @@
+<ion-view view-title="Appointment Details">
+  <ion-content class="padding">
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Dose</td>
+            <td>Date</td>
+          </tr>
+        </thead>
+        <tbody id="table_body">
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <ul>
+        <li ng-click="doShowDetails()">Testeruion</li>
+      </ul>
+    </div>
+    <div ng-controller="MyCtrl">
+    <button class="button" ng-click="MyGoBack()">Zurück</button>
+  </div>
+  </ion-content>
+</ion-view>

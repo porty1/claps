@@ -1,9 +1,5 @@
-angular.module('app.services', [])
+angular.module('starter.services', [])
 
-.factory('BlankFactory', [function(){
-
-}])
-
-.service('BlankService', [function(){
-
-}]);
+.factory('VitalData', function() {
+  
+});

@@ -5,13 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services',])
-
-.config(function($ionicConfigProvider){
-
-})
-
+angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'formlyIonic', 'nvd3', 'i4mi', 'starter.controllers', 'starter.services','jsonFormatter'])
+.constant('APPNAME', 'HelloI4MI')
+.constant('APPSECRET', '8385bee7542099b10315dcb7b803b61a')
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -19,6 +15,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
+
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
@@ -27,47 +24,85 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
   });
 })
 
+.config(function($stateProvider, $urlRouterProvider) {
 
-// Controller für List- / Appointment View im Kalender.html
-// Anhand der offiziellen Beschreibung von Ionic: http://ionicframework.com/docs/api/directive/ionList/
-// - schmf4
-.controller('MyCtrl', function($scope) {
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+  $stateProvider
 
-  $scope.data = {
-    showDelete: false
-  };
+  .state('login', {
+      url: '/login',
+      templateUrl: 'templates/tab-login.html',
+      controller: 'LoginCtrl'
+    })
 
-  $scope.edit = function(item) {
-    alert('Edit Item: ' + item.id);
-  };
-  $scope.share = function(item) {
-    alert('Share Item: ' + item.id);
-  };
+    .state('details', {
+        url: '/details',
+        templateUrl: 'templates/details.html',
+        controller: 'DetailsCtrl'
+      })
 
-  $scope.moveItem = function(item, fromIndex, toIndex) {
-    $scope.items.splice(fromIndex, 1);
-    $scope.items.splice(toIndex, 0, item);
-  };
+      .state('addappointment', {
+          url: '/addappointment',
+          templateUrl: 'templates/tab-addappointment.html',
+          controller: 'addappointmentCtrl'
+        })
 
-  $scope.onItemDelete = function(item) {
-    $scope.items.splice($scope.items.indexOf(item), 1);
-  };
+  // setup an abstract state for the tabs directive
+    .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html',
+  })
+  // Each tab has its own nav history stack:
 
-// Alle anzuzeigenden Items im Kalender mit Startdatum, Enddatum und Beschreibung
-// Wird bei einer MiData Anbindung ersetzt
-// - schmf4
-  $scope.items = [
-    { start: "14:00", end:"15:00", title:"Test Appointment"},
-    { start: "15:00", end:"16:00", title:"Test Appointment"},
-    { start: "16:00", end:"17:00", title:"Test Appointment"},
-    { start: "17:00", end:"18:00", title:"Test Appointment"},
-    { start: "18:00", end:"19:00", title:"Test Appointment"},
-    { start: "19:00", end:"20:00", title:"Test Appointment"},
-    { start: "20:00", end:"22:00", title:"Test Appointment"},
-    { start: "21:00", end:"23:00", title:"Test Appointment"},
-    { start: "22:00", end:"24:00", title:"Test Appointment"},
+  .state('tab.calendar', {
+    url: '/calendar',
+    views: {
+      'tab-calendar': {
+        templateUrl: 'templates/tab-calendar.html',
+        controller: 'CalendarCtrl'
+      }
+    }
+  })
 
-    { id: 50 }
-  ];
+  .state('tab.vitaldata', {
+    url: '/vitaldata',
+    views: {
+      'tab-vitaldata': {
+        templateUrl: 'templates/tab-vitaldata.html',
+        controller: 'VitalDataCtrl'
+      }
+    }
+  })
+
+
+  .state('tab.settings', {
+    url: '/settings',
+    views: {
+      'tab-settings': {
+        templateUrl: 'templates/tab-settings.html',
+        controller: 'SettingsCtrl'
+      }
+    }
+  })
+
+  /*.state('tab.login', {
+      url: '/login',
+      views: {
+        'tab-login': {
+          templateUrl: 'templates/tab-login.html',
+          controller: 'LoginCtrl'
+        }
+      }
+    })*/
+
+
+;
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/login');
 
 });
