@@ -29,13 +29,13 @@ function submitClick() {
   var newAppointmentKey = firebase.database().ref().child('Patient/Medis').push().key;
 
   var updatedata = {};
-  updatedata['/Patient/Medis/' + newAppointmentKey] = dataforpush;
+  updatedata['/Patient/Medis/Morgen/' + newAppointmentKey] = dataforpush;
 
   return firebase.database().ref().update(updatedata);
 }
 
 
-var detailsRef = firebase.database().ref().child('Patient/Medis');
+var detailsRef = firebase.database().ref().child('Patient/Medis/Morgen');
   detailsRef.on("child_added", snap => {
       var blister = snap.child("Blister").val();
       var datum = snap.child("Datum").val();

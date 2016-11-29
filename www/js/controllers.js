@@ -1,6 +1,85 @@
-angular.module('starter.controllers', [])
+var app = angular.module('starter.controllers', ["firebase"]).
+  filter('plainText', function() {
+    return function(text) {
+      return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+    };
+  }
+);
 
-.controller('CalendarCtrl', function($scope, $state) {
+/* Login Page */
+app.controller('LoginCtrl', function($scope, $state, $ionicModal) {
+
+  $scope.cleanVariables = function() {
+    $scope.error = null;
+  }
+
+
+/* --- Create User --- */
+  $scope.createUser = function(user) {
+    var email = user.email;
+    var password = user.password;
+    var name = user.name;
+    var vorname = user.vorname;
+    alert(name);
+    firebase.auth().createUserWithEmailAndPassword(email,password).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ...
+    });
+
+    // Write User Data
+
+    firebase.database().ref().child("/" + name + vorname + "/Appoint/Morgen/ID").set(1);
+    firebase.database().ref().child("/" + name + vorname + "/Appoint/Mittag/ID").set(1);
+    firebase.database().ref().child("/" + name + vorname + "/Appoint/Abend/ID").set(1);
+    firebase.database().ref().child("/" + name + vorname + "/Appoint/Nacht/ID").set(1);
+
+    firebase.database().ref().child("/" + name + vorname + "/Medis/Morgen/ID").set(1);
+    firebase.database().ref().child("/" + name + vorname + "/Medis/Mittag/ID").set(1);
+    firebase.database().ref().child("/" + name + vorname + "/Medis/Abend/ID").set(1);
+    firebase.database().ref().child("/" + name + vorname + "/Medis/Nacht/ID").set(1);
+
+    $state.go('tab.calendar');
+    }
+
+
+/*--- Login User ---*/
+    $scope.loginUser = function(user) {
+      var email = user.email;
+      var password = user.password;
+      alert(email);
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+      }); $state.go('tab.calendar');
+    }
+
+/*--- Popup Register ---*/
+$ionicModal.fromTemplateUrl('templates/register.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modalRegister = modal;
+  });
+
+  // Open the modal
+  $scope.openRegister = function() {
+    $scope.cleanVariables();
+    $scope.modalRegister.show();
+  };
+
+  // Close the modal
+  $scope.closeRegister = function() {
+    $scope.cleanVariables();
+    $scope.modalRegister.hide();
+  };
+
+})
+
+app.controller('CalendarCtrl', function($scope, $state) {
   $scope.data = {
       showDelete: false
     };
@@ -39,13 +118,13 @@ angular.module('starter.controllers', [])
     ];
 })
 
-.controller('VitalDataCtrl', function($scope) {})
+app.controller('VitalDataCtrl', function($scope) {})
 
-.controller('DetailsCtrl', function($scope) {})
+app.controller('DetailsCtrl', function($scope) {})
 
-.controller('addappointmentCtrl', function($scope) {})
+app.controller('addappointmentCtrl', function($scope) {})
 
-.controller('SettingsCtrl', function($scope, I4MIMidataService, $state) {
+app.controller('SettingsCtrl', function($scope, I4MIMidataService, $state) {
 
   // Logout
   $scope.logout = function() {
@@ -61,7 +140,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LoginCtrl', function($scope, I4MIMidataService, $timeout, $state) {
+/* .controller('LoginCtrl', function($scope, I4MIMidataService, $timeout, $state) {
   // Values for login
   I4MIMidataService.logout();
   $scope.login = {};
@@ -91,7 +170,7 @@ angular.module('starter.controllers', [])
       I4MIMidataService.logout();
     }
   }
-})
+}) */
 
 
 ;

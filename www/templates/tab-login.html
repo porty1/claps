@@ -1,18 +1,24 @@
 <ion-view view-title="Login">
   <ion-content class="padding">
-    <!-- Login -->
-    <!--<i4mi-midata-login user="user" controller-name="I4MIMidataLoginController"></i4mi-midata-login>-->
-    <div class="list list-inset">
-      <label class="item item-input">
-        <input ng-model="login.email" type="text" placeholder="Email">
-      </label>
-      <label class="item item-input">
-        <input ng-model="login.password" type="password" placeholder="Password">
-      </label>
-      <label class="item item-input">
-        <input ng-model="login.server" type="text" value='https://test.midata.coop:9000' placeholder="https://test.midata.coop:9000">
-      </label>
-    </div>
-    <button type="submit" class="button button-full button-calm" ng-click="doLogin()">Login</button>
+    <!-- Form -->
+        <div class="list list-inset">
+          <label class="item item-input bar">
+            <i class="icon ion-ios-email-outline placeholder-icon-large"></i>
+            <input type="text" placeholder="Email - Adresse" ng-model="user.email">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-ios-locked-outline placeholder-icon-large"></i>
+            <input type="password" placeholder="Passwort" ng-model="user.password">
+          </label>
+        </div>
+
+        <!-- Connect button -->
+        <a class="button button-block button-calm" ng-click="loginUser(user)">
+          Connect
+        </a>
+
+        <div>
+        <a href="" ng-click="openRegister()">Noch keinen Account? Jetzt Registrtieren!</a>
+        </div>
   </ion-content>
 </ion-view>

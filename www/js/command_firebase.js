@@ -11,8 +11,7 @@ var AppEnde = document.getElementById("AppEnde");
 var submitAppointment = document.getElementById("submitAppointment")
 
 
-var firebaseHeadingRef = firebase.database().ref('Medis/Medicament_01/Name');
-
+/*
 function submitClick() {
   var firebaseRef = firebase.database().ref();
   var messageText = mainText.value;
@@ -39,9 +38,10 @@ function submitAppointment() {
 
   return firebase.database().ref().update(updatedata);
 }
+*/
 
 
-var rootRef = firebase.database().ref().child('Patient/Medis');
+var rootRef = firebase.database().ref().child('Patient/Medis/Morgen');
   rootRef.on("child_added", snap => {
       var blister = snap.child("Blister").val();
       var datum = snap.child("Datum").val();
