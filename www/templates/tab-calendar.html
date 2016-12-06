@@ -4,7 +4,7 @@
     <div class="bar bar-header bar-calm item-input-inset">
             <label class="item item-input" style="background-color:rgba(255,0,0,0)">
               <span class="input-label" style="color:white">Datum</span>
-              <input id="changeDatum" type="date" onchange="setDatum()">
+              <input id="changeDatum" type="date" ng-model="user.Name" ng-change="datechange()">
             </label>
     </div>
   <br>

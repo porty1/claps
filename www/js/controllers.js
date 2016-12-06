@@ -28,17 +28,34 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal) {
     // ...
     });
 
-    // Write User Data
+    // Write User Data$
 
-    firebase.database().ref().child("/" + name + vorname + "/Appoint/Morgen/ID").set(1);
-    firebase.database().ref().child("/" + name + vorname + "/Appoint/Mittag/ID").set(1);
-    firebase.database().ref().child("/" + name + vorname + "/Appoint/Abend/ID").set(1);
-    firebase.database().ref().child("/" + name + vorname + "/Appoint/Nacht/ID").set(1);
+    var userdataforpush = {
+      Name: name,
+      Vorname: vorname,
+      Email: email
+    };
 
-    firebase.database().ref().child("/" + name + vorname + "/Medis/Morgen/ID").set(1);
-    firebase.database().ref().child("/" + name + vorname + "/Medis/Mittag/ID").set(1);
-    firebase.database().ref().child("/" + name + vorname + "/Medis/Abend/ID").set(1);
-    firebase.database().ref().child("/" + name + vorname + "/Medis/Nacht/ID").set(1);
+
+    var newPatientKey = firebase.database().ref().push().key;
+    /* Add User Credentials to Database */
+    var updatedata = {};
+    updatedata[newPatientKey] = userdataforpush;
+
+    return firebase.database().ref().update(updatedata);
+
+
+    /*
+    firebase.database().ref().child("/" + newPatientKey + "/Appoint/Morgen/ID").set(1);
+    firebase.database().ref().child("/" + newPatientKey + "/Appoint/Mittag/ID").set(1);
+    firebase.database().ref().child("/" + newPatientKey + "/Appoint/Abend/ID").set(1);
+    firebase.database().ref().child("/" + newPatientKey + "/Appoint/Nacht/ID").set(1);
+
+    firebase.database().ref().child("/" + newPatientKey + "/Medis/Morgen/ID").set(1);
+    firebase.database().ref().child("/" + newPatientKey + "/Medis/Mittag/ID").set(1);
+    firebase.database().ref().child("/" + newPatientKey + "/Medis/Abend/ID").set(1);
+    firebase.database().ref().child("/" + newPatientKey + "/Medis/Nacht/ID").set(1);
+    */
 
     $state.go('tab.calendar');
     }
@@ -54,7 +71,15 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal) {
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
-      }); $state.go('tab.calendar');
+      });
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user){
+          alert(user.displayName);
+        }else{
+          alert("noen");
+        }
+      })
+      $state.go('tab.calendar');
     }
 
 /*--- Popup Register ---*/
@@ -116,6 +141,20 @@ app.controller('CalendarCtrl', function($scope, $state) {
 
       { id: 50 }
     ];
+
+    $scope.datechange = function(SessionUser) {
+      alert(SessionUser.name);
+      var patientRef = firebase.database().ref(SessionUser.name + '/Medis/');
+      patientRef.on("child_added", snap => {
+          var blister = snap.child("Blister").val();
+          var datum = snap.child("Datum").val();
+          var dauer = snap.child("Dauer").val();
+          var dosis = snap.child("Dosis").val();
+          var form = snap.child("Form").val();
+          var name = snap.child("Name").val();
+        $("#list_body").append("<li class='item'> <b>Name: " + name + "  </b><br>Datum: " + datum + " │ Dosis: " + dosis + " │ Blister: " + blister + " │ Form: " + form + " │ Dauer: " + dauer + " Tage </li>");
+      });
+    }
 })
 
 app.controller('VitalDataCtrl', function($scope) {})

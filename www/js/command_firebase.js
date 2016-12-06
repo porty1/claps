@@ -41,7 +41,7 @@ function submitAppointment() {
 */
 
 
-var rootRef = firebase.database().ref().child('Patient/Medis/Morgen');
+/* var rootRef = firebase.database().ref().child('Patient/Medis/Morgen');
   rootRef.on("child_added", snap => {
       var blister = snap.child("Blister").val();
       var datum = snap.child("Datum").val();
@@ -50,7 +50,7 @@ var rootRef = firebase.database().ref().child('Patient/Medis/Morgen');
       var form = snap.child("Form").val();
       var name = snap.child("Name").val();
     $("#list_body").append("<li class='item'> <b>Name: " + name + "  </b><br>Datum: " + datum + " │ Dosis: " + dosis + " │ Blister: " + blister + " │ Form: " + form + " │ Dauer: " + dauer + " Tage </li>");
-  });
+  }); */
 
 var detailsRef = firebase.database().ref().child("Medis");
   detailsRef.on("child_added", snap => {
