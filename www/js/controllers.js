@@ -65,7 +65,6 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal) {
     $scope.loginUser = function(user) {
       var email = user.email;
       var password = user.password;
-      alert(email);
       firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -105,7 +104,16 @@ $ionicModal.fromTemplateUrl('templates/register.html', {
 })
 
 app.controller('CalendarCtrl', function($scope, $state) {
-  $scope.data = {
+
+  (function () {
+  var date = new Date().toISOString().substring(0, 10),
+      field = document.querySelector("#changeDatum");
+  field.value = date;
+  console.log(field.value);
+  })()
+
+
+    $scope.data = {
       showDelete: false
     };
 
@@ -143,16 +151,23 @@ app.controller('CalendarCtrl', function($scope, $state) {
     ];
 
     $scope.datechange = function(SessionUser) {
-      alert(SessionUser.name);
-      var patientRef = firebase.database().ref(SessionUser.name + '/Medis/');
+      // alert(SessionUser.name);
+      var patientRef = firebase.database().ref('SchmiedFabian/Medis/Morgen');
       patientRef.on("child_added", snap => {
-          var blister = snap.child("Blister").val();
           var datum = snap.child("Datum").val();
-          var dauer = snap.child("Dauer").val();
           var dosis = snap.child("Dosis").val();
           var form = snap.child("Form").val();
           var name = snap.child("Name").val();
-        $("#list_body").append("<li class='item'> <b>Name: " + name + "  </b><br>Datum: " + datum + " │ Dosis: " + dosis + " │ Blister: " + blister + " │ Form: " + form + " │ Dauer: " + dauer + " Tage </li>");
+        $("#list_morgen").append("<li class='item'> <b>Name: " + name + "  </b><br>Datum: " + datum + " │ Dosis: " + dosis + " │ Form: " + form + "</li>");
+      });
+
+      var patientRef = firebase.database().ref('SchmiedFabian/Medis/Abend');
+      patientRef.on("child_added", snap => {
+          var datum = snap.child("Datum").val();
+          var dosis = snap.child("Dosis").val();
+          var form = snap.child("Form").val();
+          var name = snap.child("Name").val();
+        $("#list_abend").append("<li class='item'> <b>Name: " + name + "  </b><br>Datum: " + datum + " │ Dosis: " + dosis + " │ Form: " + form + "</li>");
       });
     }
 })

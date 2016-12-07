@@ -2,10 +2,14 @@
   <ion-content class="padding">
 
     <div class="bar bar-header bar-calm item-input-inset">
-            <label class="item item-input" style="background-color:rgba(255,0,0,0)">
-              <span class="input-label" style="color:white">Datum</span>
-              <input id="changeDatum" type="date" ng-model="user.Name" ng-change="datechange()">
-            </label>
+        <div class="col col-60">
+            <span class="input-label" style="color:white">Datum</span>
+        </div>
+        <div>
+          <label class="item item-input" style="background-color:rgba(255,0,0,0)">
+            <input id="changeDatum" type="date" value="2016-12-01" ng-model="user.Name" ng-change="datechange()">
+          </label>
+        </div>
     </div>
   <br>
 
@@ -16,7 +20,18 @@
       </ion-item>
   </ion-list> -->
 
-  <ul class="list" id="list_body">
+  <ul class="list" id="list_morgen">
+    <li class="item">Morgen</li>
+  </ul>
+  <ul class="list" id="list_mittag">
+    <li class="item">Mittag</li>
+    <li class="item">Mittagessen bestellen</li>
+  </ul>
+  <ul class="list" id="list_abend">
+    <li class="item">Abend</li>
+  </ul>
+  <ul class="list" id="list_nacht">
+    <li class="item">Nacht</li>
   </ul>
 
   </ion-content>
