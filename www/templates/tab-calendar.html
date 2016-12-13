@@ -1,17 +1,25 @@
 <ion-view view-title="Calendar">
+  <ion-nav-buttons side="right">
+      <!--<button icon="ion-plus-round" class="button" ng-click="aksjhdfgakshdfg()">
+        Eintrag hinzufügen
+      </button>-->
+      <a class="button icon-right ion-plus-round button-calm" ng-click="modal.show()">Eintrag anlegen </a>
+    </ion-nav-buttons>
+
+    <ion-header-bar class="bar-subheader bar-calm">
+          <div class="col col-60">
+              <span class="input-label" style="color:white">Datum</span>
+          </div>
+          <div id="datediv">
+            <label class="item item-input" style="background-color:rgba(255,0,0,0)">
+              <input type="date" id="changeDatum" value="2016-12-01" ng-model="user.Name" ng-change="datechange()">
+            </label>
+
+          </div>
+            </ion-header-bar>
+
   <ion-content class="padding">
 
-    <div class="bar bar-header bar-calm item-input-inset">
-        <div class="col col-60">
-            <span class="input-label" style="color:white">Datum</span>
-        </div>
-        <div>
-          <label class="item item-input" style="background-color:rgba(255,0,0,0)">
-            <input id="changeDatum" type="date" value="2016-12-01" ng-model="user.Name" ng-change="datechange()">
-          </label>
-        </div>
-    </div>
-  <br>
 
   <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
   <!-- <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
@@ -21,17 +29,17 @@
   </ion-list> -->
 
   <ul class="list" id="list_morgen">
-    <li class="item">Morgen</li>
+    <li class="item item-calm">Morgen</li>
   </ul>
   <ul class="list" id="list_mittag">
-    <li class="item">Mittag</li>
+    <li class="item item-calm">Mittag</li>
     <li class="item">Mittagessen bestellen</li>
   </ul>
   <ul class="list" id="list_abend">
-    <li class="item">Abend</li>
+    <li class="item item-calm">Abend</li>
   </ul>
   <ul class="list" id="list_nacht">
-    <li class="item">Nacht</li>
+    <li class="item item-calm">Nacht</li>
   </ul>
 
   </ion-content>

@@ -11,6 +11,8 @@ var AppEnde = document.getElementById("AppEnde");
 var submitAppointment = document.getElementById("submitAppointment")
 
 
+
+
 /*
 function submitClick() {
   var firebaseRef = firebase.database().ref();

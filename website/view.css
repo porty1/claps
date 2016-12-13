@@ -10,7 +10,7 @@
 	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
 	color: Black;
 }
-	
+
 #patubersicht {
     float: left;
     max-width: 200px;
@@ -24,29 +24,29 @@
   margin: 0;
   padding: 0;
 }
- 
+
 #patubersicht li {
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   border-bottom: 1px solid #ccc;
 }
- 
+
 #patubersicht li:last-child {
   border: none;
 }
- 
+
 #patubersicht li a {
   text-decoration: none;
   color: #000;
   display: block;
   width: 200px;
- 
+
   -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
   -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
   -o-transition: font-size 0.3s ease, background-color 0.3s ease;
   -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
   transition: font-size 0.3s ease, background-color 0.3s ease;
 }
- 
+
 #patubersicht li a:hover {
   font-size: 30px;
   background: powderblue;
@@ -54,13 +54,13 @@
 
 
 #medikamente {
-	
+
  	margin-left: 200px;
     border-left: 1px solid gray;
     padding: 1em;
     overflow: hidden;
     font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
- 
+
 }
 #medikamente table {
     border-collapse: collapse;
@@ -131,3 +131,15 @@ tr:hover{background-color:#f5f5f5}
   background-color: #6FC6FF;
 }
 
+#tablemorgen {
+	background-color: khaki;
+}
+#tablemittag {
+	background-color: darkseagreen;
+}
+#tableabend {
+	background-color: darkgrey;
+}
+#tablenacht {
+	background-color: lavender;
+}

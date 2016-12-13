@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'for
 
       .state('addappointment', {
           url: '/addappointment',
-          templateUrl: 'templates/tab-addappointment.html',
+          templateUrl: 'templates/addappointment.html',
           controller: 'addappointmentCtrl'
         })
 

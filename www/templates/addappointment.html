@@ -1,0 +1,51 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-calm">
+
+    <!-- style attribute for Android -->
+    <h1 class="title" style="text-align:center!important;">Einen neuen Account erstellen</h1>
+
+    <!-- Button left -->
+    <button class="button button-icon button-clear button-light ion-ios-arrow-thin-left" ng-click="modal.hide()"></button>
+
+    <!-- Button right [empty] -->
+    <button class="button button-icon button-clear button-light"></button>
+
+  </ion-header-bar>
+
+  <ion-content scroll="false">
+    <div class="list">
+      <!--
+      <label class="item item-input">
+        <i class="icon ion-ios-person-outline placeholder-icon-large"></i>
+        <input type="text" placeholder="Nom">
+      </label>
+      -->
+
+      <form class="item item-input" style="background-color:rgba(255,0,0,0)">
+        <input id="changeDatumAddAppoint" type="date" ng-model="appointForm.date">
+      </form>
+      <form>
+        Select a time:
+        <input type="time" ng-model="appointForm.time">
+      </form>
+      <form class="item item-input">
+        <textarea rows="5" cols="50" ng-model="appointForm.area"></textarea>
+      </form>
+
+      <!--
+      <label class="item item-input">
+        <i class="icon ion-ios-locked-outline placeholder-icon-large"></i>
+        <input type="text" placeholder="Confirmer mot de passe">
+      </label>
+      -->
+    </div>
+
+    <p class="assertive text-center" ng-if="error"><strong>{{ error }}</strong></p>
+
+    <div class="validation-center">
+      <button class="button button-calm button-full" ng-click="createAppointment(appointForm)">
+        Erstellen
+      </button>
+    </div>
+  </ion-content>
+</ion-modal-view>
