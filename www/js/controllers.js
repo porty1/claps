@@ -28,9 +28,9 @@ $scope.addPin = function(value) {
         console.log("The four digit code was entered");
         console.log($scope.passcode);
         var testref = firebase.database().ref();
-        testref.orderByChild("PIN").equalTo($scope.passcode).once("child_added", snap => {
-          console.log("inorderbycuhasdgasjdg");
-          var pinuser = snap.child("PIN").val();
+        testref.orderByChild("PIN").equalTo($scope.passcode).on("child_added", snap => {
+
+          console.log("inorderby");
           var emailuser = snap.child("Email").val();
           var passworduser = snap.child("Password").val();
           console.log(emailuser, passworduser);
@@ -38,7 +38,7 @@ $scope.addPin = function(value) {
         })
         // $scope.loginUser("schmf4@bfh.ch", "test1234");
         console.log("test1");
-      }, 500);
+      }, 5);
     } console.log("test2");
   }
 }
@@ -79,7 +79,8 @@ $scope.createUser = function(user) {
   var password = user.password;
   var name = user.name;
   var vorname = user.vorname;
-  var pincode = user.pin;
+  var pincode = "";
+  pincode = pincode + user.pin;
 
   firebase.auth().createUserWithEmailAndPassword(email,password).catch(function(error) {
     // Handle Errors here.
@@ -153,9 +154,8 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
   }
 
   $scope.getMedis = function(name, vorname, msecdatum){
-
     var fullname = name + vorname;
-
+    console.log("getMedis " + name, vorname, msecdatum);
     // Morgen
     var patientRef = firebase.database().ref(fullname + '/Medis/Morgen');
     patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
@@ -215,12 +215,13 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
   $scope.getAppoint = function(name, vorname, msecdatum){
 
+    var msecdatumpush = "" + msecdatum;
     var fullname = name + vorname;
-    console.log(fullname, msecdatum);
+    console.log("getAppoint " + fullname, msecdatum);
 
     // Morgen
     var patientRef = firebase.database().ref(fullname + '/Appoint/Morgen');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
       var datumoutput = new Date(datum);
       var dayoutput = datumoutput.getDate();
@@ -246,7 +247,8 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     });
     // Abend
     var patientRef = firebase.database().ref(fullname + '/Appoint/Abend');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
+      console.log("getMedis: Abend");
       var datum = snap.child("Datum").val();
       var datumoutput = new Date(datum);
       var dayoutput = datumoutput.getDate();
@@ -302,6 +304,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     var datumpush = datum.getTime();
     datumpush = datumpush + 3600000;
+    datumpush = "" + datumpush;
 
     var zeitcompare = zeit.getHours() + "" + zeit.getMinutes();
     var zeitpush = zeit.getHours() + ":" + zeit.getMinutes();
