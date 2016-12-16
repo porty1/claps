@@ -6,19 +6,22 @@
       <a class="button icon-right ion-plus-round button-calm" ng-click="modal.show()">Eintrag anlegen </a>
     </ion-nav-buttons>
 
-    <ion-header-bar class="bar-subheader bar-calm">
-          <div class="col col-60">
-              <span class="input-label" style="color:white">Datum</span>
-          </div>
-          <div id="datediv">
-            <label class="item item-input" style="background-color:rgba(255,0,0,0)">
-              <input type="date" id="changeDatum" value="2016-12-01" ng-model="user.Name" ng-change="datechange()">
-            </label>
+    <ion-header-bar class="bar-subheader bar-calm" style="text-align: center">
 
-          </div>
-            </ion-header-bar>
+      <div>
+          <span class="input-label" style="color:white">Datum</span>
+      </div>
+      <div id="datediv">
+        <label class="item item-input" style="background-color:rgba(255,0,0,0)">
+          <input type="date" id="changeDatum" value="" ng-model="user.Name" ng-change="datechange()">
+        </label>
+      </div>
+
+    </ion-header-bar>
+
 
   <ion-content class="padding">
+
 
 
   <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
@@ -33,7 +36,6 @@
   </ul>
   <ul class="list" id="list_mittag">
     <li class="item item-calm">Mittag</li>
-    <li class="item">Mittagessen bestellen</li>
   </ul>
   <ul class="list" id="list_abend">
     <li class="item item-calm">Abend</li>

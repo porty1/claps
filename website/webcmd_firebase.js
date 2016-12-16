@@ -1,5 +1,12 @@
 var currentPatient;
 var todayDate = new Date();
+var todayDay = todayDate.getDate();
+var todayMonth = todayDate.getMonth() + 1;
+var todayYear = todayDate.getFullYear();
+var todaymsec = Date.parse(todayMonth + "/" + todayDay + "/" + todayYear);
+todaymsec = todaymsec + 3600000;
+console.log(todaymsec);
+
 
 var submitBtn = document.getElementById("submitBtn");
 
@@ -252,8 +259,8 @@ function submitClick() {
   var MediDosisPush = MediDosis.value;
   var MediFormPush = MediForm.options[MediForm.selectedIndex].text;
   var MediNamePush = MediName.value;
-  console.log(todayDate.getTime());
-  var DayPush = new Date(todayDate.getTime());
+  console.log(todaymsec);
+  var DayPush = new Date(todaymsec);
   /* var MonthPush = todayDate.getMonth() + 1;
   var YearPush = todayDate.getFullYear(); */
   console.log(DayPush);
@@ -262,8 +269,8 @@ function submitClick() {
 
   for (var i = 0; i < MediDauerPush; i++){
     // DayPush = DayPush + i;
-    DayPush.setDate(DayPush.getDate() + 1);
-    var daymsecpush = DayPush.getTime();
+    var daymsecpush = todaymsec;
+    daymsecpush = daymsecpush + i * 86400000;
     var dataforpush = {
       Datum: daymsecpush,
       Dosis: MediDosisPush + MediDosisSelectPush,
@@ -271,13 +278,14 @@ function submitClick() {
       Name: MediNamePush,
       Blister: MediBlisterPush
     };
+
     addData(dataforpush, MediBlisterPush);
     /*var newAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var updatedata = {};
     updatedata[currentPatient + '/Medis/Nacht/' + newAppointmentKey] = dataforpush;
     return firebase.database().ref().update(updatedata);*/
   }
-  location.reload();
+   // location.reload();
 }
 
 

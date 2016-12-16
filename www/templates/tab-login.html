@@ -1,7 +1,74 @@
 <ion-view view-title="Login">
-  <ion-content class="padding">
+  <ion-content class="center-vertical">
     <!-- Form -->
-        <div class="list list-inset">
+
+                <div>
+                  <div class="row" style="text-align: center">
+                      <div class="col col-10 col-offset-15" style="border-bottom: 1px solid black">
+                        {{passcode.substring(0, 1)}}
+                      </div>
+                      <div class="col col-10 col-offset-10" style="border-bottom: 1px solid black">
+                        {{passcode.substring(1, 2)}}
+                      </div>
+                      <div class="col col-10 col-offset-10" style="border-bottom: 1px solid black">
+                        {{passcode.substring(2, 3)}}
+                      </div>
+                      <div class="col col-10 col-offset-10" style="border-bottom: 1px solid black">
+                        {{passcode.substring(3, 4)}}
+                      </div>
+                    </div>
+                </div>
+                <div style="margin-top: 50px">
+                  <div class="row">
+                    <div class="col col-20 col-offset-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(1)">1</button>
+                    </div>
+                    <div class="col col-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(2)">2</button>
+                    </div>
+                    <div class="col col-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(3)">3</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-20 col-offset-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(4)">4</button>
+                    </div>
+                    <div class="col col-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(5)">5</button>
+                    </div>
+                    <div class="col col-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(6)">6</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-20 col-offset-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(7)">7</button>
+                    </div>
+                    <div class="col col-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(8)">8</button>
+                    </div>
+                    <div class="col col-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(9)">9</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-20 col-offset-20">
+
+                    </div>
+                    <div class="col col-20">
+                        <button class="button button-light button-stretch" ng-click="addPin(0)">0</button>
+                    </div>
+                    <div class="col col-20">
+                        <button class="button icon ion-arrow-left-a button-light button-stretch" ng-click="deletePin()"></button>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+        <!-- <div class="list list-inset">
           <label class="item item-input bar">
             <i class="icon ion-ios-email-outline placeholder-icon-large"></i>
             <input type="text" placeholder="Email - Adresse" ng-model="user.email">
@@ -11,6 +78,7 @@
             <input type="password" placeholder="Passwort" ng-model="user.password">
           </label>
         </div>
+      -->
 
         <!-- Connect button -->
         <a class="button button-block button-calm" ng-click="loginUser(user)">
