@@ -366,7 +366,20 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
   }
 })
 
-app.controller('VitalDataCtrl', function($scope) {})
+app.controller('VitalDataCtrl', function($scope) {
+
+  var $configLine = {
+    name: '.ct-chartBar',
+    labels: 'Week',
+    series: "[12, 9, 7, 8, 5, 9, 0]",
+    fullWidth: "true",
+    showArea: "true",
+  };
+
+  var chartLine = new ChartJS($configLine);
+  chartLine.line();
+
+  })
 
 app.controller('DetailsCtrl', function($scope) {})
 

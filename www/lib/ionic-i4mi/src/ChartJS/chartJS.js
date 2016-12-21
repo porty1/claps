@@ -11,7 +11,7 @@ var ChartJS = function(config)
 
 
   if ($config['labels'] == 'Week'){
-      $config['labels'] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      $config['labels'] = ['Mon', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
   }
 
   if ($config['labels'] == "Month "){

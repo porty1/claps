@@ -1,14 +1,20 @@
 <ion-view view-title="VitalData">
   <ion-content padding="true" class="has-header calm">
-    <button class="button button-block button-outline button-calm">
-      Vitaldaten erfassen
-    </button>
-    <div class="row responsive-sm">
-      <div class="col"><h3 class="calm">Letzte Messungen</h3>
-      <div class="col">100mg/dl</div>
-      <div class="col">105mg/dl</div>
-      <div class="col">101mg/dl</div>
-      <div class="col">91mg/dl</div>
-</div>
+
+
+    <form ng-submit="addWeight(weight)">
+                  <div class="list">
+                    <label class="item item-input">
+                      <input type="number" name="quantity" min="20" max="200" placeholder="Gewicht in Kilogramm" ng-model="weight">
+                    </label>
+                  </div>
+                  <div class="padding">
+                    <button type="submit" class="button button-block button-positive">Speichern</button>
+                  </div>
+                </form>
+
+
+
+                <div class="ct-chartBar ct-perfect-fourth"></div>
   </ion-content>
 </ion-view>
