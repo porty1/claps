@@ -21,10 +21,18 @@ var MediName = document.getElementById("MediNameFormID");
 var patientheader = document.getElementById("patientheader");
 
 
-function addData(dataforpush, MediBlisterPush) {
+function addData(daymsecstring, dosispush, MediFormPush, MediNamePush, MediBlisterPush) {
 
   /* 0-0-0-1: Nacht */
   if (MediBlisterPush == "0-0-0-1"){
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -32,6 +40,14 @@ function addData(dataforpush, MediBlisterPush) {
   }
   /* 0-0-1-0: Abend */
   else if (MediBlisterPush == "0-0-1-0") {
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
@@ -40,11 +56,27 @@ function addData(dataforpush, MediBlisterPush) {
   /* 0-0-1-1: Abend, Nacht */
   else if (MediBlisterPush == "0-0-1-1") {
     /* Abend */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
     addAbend(abendupdatedata);
     /* Nacht */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -52,6 +84,14 @@ function addData(dataforpush, MediBlisterPush) {
   }
   /* 0-1-0-0: Mittag */
   else if (MediBlisterPush == "0-1-0-0") {
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
@@ -60,11 +100,27 @@ function addData(dataforpush, MediBlisterPush) {
   /* 0-1-0-1: Mittag, Nacht */
   else if (MediBlisterPush == "0-1-0-1") {
     /* Mittag */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
     addMittag(mittagupdatedata);
     /* Nacht */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -73,11 +129,27 @@ function addData(dataforpush, MediBlisterPush) {
   /* 0-1-1-0: Mittag, Abend */
   else if (MediBlisterPush == "0-1-1-0") {
     /* Mittag */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
     addMittag(mittagupdatedata);
     /* Abend */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
@@ -86,16 +158,40 @@ function addData(dataforpush, MediBlisterPush) {
   /* 0-1-1-1: Mittag, Abend, Nacht */
   else if (MediBlisterPush == "0-1-1-1") {
     /* Mittag */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
     addMittag(mittagupdatedata);
     /* Abend */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
     addAbend(abendupdatedata);
     /* Nacht */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -104,6 +200,14 @@ function addData(dataforpush, MediBlisterPush) {
   /* 1-0-0-0: Morgen */
   else if (MediBlisterPush == "1-0-0-0") {
     console.log("1-0-0-0");
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
@@ -113,11 +217,27 @@ function addData(dataforpush, MediBlisterPush) {
   else if (MediBlisterPush == "1-0-0-1") {
     console.log("1-0-0-1");
     /* Morgen */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
     addMorgen(morgenupdatedata);
     /* Nacht */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -127,11 +247,27 @@ function addData(dataforpush, MediBlisterPush) {
   else if (MediBlisterPush == "1-0-1-0") {
     console.log("1-0-1-0");
     /* Morgen */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
     addMorgen(morgenupdatedata);
     /* Abend */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
@@ -141,16 +277,40 @@ function addData(dataforpush, MediBlisterPush) {
   else if (MediBlisterPush == "1-0-1-1") {
     console.log("1-0-1-1");
     /* Morgen */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
     addMorgen(morgenupdatedata);
     /* Abend */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
     addAbend(abendupdatedata);
     /* Nacht */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -160,11 +320,27 @@ function addData(dataforpush, MediBlisterPush) {
   else if (MediBlisterPush == "1-1-0-0") {
     console.log("1-1-0-0");
     /* Morgen */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
     addMorgen(morgenupdatedata);
     /* Mittag */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
@@ -174,16 +350,40 @@ function addData(dataforpush, MediBlisterPush) {
   else if (MediBlisterPush == "1-1-0-1") {
     console.log("1-1-0-1");
     /* Morgen */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
     addMorgen(morgenupdatedata);
     /* Mittag */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
     addMittag(mittagupdatedata);
     /* Nacht */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -193,40 +393,96 @@ function addData(dataforpush, MediBlisterPush) {
   else if (MediBlisterPush == "1-1-1-0") {
     console.log("1-1-1-0");
     /* Morgen */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
     addMorgen(morgenupdatedata);
     /* Mittag */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
     addMittag(mittagupdatedata);
     /* Abend */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
     addAbend(abendupdatedata);
   }
-  /* 1-1-1-1: Mittag, Abend, Nacht */
+  /* 1-1-1-1: Morgen, Mittag, Abend, Nacht */
   else if (MediBlisterPush == "1-1-1-1") {
     console.log("1-1-1-1");
     /* Morgen */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "08:00"
+    };
     var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var morgenupdatedata = {};
     morgenupdatedata[currentPatient + '/Medis/Morgen/' + morgennewAppointmentKey] = dataforpush;
     addMorgen(morgenupdatedata);
     /* Mittag */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "12:00"
+    };
     var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var mittagupdatedata = {};
     mittagupdatedata[currentPatient + '/Medis/Mittag/' + mittagnewAppointmentKey] = dataforpush;
     addMittag(mittagupdatedata);
     /* Abend */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "18:00"
+    };
     var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var abendupdatedata = {};
     abendupdatedata[currentPatient + '/Medis/Abend/' + abendnewAppointmentKey] = dataforpush;
     addAbend(abendupdatedata);
     /* Nacht */
+    var dataforpush = {
+      Datum: daymsecstring,
+      Dosis: dosispush,
+      Form: MediFormPush,
+      Name: MediNamePush,
+      Blister: MediBlisterPush,
+      Zeit: "23:00"
+    };
     var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var nachtupdatedata = {};
     nachtupdatedata[currentPatient + '/Medis/Nacht/' + nachtnewAppointmentKey] = dataforpush;
@@ -271,15 +527,17 @@ function submitClick() {
     // DayPush = DayPush + i;
     var daymsecpush = todaymsec;
     daymsecpush = daymsecpush + i * 86400000;
-    var dataforpush = {
-      Datum: daymsecpush,
+    var daymsecstring = "" + daymsecpush;
+    var dosispush = MediDosisPush + MediDosisSelectPush;
+    /* var dataforpush = {
+      Datum: daymsecstring,
       Dosis: MediDosisPush + MediDosisSelectPush,
       Form: MediFormPush,
       Name: MediNamePush,
       Blister: MediBlisterPush
-    };
+    }; */
 
-    addData(dataforpush, MediBlisterPush);
+    addData(daymsecstring, dosispush, MediFormPush, MediNamePush, MediBlisterPush);
     /*var newAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
     var updatedata = {};
     updatedata[currentPatient + '/Medis/Nacht/' + newAppointmentKey] = dataforpush;

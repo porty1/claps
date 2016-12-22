@@ -154,13 +154,18 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
   }
 
   $scope.getMedis = function(name, vorname, msecdatum){
+
+    var msecdatumpush = "" + msecdatum;
     var fullname = name + vorname;
-    console.log("getMedis " + name, vorname, msecdatum);
+    console.log("getMedis " + fullname, msecdatum);
+
     // Morgen
     var patientRef = firebase.database().ref(fullname + '/Medis/Morgen');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Medis Morgen: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
@@ -172,9 +177,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     // Mittag
     var patientRef = firebase.database().ref(fullname + '/Medis/Mittag');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Medis Mittag: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
@@ -186,9 +193,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     // Abend
     var patientRef = firebase.database().ref(fullname + '/Medis/Abend');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Medis Abend: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
@@ -200,9 +209,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     // Nacht
     var patientRef = firebase.database().ref(fullname + '/Medis/Nacht');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Medis Nacht: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
@@ -223,7 +234,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     var patientRef = firebase.database().ref(fullname + '/Appoint/Morgen');
     patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Appoint Morgen: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
@@ -234,9 +247,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     });
     // Mittag
     var patientRef = firebase.database().ref(fullname + '/Appoint/Mittag');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Appoint Mittag: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
@@ -248,9 +263,10 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     // Abend
     var patientRef = firebase.database().ref(fullname + '/Appoint/Abend');
     patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
-      console.log("getMedis: Abend");
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Appoint Abend: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
@@ -261,9 +277,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     });
     // Nacht
     var patientRef = firebase.database().ref(fullname + '/Appoint/Nacht');
-    patientRef.orderByChild("Datum").equalTo(msecdatum).on("child_added", snap => {
+    patientRef.orderByChild("Datum").equalTo(msecdatumpush).on("child_added", snap => {
       var datum = snap.child("Datum").val();
-      var datumoutput = new Date(datum);
+      console.log("Appoint Nacht: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
       var dayoutput = datumoutput.getDate();
       var monthoutput = datumoutput.getMonth() + 1;
       var yearoutput = datumoutput.getFullYear();
