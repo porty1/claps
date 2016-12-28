@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>Formular Medikamentverordnen</title>
-<link rel="stylesheet" type="text/css" href="view.css" media="all">
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<link rel="stylesheet" type="text/css" href="view.css" media="all"/>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <!-- <script type="text/javascript" src="view.js"></script> -->
 
 </head>
@@ -22,6 +22,7 @@
 
 <!-- hugil1: hier befindet sich die Patientenübersicht auf der linken Seite -->
 <div id="patubersicht">
+
  <ul id="Patientview">
   </ul>
 </div>
@@ -33,7 +34,7 @@
 <div id="medikamente">
 
 <h2 id="patientheader"><a></a></h2>
-	<table>
+	<table id="myTableData">
 		<thead>
   		<tr>
   			<th>Datum</th>
@@ -41,14 +42,14 @@
     		<th>Dosis</th>
     		<th>Form</th>
     		<th>Blister</th>
-    		<th>Dauer</th>
+    		<th></th>
 				<th></th>
   		</tr>
 		</thead>
 		<tbody id="Mediview">
 		</tbody>
 		<tr>
-			<td><b>Neues Medikament erfassen:<b></td>
+			<td><b>Neues Medikament erfassen:</b></td>
 			<td><input id="MediNameFormID" placeholder="Medikamentenname" class="element text medium" type="text" maxlength="255" value=""/></td>
 			<td><input id="MediDosisFormID"placeholder="Menge: Bsp. 50" class="element text medium" type="number" min="1" max="999999"/><select id="SelectMediDosisFormID">
   					<option value="mg">mg</option>
@@ -86,8 +87,9 @@
 
 
 
-	<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
-	<script>
+	<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script type="text/javascript">
 		// Initialize Firebase
 		var config = {
 			apiKey: "AIzaSyCXvegZEIikHPazfjoCg55dqO8y1fC_3oI",
@@ -98,8 +100,8 @@
 		};
 		firebase.initializeApp(config);
 	</script>
-	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-	<script src="webcmd_firebase.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script type="text/javascript" src="webcmd_firebase.js"></script>
 
 	</body>
 </html>
