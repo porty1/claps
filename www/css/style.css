@@ -65,6 +65,23 @@ Pin Login
   opacity: 0;
 }
 
+/* Calendar */
+#table_calendar {
+  width: 100%;
+}
+th {
+  height: 30px;
+  background-color: blue;
+  padding: 3px;
+  font-weight: bold;
+  border-bottom: 2px solid;
+}
+td {
+  text-align: center;
+}
+
+.hideextra { white-space: nowrap; overflow: hidden; }
+
 
 /* --- */
 

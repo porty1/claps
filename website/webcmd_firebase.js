@@ -10,14 +10,13 @@ console.log(todaymsec);
 
 var submitBtn = document.getElementById("submitBtn");
 
-// Add Appointment
+// Add Medi
 var MediBlister = document.getElementById("SelectMediBlisterFormID");
 var MediForm = document.getElementById("SelectMediFormFormID");
 var MediDauer = document.getElementById("MediDurationFormID");
 var MediDosis = document.getElementById("MediDosisFormID");
 var MediDosisSelect = document.getElementById("SelectMediDosisFormID");
 var MediName = document.getElementById("MediNameFormID");
-
 var patientheader = document.getElementById("patientheader");
 
 
@@ -517,55 +516,83 @@ function submitClick() {
   var MediNamePush = MediName.value;
   console.log(todaymsec);
   var DayPush = new Date(todaymsec);
-  /* var MonthPush = todayDate.getMonth() + 1;
-  var YearPush = todayDate.getFullYear(); */
   console.log(DayPush);
-  /* alert(MonthPush);
-  alert(YearPush); */
+
 
   for (var i = 0; i < MediDauerPush; i++){
-    // DayPush = DayPush + i;
+
     var daymsecpush = todaymsec;
     daymsecpush = daymsecpush + i * 86400000;
     var daymsecstring = "" + daymsecpush;
     var dosispush = MediDosisPush + MediDosisSelectPush;
-    /* var dataforpush = {
-      Datum: daymsecstring,
-      Dosis: MediDosisPush + MediDosisSelectPush,
-      Form: MediFormPush,
-      Name: MediNamePush,
-      Blister: MediBlisterPush
-    }; */
+
 
     addData(daymsecstring, dosispush, MediFormPush, MediNamePush, MediBlisterPush);
-    /*var newAppointmentKey = firebase.database().ref().child(currentPatient + '/Medis').push().key;
-    var updatedata = {};
-    updatedata[currentPatient + '/Medis/Nacht/' + newAppointmentKey] = dataforpush;
-    return firebase.database().ref().update(updatedata);*/
   }
-   // location.reload();
+
 }
 
+function emptytheTable (){
+  var table = document.getElementById("myTableData");
+  var rowCount = table.rows.length;
+  console.log("adsf" + rowCount);
+  for (i = rowCount-1; i >= 2; i--) {
+    table.deleteRow(i);
+    console.log("Deleted Row:" + i);
+  }
+
+}
+
+function addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path) {
+
+  // http://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html
+
+  var table = document.getElementById("myTableData");
+
+  var rowCount = table.rows.length;
+  console.log(rowCount);
+  var row = table.insertRow(rowCount);
+
+  row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
+  row.insertCell(1).innerHTML= name;
+  row.insertCell(2).innerHTML= dosis;
+  row.insertCell(3).innerHTML= form;
+  row.insertCell(4).innerHTML= blister;
+  row.insertCell(5).innerHTML= timeofday;
+  row.insertCell(6).innerHTML= "<input type=button value=Delete onClick=Javacsript:deleteRow('"+path+"')>";
+
+}
+
+
+function deleteRow(path){
+
+  console.log(path);
+  var deleteRowRef = firebase.database().ref().child(path);
+  deleteRowRef.remove();
+  userselection(currentPatient);
+}
 
 function userselection(cred){
 
   currentPatient = cred;
   patientheader.innerText = "Patient: " + currentPatient;
   console.log(currentPatient);
+  emptytheTable();
 
   getMorgen(currentPatient);
   getMittag(currentPatient);
   getAbend(currentPatient);
   getNacht(currentPatient);
 
-  }
+}
 
 function getMorgen(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Morgen');
   detailsRef.on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
-    var datumoutput = new Date(datum);
+    var nmbdatummsec = parseInt(datum);
+    var datumoutput = new Date(nmbdatummsec);
     var dayoutput = datumoutput.getDate();
     var monthoutput = datumoutput.getMonth() + 1;
     var yearoutput = datumoutput.getFullYear();
@@ -573,23 +600,21 @@ function getMorgen(currentPatient){
     var dosis = snap.child("Dosis").val();
     var form = snap.child("Form").val();
     var name = snap.child("Name").val();
-    $("#Mediview").append(
-      "<tr id='tablemorgen'><td> " +
-      dayoutput + "." + monthoutput + "." + yearoutput + "</td><td>" +
-      name + "</td><td>" +
-      dosis + "</td><td>" +
-      form +"</td><td>" +
-      blister + "</td><td>" +
-      dauer +
-      " Tage </td><td bgcolor=white><img src='bearbeiten.jpg' width='20px' height='20px'><img src='löschen.png' width='20px' height='20px'></td></tr>");
-    });
+    var timeofday = "Morgen";
+    var key = snap.key;
+    var path = currentPatient + "/Medis/Morgen/" + key;
+
+    addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
+
+  });
 }
 function getMittag(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Mittag');
   detailsRef.on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
-    var datumoutput = new Date(datum);
+    var nmbdatummsec = parseInt(datum);
+    var datumoutput = new Date(nmbdatummsec);
     var dayoutput = datumoutput.getDate();
     var monthoutput = datumoutput.getMonth() + 1;
     var yearoutput = datumoutput.getFullYear();
@@ -597,23 +622,21 @@ function getMittag(currentPatient){
     var dosis = snap.child("Dosis").val();
     var form = snap.child("Form").val();
     var name = snap.child("Name").val();
-    $("#Mediview").append(
-      "<tr id='tablemittag'><td> " +
-      dayoutput + "." + monthoutput + "." + yearoutput + "</td><td>" +
-      name + "</td><td>" +
-      dosis + "</td><td>" +
-      form +"</td><td>" +
-      blister + "</td><td>" +
-      dauer +
-      " Tage </td><td bgcolor=white><img src='bearbeiten.jpg' width='20px' height='20px'><img src='löschen.png' width='20px' height='20px'></td></tr>");
-    });
+    var timeofday = "Mittag";
+    var key = snap.key;
+    var path = currentPatient + "/Medis/Mittag/" + key;
+
+    addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
+
+  });
 }
 function getAbend(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Abend');
   detailsRef.on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
-    var datumoutput = new Date(datum);
+    var nmbdatummsec = parseInt(datum);
+    var datumoutput = new Date(nmbdatummsec);
     var dayoutput = datumoutput.getDate();
     var monthoutput = datumoutput.getMonth() + 1;
     var yearoutput = datumoutput.getFullYear();
@@ -621,23 +644,20 @@ function getAbend(currentPatient){
     var dosis = snap.child("Dosis").val();
     var form = snap.child("Form").val();
     var name = snap.child("Name").val();
-    $("#Mediview").append(
-      "<tr id='tableabend'><td> " +
-      dayoutput + "." + monthoutput + "." + yearoutput + "</td><td>" +
-      name + "</td><td>" +
-      dosis + "</td><td>" +
-      form +"</td><td>" +
-      blister + "</td><td>" +
-      dauer +
-      " Tage </td><td bgcolor=white><img src='bearbeiten.jpg' width='20px' height='20px'><img src='löschen.png' width='20px' height='20px'></td></tr>");
-    });
+    var timeofday = "Abend";
+    var key = snap.key;
+    var path = currentPatient + "/Medis/Abend/" + key;
+
+    addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
+
+  });
 }
 function getNacht(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Nacht');
   detailsRef.on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
-    var datumoutput = new Date(datum);
+    var datumoutput = new Date(nmbdatummsec);
     var dayoutput = datumoutput.getDate();
     var monthoutput = datumoutput.getMonth() + 1;
     var yearoutput = datumoutput.getFullYear();
@@ -645,45 +665,21 @@ function getNacht(currentPatient){
     var dosis = snap.child("Dosis").val();
     var form = snap.child("Form").val();
     var name = snap.child("Name").val();
-    $("#Mediview").append(
-      "<tr id='tablenacht'><td> " +
-      dayoutput + "." + monthoutput + "." + yearoutput + "</td><td>" +
-      name + "</td><td>" +
-      dosis + "</td><td>" +
-      form +"</td><td>" +
-      blister + "</td><td>" +
-      dauer +
-      " Tage </td><td bgcolor=white><img src='bearbeiten.jpg' width='20px' height='20px'><img src='löschen.png' width='20px' height='20px'></td></tr>");
-    });
+    var timeofday = "Nacht";
+    var key = snap.key;
+    var path = currentPatient + "/Medis/Nacht/" + key;
+
+    addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
+
+  });
 }
 
 
 
-  var testsRef = firebase.database().ref().child('/');
-  testsRef.on("child_added", snap => {
-    var vorname = snap.child("Vorname").val();
-    var name = snap.child("Name").val();
-    var cred = name + vorname;
-    $("#Patientview").append("<li onClick=userselection('"+cred+"')><a> " + name + " " + vorname + "</a></li>");
-  });
-
-  /*var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Morgen');
-  detailsRef.on("child_added", snap => {
-  var blister = snap.child("Blister").val();
-  var datum = snap.child("Datum").val();
-  var dauer = snap.child("Dauer").val();
-  var dosis = snap.child("Dosis").val();
-  var form = snap.child("Form").val();
+var testsRef = firebase.database().ref().child('/');
+testsRef.on("child_added", snap => {
+  var vorname = snap.child("Vorname").val();
   var name = snap.child("Name").val();
-  alert(name);
-  $("#Mediview").append(
-  "<tr><td> " +
-  datum + "</td><td>" +
-  name + "</td><td>" +
-  dosis + "</td><td>" +
-  form +"</td><td>" +
-  blister + "</td><td>" +
-  dauer +
-  " Tage </td><td bgcolor=white><img src='bearbeiten.jpg' width='20px' height='20px'><img src='löschen.png' width='20px' height='20px'></td></tr>");
+  var cred = name + vorname;
+  $("#Patientview").append("<li onClick=userselection('"+cred+"')><a> " + name + " " + vorname + "</a></li>");
 });
-*/
