@@ -70,8 +70,13 @@ Pin Login
   width: 100%;
 }
 th {
+<<<<<<< HEAD
   height: 30px;
   background-color: blue;
+=======
+  height: 50px;
+  background-color: lightblue;
+>>>>>>> origin/master
   padding: 3px;
   font-weight: bold;
   border-bottom: 2px solid;
@@ -80,8 +85,11 @@ td {
   text-align: center;
 }
 
+<<<<<<< HEAD
 .hideextra { white-space: nowrap; overflow: hidden; }
 
+=======
+>>>>>>> origin/master
 
 /* --- */
 

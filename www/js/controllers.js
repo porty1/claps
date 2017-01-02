@@ -126,6 +126,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
 app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, $timeout) {
 
   var fullname = "";
+<<<<<<< HEAD
   var currentDatum = new Date();
   console.log(currentDatum);
   var currentDatumDay = currentDatum.getDate();
@@ -158,6 +159,17 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     $scope.datechange();
   }
 
+=======
+
+  /* var testers = new Date();
+  var formDay = testers.getDate();
+  var formMonth = testers.getMonth() + 1;
+  var formYear = testers.getFullYear();
+  var formDate = formYear + "-" + formMonth + "-" + formDay;
+  console.log(formDate);
+  document.getElementById("changeDatum").value = "formDate";
+  console.log(document.getElementById("changeDatum").value); */
+>>>>>>> origin/master
 
   // Wird durch das Wechseln des Datums im Calendar.html aufgerufen
   $scope.datechange = function() {
@@ -257,6 +269,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       var key = snap.key;
       var path = fullname + "/Medis/Morgen/" + key;
       $scope.MeditoTable(dosis, form, name, zeit, path);
+<<<<<<< HEAD
     });
     $scope.getMorgenAppointafterMedi(fullname, msecdatum);
   }
@@ -283,6 +296,34 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       var path = fullname + "/Appoint/Morgen/" + key;
       $scope.AppointtoTable(beschreibung, timeoutput, path);
     });
+=======
+    });
+    $scope.getMorgenAppointafterMedi(fullname, msecdatum);
+  }
+
+  $scope.getMorgenAppointafterMedi = function(fullname, msecdatum){
+    // Step 4: All Appointments between 8:00Uhr and 10:00Uhr
+    var msecstart = msecdatum + 28800000;
+    var msecstartpush = "" + msecstart;
+    var msecend = msecdatum + 36000000;
+    var msecendpush = "" + msecend;
+    console.log("Step4: " + msecstartpush, msecendpush);
+
+    var patientRef = firebase.database().ref(fullname + '/Appoint/Morgen');
+    patientRef.orderByChild("Datum").startAt(msecstartpush).endAt(msecendpush).on("child_added", snap => {
+      var datum = snap.child("Datum").val();
+      console.log("Appoint Morgen: " + datum);
+      var nmbdatummsec = parseInt(datum);
+      var datumoutput = new Date(nmbdatummsec);
+      var minuteoutput = datumoutput.getMinutes();
+      var houroutput = datumoutput.getHours();
+      var timeoutput = houroutput + ":" + minuteoutput;
+      var beschreibung = snap.child("Beschreibung").val();
+      var key = snap.key;
+      var path = fullname + "/Appoint/Morgen/" + key;
+      $scope.AppointtoTable(beschreibung, timeoutput, path);
+    });
+>>>>>>> origin/master
     $scope.getMittagAppointbeforeMedi(fullname, msecdatum);
   }
 
@@ -510,6 +551,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     });
   }
 
+<<<<<<< HEAD
 
   $scope.MeditoTable = function(dosis, form, name, zeit, path) {
     // http://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html
@@ -562,27 +604,64 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
   }).then(function(modal) {
     $scope.modal = modal;
   });
+=======
+>>>>>>> origin/master
 
-  $scope.createAppointment = function(appointvalue) {
+$scope.MeditoTable = function(dosis, form, name, zeit, path) {
+  // http://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html
 
-    var datum = new Date(appointvalue.date);
-    var zeit = new Date(appointvalue.time);
-    var beschreibungpush = appointvalue.area;
+  var table = document.getElementById("table_calendar");
 
-    var loggedinuser = firebase.auth().currentUser;
-    var loggedinref = firebase.database().ref();
-    loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-      var nameuser = snap.child("Name").val();
-      var vornameuser = snap.child("Vorname").val();
-      $scope.setAppoint(nameuser, vornameuser, datum, zeit, beschreibungpush);
-    });
-    $scope.modal.hide();
+  var rowCount = table.rows.length;
+  console.log(rowCount);
+  var row = table.insertRow(rowCount);
+
+  row.insertCell(0).innerHTML= zeit;
+  row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+  row.insertCell(2).innerHTML= "<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>";
+}
+
+$scope.AppointtoTable = function(beschreibung, zeit, path) {
+  var table = document.getElementById("table_calendar");
+
+  var rowCount = table.rows.length;
+  console.log(rowCount);
+  var row = table.insertRow(rowCount);
+
+  row.insertCell(0).innerHTML= zeit;
+  row.insertCell(1).innerHTML= beschreibung;
+  row.insertCell(2).innerHTML= "<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>";
+
+}
+
+$scope.deleteRow = function(path){
+  console.log(path);
+  var deleteRowRef = firebase.database().ref().child(path);
+  deleteRowRef.remove();
+  $scope.datechange();
+  // userselection(currentPatient);
+}
+$scope.emptytheTable = function(){
+  var table = document.getElementById("table_calendar");
+  var rowCount = table.rows.length;
+  console.log("adsf" + rowCount);
+  for (i = rowCount-1; i >= 1; i--) {
+    table.deleteRow(i);
+    console.log("Deleted Row:" + i);
   }
+}
 
-  $scope.setAppoint = function(nameuser, vornameuser, datum, zeit, beschreibungpush){
+/*--- Popup Add Appointment ---*/
+$ionicModal.fromTemplateUrl('templates/addappointment.html', {
+  scope: $scope,
+  animation: 'slide-in-up'
+}).then(function(modal) {
+  $scope.modal = modal;
+});
 
-    var currentPatient = nameuser + vornameuser;
+$scope.createAppointment = function(appointvalue) {
 
+<<<<<<< HEAD
     var datumpush = datum.getTime();
     datumpush = datumpush + zeit.getTime() + 3600000;
     datumpush = "" + datumpush;
@@ -600,52 +679,89 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       Datum: datumpush,
       Beschreibung: beschreibungpush
     };
+=======
+  var datum = new Date(appointvalue.date);
+  var zeit = new Date(appointvalue.time);
+  var beschreibungpush = appointvalue.area;
 
-    if (zeitcompare >= 0400 && zeitcompare < 1000){
-      var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-      var morgenupdatedata = {};
-      morgenupdatedata[currentPatient + '/Appoint/Morgen/' + morgennewAppointmentKey] = dataforpush;
-      addMorgen(morgenupdatedata);
-      console.log("morgen");
-    }
-    else if (zeitcompare >= 1000 && zeitcompare < 1600){
-      var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-      var mittagupdatedata = {};
-      mittagupdatedata[currentPatient + '/Appoint/Mittag/' + mittagnewAppointmentKey] = dataforpush;
-      addMittag(mittagupdatedata);
-      console.log("mittag");
-    }
-    else if (zeitcompare >= 1600 && zeitcompare < 2200){
-      var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-      var abendupdatedata = {};
-      abendupdatedata[currentPatient + '/Appoint/Abend/' + abendnewAppointmentKey] = dataforpush;
-      addAbend(abendupdatedata);
-      console.log("abend");
-    }
-    else if (zeitcompare >= 2200 || zeitcompare < 0400) {
-      var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-      var nachtupdatedata = {};
-      nachtupdatedata[currentPatient + '/Appoint/Nacht/' + nachtnewAppointmentKey] = dataforpush;
-      addNacht(nachtupdatedata);
-      console.log("nacht");
-    }
-    else {
-      console.log("error");
-    }
+  var loggedinuser = firebase.auth().currentUser;
+  var loggedinref = firebase.database().ref();
+  loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+    var nameuser = snap.child("Name").val();
+    var vornameuser = snap.child("Vorname").val();
+    $scope.setAppoint(nameuser, vornameuser, datum, zeit, beschreibungpush);
+  });
+  $scope.modal.hide();
+}
 
-    function addMorgen(morgenupdatedata){
-      return firebase.database().ref().update(morgenupdatedata);
-    }
-    function addMittag(mittagupdatedata){
-      return firebase.database().ref().update(mittagupdatedata);
-    }
-    function addAbend(abendupdatedata){
-      return firebase.database().ref().update(abendupdatedata);
-    }
-    function addNacht(nachtupdatedata){
-      return firebase.database().ref().update(nachtupdatedata);
-    }
+$scope.setAppoint = function(nameuser, vornameuser, datum, zeit, beschreibungpush){
+
+  var currentPatient = nameuser + vornameuser;
+>>>>>>> origin/master
+
+  var datumpush = datum.getTime();
+  datumpush = datumpush + zeit.getTime() + 3600000;
+  datumpush = "" + datumpush;
+
+
+  var zeitcompare = zeit.getHours() + "" + zeit.getMinutes();
+  // var zeitpush = zeit.getHours() + ":" + zeit.getMinutes();
+
+  console.log(zeit.getTime());
+  console.log(datumpush);
+  // console.log(zeitpush);
+  console.log(beschreibungpush);
+
+  var dataforpush = {
+    Datum: datumpush,
+    Beschreibung: beschreibungpush
+  };
+
+  if (zeitcompare >= 0400 && zeitcompare < 1000){
+    var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+    var morgenupdatedata = {};
+    morgenupdatedata[currentPatient + '/Appoint/Morgen/' + morgennewAppointmentKey] = dataforpush;
+    addMorgen(morgenupdatedata);
+    console.log("morgen");
   }
+  else if (zeitcompare >= 1000 && zeitcompare < 1600){
+    var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+    var mittagupdatedata = {};
+    mittagupdatedata[currentPatient + '/Appoint/Mittag/' + mittagnewAppointmentKey] = dataforpush;
+    addMittag(mittagupdatedata);
+    console.log("mittag");
+  }
+  else if (zeitcompare >= 1600 && zeitcompare < 2200){
+    var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+    var abendupdatedata = {};
+    abendupdatedata[currentPatient + '/Appoint/Abend/' + abendnewAppointmentKey] = dataforpush;
+    addAbend(abendupdatedata);
+    console.log("abend");
+  }
+  else if (zeitcompare >= 2200 || zeitcompare < 0400) {
+    var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+    var nachtupdatedata = {};
+    nachtupdatedata[currentPatient + '/Appoint/Nacht/' + nachtnewAppointmentKey] = dataforpush;
+    addNacht(nachtupdatedata);
+    console.log("nacht");
+  }
+  else {
+    console.log("error");
+  }
+
+  function addMorgen(morgenupdatedata){
+    return firebase.database().ref().update(morgenupdatedata);
+  }
+  function addMittag(mittagupdatedata){
+    return firebase.database().ref().update(mittagupdatedata);
+  }
+  function addAbend(abendupdatedata){
+    return firebase.database().ref().update(abendupdatedata);
+  }
+  function addNacht(nachtupdatedata){
+    return firebase.database().ref().update(nachtupdatedata);
+  }
+}
 })
 
 app.controller('VitalDataCtrl', function($scope) {
