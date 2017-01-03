@@ -27,20 +27,39 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
         $timeout(function() {
           console.log("The four digit code was entered");
           console.log($scope.passcode);
+          var emailuser;
+          var passworduser;
           var testref = firebase.database().ref();
           testref.orderByChild("PIN").equalTo($scope.passcode).on("child_added", snap => {
-
             console.log("inorderby");
-            var emailuser = snap.child("Email").val();
-            var passworduser = snap.child("Password").val();
+            emailuser = snap.child("Email").val();
+            passworduser = snap.child("Password").val();
             console.log(emailuser, passworduser);
-            $scope.loginUser(emailuser, passworduser);
+
           })
+          document.getElementById("loader").style.display = "block";
+          $timeout(function() {
+            if (emailuser == null){
+              document.getElementById("loader").style.display = "none";
+              document.getElementById("error").style.display = "block";
+              console.log("error" + emailuser);
+            } else {
+              document.getElementById("loader").style.display = "none";
+              console.log(emailuser);
+              $scope.loginUser(emailuser, passworduser);
+            }
+          }, 2000);
           // $scope.loginUser("schmf4@bfh.ch", "test1234");
-          console.log("test1");
-        }, 5);
-      } console.log("test2");
+        }, 0);
+      }
     }
+  }
+
+  $scope.clearAllPins = function() {
+    $scope.deletePin();
+    $scope.deletePin();
+    $scope.deletePin();
+    $scope.deletePin();
   }
 
   // Eingegebene Pinstelle löschen
