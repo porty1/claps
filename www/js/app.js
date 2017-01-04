@@ -105,7 +105,7 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'for
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
-  
+
 
 
 });
