@@ -1,6 +1,9 @@
 <ion-view view-title="Settings">
   <ion-content>
     <div class="list">
+      <div class="item item-divider">
+        Anzeigeeinstellungen
+      </div>
           <label class="item item-input item-select">
             <div class="input-label">
               Schriftgrösse
@@ -10,73 +13,14 @@
               <option>Gross</option>
             </select>
           </label>
+          <br>
             <div class="item item-divider">
-              Benachrichtigungen
+              Accountinformationen
             </div>
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Eigene Termine
-            </div>
-            <select>
-              <option selected>5 Minuten</option>
-              <option>15 Minuten</option>
-              <option>30 Minuten</option>
-              <option>1 Stunde</option>
-              <option>2 Stunden</option>
-              <option>4 Stunden</option>
-              <option>8 Stunden</option>
-              <option>24 Stunden</option>
-            </select>
-          </label>
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Medikamente
-            </div>
-            <select>
-              <option selected>5 Minuten</option>
-              <option>15 Minuten</option>
-              <option>30 Minuten</option>
-              <option>1 Stunde</option>
-              <option>2 Stunden</option>
-              <option>4 Stunden</option>
-              <option>8 Stunden</option>
-              <option>24 Stunden</option>
-            </select>
-          </label>
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Messungen
-            </div>
-            <select>
-              <option selected>5 Minuten</option>
-              <option>15 Minuten</option>
-              <option>30 Minuten</option>
-              <option>1 Stunde</option>
-              <option>2 Stunden</option>
-              <option>4 Stunden</option>
-              <option>8 Stunden</option>
-              <option>24 Stunden</option>
-            </select>
-          </label>
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Essen
-            </div>
-            <select>
-              <option selected>5 Minuten</option>
-              <option>15 Minuten</option>
-              <option>30 Minuten</option>
-              <option>1 Stunde</option>
-              <option>2 Stunden</option>
-              <option>4 Stunden</option>
-              <option>8 Stunden</option>
-              <option>24 Stunden</option>
-            </select>
-          </label>
+            <table id="table_settings">
+            </table>
         </div>
-
-
-
+        <br>
         <button class="button button-full button-calm" ng-click="logout()">
           Logout
         </button>

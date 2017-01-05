@@ -1,67 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>Formular Medikamentverordnen</title>
-<link rel="stylesheet" type="text/css" href="view.css" media="all"/>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<!-- <script type="text/javascript" src="view.js"></script> -->
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Formular Medikamentverordnen</title>
+	<link rel="stylesheet" type="text/css" href="view.css" media="all"/>
 </head>
-
 <body>
-
-<!-- hugil1: Hier beginnt der Code -->
-
-<!-- hugil1: Header des bodys ;) -->
-
-<div id="header">
+	<!-- hugil1: Hier beginnt der Code -->
+	<!-- hugil1: Header des bodys-->
+	<div id="header">
 		<h1><a>Mediplaner</a></h1>
+	</div>
 
-</div>
+	<!-- hugil1: hier befindet sich die Patientenübersicht auf der linken Seite -->
+	<div id="patubersicht">
+		<ul id="Patientview">
+		</ul>
+	</div>
 
-<!-- hugil1: hier befindet sich die Patientenübersicht auf der linken Seite -->
-<div id="patubersicht">
-
- <ul id="Patientview">
-  </ul>
-</div>
-
-
-
-<!-- hugil1: hier befindet sich die Tabelle mit den verabreichten Medikamenten oberhalb des Verordnungsformular-->
-
-<div id="medikamente">
-
-<h2 id="patientheader"><a></a></h2>
-	<table id="myTableData">
-		<thead>
-  		<tr>
-  			<th>Datum</th>
-    		<th>Name</th>
-    		<th>Dosis</th>
-    		<th>Form</th>
-    		<th>Blister</th>
-    		<th></th>
-				<th></th>
-  		</tr>
-		</thead>
-		<tbody id="Mediview">
-		</tbody>
-		<tr>
-			<td><b>Neues Medikament erfassen:</b></td>
-			<td><input id="MediNameFormID" placeholder="Medikamentenname" class="element text medium" type="text" maxlength="255" value=""/></td>
-			<td><input id="MediDosisFormID"placeholder="Menge: Bsp. 50" class="element text medium" type="number" min="1" max="999999"/><select id="SelectMediDosisFormID">
-  					<option value="mg">mg</option>
-  					<option value="ml">ml</option>
+	<!-- hugil1: hier befindet sich die Tabelle mit den verabreichten Medikamenten oberhalb des Verordnungsformular-->
+	<div id="medikamente">
+		<h2 id="patientheader"><img src="arrow-alt-right.png" height="30px" width="30px"></img><a> Wählen Sie einen Patienten</a></h2>
+		<table id="myTableData">
+			<thead>
+				<tr>
+					<th>Datum</th>
+					<th>Name</th>
+					<th>Dosis</th>
+					<th>Form</th>
+					<th>Blister</th>
+					<th>Dauer</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="Mediview">
+			</tbody>
+			<tr>
+				<td><b>Neues Medikament erfassen:</b></td>
+				<td><input id="MediNameFormID" placeholder="Medikamentenname" class="element text medium" type="text" maxlength="255" value=""/></td>
+				<td><input id="MediDosisFormID"placeholder="Menge: Bsp. 50" class="element text medium" type="number" min="1" max="999999"/>
+					<select id="SelectMediDosisFormID">
+						<option value="mg">mg</option>
+						<option value="ml">ml</option>
 					</select></td>
-			<td><select id="SelectMediFormFormID">
-  					<option value="Tablette">Tablette</option>
-  					<option value="Pulver">Pulver</option>
-  					<option value="Tropfen">Tropfen</option>
-  					<option value="Gel">Gel</option>
+					<td><select id="SelectMediFormFormID">
+						<option value="Tablette">Tablette</option>
+						<option value="Pulver">Pulver</option>
+						<option value="Tropfen">Tropfen</option>
+						<option value="Gel">Gel</option>
 					</select></td>
-			<td><select id="SelectMediBlisterFormID">
+					<td><select id="SelectMediBlisterFormID">
 						<option value="1-0-0-0">1-0-0-0</option>
 						<option value="1-0-0-1">1-0-0-1</option>
 						<option value="1-0-1-0">1-0-1-0</option>
@@ -71,25 +59,65 @@
 						<option value="1-1-1-0">1-1-1-0</option>
 						<option value="1-1-1-1">1-1-1-1</option>
 						<option value="0-0-0-1">0-0-0-1</option>
-  					<option value="0-0-1-0">0-0-1-0</option>
-  					<option value="0-0-1-1">0-0-1-1</option>
-  					<option value="0-1-0-0">0-1-0-0</option>
+						<option value="0-0-1-0">0-0-1-0</option>
+						<option value="0-0-1-1">0-0-1-1</option>
+						<option value="0-1-0-0">0-1-0-0</option>
 						<option value="0-1-0-1">0-1-0-1</option>
-  					<option value="0-1-1-0">0-1-1-0</option>
-  					<option value="0-1-1-1">0-1-1-1</option>
+						<option value="0-1-1-0">0-1-1-0</option>
+						<option value="0-1-1-1">0-1-1-1</option>
 					</select></td>
-			<td><input id="MediDurationFormID" class="element text medium" type="number" min="1" max="999"/> Tage</td>
-			<td><button id="submitBtn" onclick="submitClick()" class="button button-block button-stable">Hinzufügen</button></td>
-		</tr>
-	</table>
-</div>
+					<td><input id="MediDurationFormID" class="element text medium" type="number" min="1" max="999"/> Tage</td>
+					<td><button id="submitBtn" onclick="submitClick()" class="button button-block button-stable">Hinzufügen</button></td>
+				</tr>
+			</table>
+			<br>
+			<div id="viewtables" style="display:none">
+				<h2>Morgen</h2>
+				<table id="tablemorgendata">
+					<tr>
+						<th>Datum</th>
+						<th>Name</th>
+						<th>Dosis</th>
+						<th>Form</th>
+						<th></th>
+					</tr>
+				</table>
+				<h2>Mittag</h2>
+				<table id="tablemittagdata">
+					<tr>
+						<th>Datum</th>
+						<th>Name</th>
+						<th>Dosis</th>
+						<th>Form</th>
+						<th></th>
+					</tr>
+				</table>
+				<h2>Abend</h2>
+				<table id="tableabenddata">
+					<tr>
+						<th>Datum</th>
+						<th>Name</th>
+						<th>Dosis</th>
+						<th>Form</th>
+						<th></th>
+					</tr>
+				</table>
+				<h2>Nacht</h2>
+				<table id="tablenachtdata">
+					<tr>
+						<th>Datum</th>
+						<th>Name</th>
+						<th>Dosis</th>
+						<th>Form</th>
+						<th></th>
+					</tr>
+				</table>
+			</div>
+		</div>
 
-
-
-
-	<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
-	<script type="text/javascript">
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
+		<script type="text/javascript">
 		// Initialize Firebase
 		var config = {
 			apiKey: "AIzaSyCXvegZEIikHPazfjoCg55dqO8y1fC_3oI",
@@ -99,9 +127,7 @@
 			messagingSenderId: "81865488549"
 		};
 		firebase.initializeApp(config);
-	</script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
-	<script type="text/javascript" src="webcmd_firebase.js"></script>
-
+		</script>
+		<script type="text/javascript" src="webcmd_firebase.js"></script>
 	</body>
-</html>
+	</html>
