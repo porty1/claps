@@ -667,105 +667,19 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
   }
 })
 
-// Controller für die Vitaldaten
-app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
-// Add the weight and the current Date to the Database
-  $scope.saveWeight = function(){
-    var weight = document.getElementById('weightValue').value;
+app.controller('VitalDataCtrl', function($scope) {
 
-    if (weight == "") {
-      $scope.noValPop();
-    } else if (isNaN(weight)) {
-      $scope.notNumericPop();
-    }
+  var $configLine = {
+    name: '.ct-chartBar',
+    labels: 'Week',
+    series: "[12, 9, 7, 8, 5, 9, 0]",
+    fullWidth: "true",
+    showArea: "true",
+  };
 
-    var date = new Date();
-    var postData = {
-      Date: date,
-      weight: weight
-    };
-    var loggedinuser = firebase.auth().currentUser;
-    var loggedinref = firebase.database().ref();
+  var chartLine = new ChartJS($configLine);
+  chartLine.line();
 
-    loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-      var nameuser = snap.child("Name").val();
-      var vornameuser = snap.child("Vorname").val();
-      $scope.saveValWeight(nameuser, vornameuser, postData);
-    });
-
-    document.getElementById('weightValue').value = "";
-  }
-
-  // Blutdruck speichern
-  $scope.saveBloodPressure = function(){
-    var systol = document.getElementById('bloodPressureValueSys').value;
-    var diastol = document.getElementById('bloodPressureValueDis').value;
-
-    if (systol == "" || diastol == "") {
-      $scope.noValPop();
-    } else if (isNaN(systol) || isNaN(diastol)) {
-      $scope.notNumericPop();
-    }
-
-
-    var date = new Date();
-
-    var postData = {
-      Date: date,
-      Systol: systol,
-      Diastol: diastol
-    };
-
-    var loggedinuser = firebase.auth().currentUser;
-    var loggedinref = firebase.database().ref();
-
-    loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-      var nameuser = snap.child("Name").val();
-      var vornameuser = snap.child("Vorname").val();
-      $scope.saveValBP(nameuser, vornameuser, postData);
-    });
-
-    document.getElementById('bloodPressureValueSys').value = "";
-    document.getElementById('bloodPressureValueDis').value = "";
-  }
-
-  // Gewicht wird in der Datenbank gespeichert
-  $scope.saveValWeight = function(nameuser, vornameuser, postData){
-    var fullname = nameuser + vornameuser;
-    var newPostKey = firebase.database().ref().child(fullname).push().key;
-    var path = fullname + "/Vital/Gewicht/";
-    var updates = {};
-    updates[path + newPostKey] = postData;
-    //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-    return firebase.database().ref().update(updates);
-  }
-
-  // Blutdruck wird in der Datenbank gespeichert
-  $scope.saveValBP = function(nameuser, vornameuser, postData){
-    var fullname = nameuser + vornameuser;
-    var newPostKey = firebase.database().ref().child(fullname).push().key;
-    var path = fullname + "/Vital/Blutdruck/";
-    var updates = {};
-    updates[path + newPostKey] = postData;
-    //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-    return firebase.database().ref().update(updates);
-  }
-
-  // PopUp wird angezeigt, falls ein nicht nummerischer Wert angegeben wird
-  $scope.notNumericPop = function() {
-    var alertPopup = $ionicPopup.alert({
-      title: 'Ungültiger Wert!',
-      template: 'Das Gewicht bitte in einer ganzen Zahl angeben! Beispiel: 70'
-      });
-    }
-
-    // PopUp wird angezeigt, falls kein Wert eingetragen wurde
-    $scope.noValPop = function(){
-      var alertPopup = $ionicPopup.alert({
-        title: 'Es wurde kein Wert eingetragen!',
-        template: 'Bitte einen Wert eingeben!'
-      });
-    }
 })
 
 app.controller('DetailsCtrl', function($scope) {})
