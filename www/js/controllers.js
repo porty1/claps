@@ -161,6 +161,9 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
         PIN: pincode,
         Password: password
       });
+      firebase.database().ref(name + vorname + "/Size/").set({
+        Size: 0
+      });
       $state.go('tab.calendar');
       $scope.closeRegister();
     }
@@ -210,6 +213,27 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     console.log($scope.date.datum);
 
 
+    $scope.setPageStyle = function(){
+      var loggedinuser = firebase.auth().currentUser;
+      var setpagesize;
+
+      if(loggedinuser.email == null){
+        location.reload();
+      } else {
+        var loggedinref = firebase.database().ref();
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          setpagesize = snap.child("Size/Size").val();
+          console.log("setPageStyle: " + setpagesize);
+        });
+      }
+      if (setpagesize == 0){
+        // Alle Styles im Standardview
+      } else if (setpagesize == 1) {
+        // Alle Styles in der Grossansicht
+      }
+    }
+
+
     $scope.forwardoneDay = function(){
       var selectedchangeDatumforward = $scope.date.datum;
       console.log("forward"  + selectedchangeDatumforward);
@@ -244,12 +268,16 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       var loggedinuser = firebase.auth().currentUser;
       // $scope.fullname = "";
 
-      var loggedinref = firebase.database().ref();
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        var nameuser = snap.child("Name").val();
-        var vornameuser = snap.child("Vorname").val();
-        $scope.startgetAllDates(nameuser, vornameuser, selectedDateParse);
-      });
+      if(loggedinuser.email == null){
+        location.reload();
+      } else {
+              var loggedinref = firebase.database().ref();
+              loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+                var nameuser = snap.child("Name").val();
+                var vornameuser = snap.child("Vorname").val();
+                $scope.startgetAllDates(nameuser, vornameuser, selectedDateParse);
+              });
+      }
     }
 
 
@@ -265,7 +293,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     $scope.getNachtAppointbeforeMorgen = function(fullname, msecdatum){
       // Step 1: All Appointments between 00:00Uhr and 04:00
       var msecstartpush = "" + msecdatum;
-      var msecend = msecdatum + 14400000;
+      var msecend = msecdatum + 14399999;
       var msecendpush = "" + msecend;
       console.log("Step1: " + msecstartpush, msecendpush);
 
@@ -276,6 +304,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -289,7 +320,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     $scope.getMorgenAppointbeforeMedi = function(fullname, msecdatum){
       // Step 2: All Appointments before 8:00Uhr
       var msecstartpush = "" + msecdatum;
-      var msecend = msecdatum + 28800000;
+      var msecend = msecdatum + 28799999;
       var msecendpush = "" + msecend;
       console.log("Step2: " + msecstartpush, msecendpush);
 
@@ -300,6 +331,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -340,7 +374,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       // Step 4: All Appointments between 8:00Uhr and 10:00Uhr
       var msecstart = msecdatum + 28800000;
       var msecstartpush = "" + msecstart;
-      var msecend = msecdatum + 36000000;
+      var msecend = msecdatum + 35999999;
       var msecendpush = "" + msecend;
       console.log("Step4: " + msecstartpush, msecendpush);
 
@@ -351,6 +385,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -365,7 +402,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       // Step 5: All Appointments between 10:00Uhr and 12:00
       var msecstart = msecdatum + 36000000;
       var msecstartpush = "" + msecstart;
-      var msecend = msecdatum + 43200000;
+      var msecend = msecdatum + 43199999;
       var msecendpush = "" + msecend;
       console.log("Step5: " + msecstartpush, msecendpush);
 
@@ -376,6 +413,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -417,7 +457,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       // Step 7: All Appointments between 12:00Uhr and 16:00
       var msecstart = msecdatum + 43200000;
       var msecstartpush = "" + msecstart;
-      var msecend = msecdatum + 57600000;
+      var msecend = msecdatum + 57599999;
       var msecendpush = "" + msecend;
       console.log("Step7: " + msecstartpush, msecendpush);
 
@@ -428,6 +468,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -442,7 +485,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       // Step 8: All Appointments between 16:00Uhr and 18:00
       var msecstart = msecdatum + 57600000;
       var msecstartpush = "" + msecstart;
-      var msecend = msecdatum + 64800000;
+      var msecend = msecdatum + 64799999;
       var msecendpush = "" + msecend;
       console.log("Step8: " + msecstartpush, msecendpush);
 
@@ -453,6 +496,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -494,7 +540,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       // Step 10: All Appointments between 18:00Uhr and 22:00
       var msecstart = msecdatum + 64800000;
       var msecstartpush = "" + msecstart;
-      var msecend = msecdatum + 79200000;
+      var msecend = msecdatum + 79199999;
       var msecendpush = "" + msecend;
       console.log("Step10: " + msecstartpush, msecendpush);
 
@@ -505,6 +551,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -519,7 +568,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       // Step 11: All Appointments between 22:00Uhr and 23:00
       var msecstart = msecdatum + 79200000;
       var msecstartpush = "" + msecstart;
-      var msecend = msecdatum + 82800000;
+      var msecend = msecdatum + 82799999;
       var msecendpush = "" + msecend;
       console.log("Step11: " + msecstartpush, msecendpush);
 
@@ -530,6 +579,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -582,6 +634,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
+        if(minuteoutput == 0){
+          minuteoutput = "00";
+        }
         var houroutput = datumoutput.getHours();
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
@@ -626,6 +681,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     }
 
     $scope.AppointtoTable = function(beschreibung, zeit, path) {
+
       var table = document.getElementById("table_calendar");
       var rowCount = table.rows.length;
       console.log(rowCount);
@@ -704,19 +760,15 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     $scope.setAppoint = function(nameuser, vornameuser, datum, zeit, beschreibungpush){
 
       var currentPatient = nameuser + vornameuser;
-
       var datumpush = datum.getTime();
       datumpush = datumpush + zeit.getTime() + 3600000;
       datumpush = "" + datumpush;
 
-
-      var zeitcompare = zeit.getHours() + "" + zeit.getMinutes();
-      // var zeitpush = zeit.getHours() + ":" + zeit.getMinutes();
-
-      console.log(zeit.getTime());
-      console.log(datumpush);
-      // console.log(zeitpush);
-      console.log(beschreibungpush);
+      if(zeit.getUTCMinutes() == 0){
+        var zeitcompare = zeit.getUTCHours() + "00";
+      } else {
+        var zeitcompare = zeit.getUTCHours() + "" + zeit.getUTCMinutes();
+      }
 
       var dataforpush = {
         Datum: datumpush,
@@ -773,6 +825,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       }
     }
     $scope.datechange();
+    $scope.setPageStyle();
   })
 
   app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
@@ -890,6 +943,27 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
   var loggedinuser = firebase.auth().currentUser;
   console.log(loggedinuser);
 
+  $scope.setPageStyle = function(){
+    var loggedinuser = firebase.auth().currentUser;
+    var setpagesize;
+
+    if(loggedinuser.email == null){
+      location.reload();
+    } else {
+      var loggedinref = firebase.database().ref();
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        setpagesize = snap.child("Size/Size").val();
+        console.log("setPageStyle: " + setpagesize);
+      });
+    }
+    if (setpagesize == 0){
+      // Alle Styles im Standardview
+    } else if (setpagesize == 1) {
+      // Alle Styles in der Grossansicht
+    }
+  }
+
+
   $scope.checkforAccountInfo = function(){
     console.log("checking...");
     var loggedinref = firebase.database().ref();
@@ -904,14 +978,21 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     fullname = name + vorname;
 
     var patientRef = firebase.database().ref(fullname);
-    patientRef.on("value", snap => {
-      var email = snap.child("Email").val();
-      var vorname = snap.child("Vorname").val();
-      var name = snap.child("Name").val();
+    patientRef.once('value').then(function(snapshot) {
+      var email = snapshot.child("Email").val();
+      var vorname = snapshot.child("Vorname").val();
+      var name = snapshot.child("Name").val();
       $scope.AccounttoTable(1, email);
       $scope.AccounttoTable(2, vorname);
       $scope.AccounttoTable(3, name);
     });
+    var selectedsize;
+    var patientSizeRef = firebase.database().ref(fullname + "/Size/");
+    patientSizeRef.on("value", snap => {
+      selectedsize = snap.child("Size").val();
+    });
+    document.getElementById("sizeselector").selectedIndex = selectedsize;
+    console.log("SelectedSize: " + selectedsize);
   }
   $scope.AccounttoTable = function(index, value) {
     var table = document.getElementById("table_settings");
@@ -938,45 +1019,87 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     table.deleteRow(1);
     table.deleteRow(0);
   }
+  // Logout
+  $scope.logout = function() {
+    console.info("Logout");
+    $scope.deletetableRow();
+    firebase.auth().signOut().then(function(){
+      console.log("Logout Successful");
+    }, function(error){
+      console.log("error");
+    })
+    $state.go('login');
+    location.reload();
+  }
 
-    // Logout
-    $scope.logout = function() {
-      console.info("Logout");
-      $scope.deletetableRow();
-      firebase.auth().signOut().then(function(){
-        console.log("Logout Successful");
-      }, function(error){
-        console.log("error");
-      })
-      $state.go('login');
+  $scope.checkforAccountInfo();
+
+  setStyle = function(){
+    $scope.setStyle();
+  }
+
+  $scope.setStyle = function() {
+    var selectedstyle = document.getElementById("sizeselector").selectedIndex;
+    var postStyle = {
+      Size: selectedstyle
+    };
+    var updateStyle = {};
+    updateStyle['/' + fullname + "/Size/"] = postStyle;
+
+    console.log("StyleChanged to " + selectedstyle);
+    return firebase.database().ref().update(updateStyle);
+  }
+  $scope.setPageStyle();
+
+  // ---------------------------------------
+  //Midata Login
+  // Login
+  $scope.doLogin = function() {
+    //console.info(I4MIMidataService.currentUser());
+    if ($scope.login.email != '' && $scope.login.password != '')
+    I4MIMidataService.login($scope.login.email, $scope.login.password, $scope.login.server);
+    //$scope.closeModal();
+    setTimeout(function() {
+      $scope.checkUser();
+      // Verstecke Loading Spinner
+    }, 3000);
+  }
+
+  // Check if valid User
+  $scope.checkUser = function() {
+    console.info(I4MIMidataService.currentUser());
+    if (I4MIMidataService.currentUser() !== undefined) {
+      //$state.go('home');
+      //$state.go('tab.calendar');
+      console.info($scope.login.logOut)
+    } else {
+      I4MIMidataService.logout();
+    }
+  }
+})
+
+app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
+
+  $scope.setPageStyle = function(){
+    var loggedinuser = firebase.auth().currentUser;
+    var setpagesize;
+
+    if(loggedinuser.email == null){
       location.reload();
+    } else {
+      var loggedinref = firebase.database().ref();
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        setpagesize = snap.child("Size/Size").val();
+        console.log("setPageStyle: " + setpagesize);
+      });
     }
-    $scope.checkforAccountInfo();
-
-    //Midata Login
-    // Login
-    $scope.doLogin = function() {
-      //console.info(I4MIMidataService.currentUser());
-      if ($scope.login.email != '' && $scope.login.password != '')
-      I4MIMidataService.login($scope.login.email, $scope.login.password, $scope.login.server);
-      //$scope.closeModal();
-      setTimeout(function() {
-        $scope.checkUser();
-        // Verstecke Loading Spinner
-      }, 3000);
+    if (setpagesize == 0){
+      // Alle Styles im Standardview
+    } else if (setpagesize == 1) {
+      // Alle Styles in der Grossansicht
     }
+  }
 
-    // Check if valid User
-    $scope.checkUser = function() {
-      console.info(I4MIMidataService.currentUser());
-      if (I4MIMidataService.currentUser() !== undefined) {
-        //$state.go('home');
-        //$state.go('tab.calendar');
-        console.info($scope.login.logOut)
-      } else {
-        I4MIMidataService.logout();
-      }
-    }
+  $scope.setPageStyle();
 
-
-  })
+})

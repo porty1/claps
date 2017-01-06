@@ -8,7 +8,7 @@
             <div class="input-label">
               Schriftgrösse
             </div>
-            <select>
+            <select id="sizeselector" onchange="setStyle()">
               <option selected>Standard</option>
               <option>Gross</option>
             </select>
@@ -35,19 +35,13 @@
         </label>
           <button class="button button-full button-calm" ng-click="doLogin()">Login Midata</button>
       </div>
-
     </div>
-        <br>
 
         <button class="button button-full button-calm" ng-click="logout()">
           Logout
         </button>
 
-        <!--
-        <button class="button button-full button-calm" ng-click="addappointment()">
-          Appout
-        </button>
-        -->
+
 
   </ion-content>
 </ion-view>
