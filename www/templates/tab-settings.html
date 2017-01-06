@@ -14,13 +14,31 @@
             </select>
           </label>
           <br>
-            <div class="item item-divider">
-              Accountinformationen
-            </div>
-            <table id="table_settings">
-            </table>
+        <div class="item item-divider">
+          Accountinformationen
         </div>
+        <table id="table_settings"></table>
         <br>
+        <!-- Login -->
+        <!--<i4mi-midata-login user="user" controller-name="I4MIMidataLoginController"></i4mi-midata-login>-->
+        <div class="item item-divider">
+          Midata Login
+        </div>
+        <label class="item item-input">
+          <input ng-model="login.email" type="text" placeholder="Email">
+        </label>
+        <label class="item item-input">
+          <input ng-model="login.password" type="password" placeholder="Password">
+        </label>
+        <label class="item item-input">
+            <input ng-model="login.server" type="text" value='https://test.midata.coop:9000' placeholder="https://test.midata.coop:9000">
+        </label>
+          <button class="button button-full button-calm" ng-click="doLogin()">Login Midata</button>
+      </div>
+
+    </div>
+        <br>
+
         <button class="button button-full button-calm" ng-click="logout()">
           Logout
         </button>

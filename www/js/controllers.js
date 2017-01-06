@@ -877,7 +877,13 @@ app.controller('DetailsCtrl', function($scope) {})
 
 app.controller('addappointmentCtrl', function($scope) {})
 
-app.controller('SettingsCtrl', function($scope, I4MIMidataService, $state) {
+app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $state) {
+  // Values for MidataLogin
+  I4MIMidataService.logout();
+  $scope.login = {};
+  $scope.login.email = '';
+  $scope.login.password = '';
+  $scope.login.server = 'https://test.midata.coop:9000';
 
   console.log("test");
   var fullname = "";
@@ -946,36 +952,31 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $state) {
       location.reload();
     }
     $scope.checkforAccountInfo();
+
+    //Midata Login
+    // Login
+    $scope.doLogin = function() {
+      //console.info(I4MIMidataService.currentUser());
+      if ($scope.login.email != '' && $scope.login.password != '')
+      I4MIMidataService.login($scope.login.email, $scope.login.password, $scope.login.server);
+      //$scope.closeModal();
+      setTimeout(function() {
+        $scope.checkUser();
+        // Verstecke Loading Spinner
+      }, 3000);
+    }
+
+    // Check if valid User
+    $scope.checkUser = function() {
+      console.info(I4MIMidataService.currentUser());
+      if (I4MIMidataService.currentUser() !== undefined) {
+        //$state.go('home');
+        //$state.go('tab.calendar');
+        console.info($scope.login.logOut)
+      } else {
+        I4MIMidataService.logout();
+      }
+    }
+
+
   })
-
-  /* .controller('LoginCtrl', function($scope, I4MIMidataService, $timeout, $state) {
-  // Values for login
-  I4MIMidataService.logout();
-  $scope.login = {};
-  $scope.login.email = '';
-  $scope.login.password = '';
-  $scope.login.server = 'https://test.midata.coop:9000';
-
-  // Login
-  $scope.doLogin = function() {
-  //console.info(I4MIMidataService.currentUser());
-  if ($scope.login.email != '' && $scope.login.password != '')
-  I4MIMidataService.login($scope.login.email, $scope.login.password, $scope.login.server);
-  //$scope.closeModal();
-  setTimeout(function() {
-  $scope.checkUser();
-  // Verstecke Loading Spinner
-}, 3000);
-}
-// Check if valid User
-$scope.checkUser = function() {
-console.info(I4MIMidataService.currentUser());
-if (I4MIMidataService.currentUser() !== undefined) {
-//$state.go('home');
-$state.go('tab.calendar');
-console.info($scope.login.logOut)
-} else {
-I4MIMidataService.logout();
-}
-}
-}) */
