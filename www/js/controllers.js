@@ -909,6 +909,28 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
   })
 
   app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
+
+
+    $scope.setPageStyle = function(){
+      var loggedinuser = firebase.auth().currentUser;
+      var setpagesize;
+
+      if(loggedinuser.email == null){
+        location.reload();
+      } else {
+        var loggedinref = firebase.database().ref();
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          setpagesize = snap.child("Size/Size").val();
+          console.log("setPageStyle: " + setpagesize);
+        });
+      }
+      if (setpagesize == 0){
+        // Alle Styles im Standardview
+      } else if (setpagesize == 1) {
+        // Alle Styles in der Grossansicht
+      }
+    }
+
     $scope.saveWeight = function(){
       var weight = document.getElementById('weightValue').value;
 
@@ -1004,6 +1026,8 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           template: 'Bitte einen Wert eingeben!'
         });
       }
+
+      $scope.setPageStyle();
   })
 
 app.controller('DetailsCtrl', function($scope) {})
@@ -1156,30 +1180,4 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
       I4MIMidataService.logout();
     }
   }
-})
-
-app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
-
-  $scope.setPageStyle = function(){
-    var loggedinuser = firebase.auth().currentUser;
-    var setpagesize;
-
-    if(loggedinuser.email == null){
-      location.reload();
-    } else {
-      var loggedinref = firebase.database().ref();
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        setpagesize = snap.child("Size/Size").val();
-        console.log("setPageStyle: " + setpagesize);
-      });
-    }
-    if (setpagesize == 0){
-      // Alle Styles im Standardview
-    } else if (setpagesize == 1) {
-      // Alle Styles in der Grossansicht
-    }
-  }
-
-  $scope.setPageStyle();
-
 })
