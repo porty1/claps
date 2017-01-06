@@ -106,20 +106,20 @@ width: 25%;
 }
 
 
-.mittagtime {
-    font-color: green;
+#mittagtime {
+    background-color: green;
 }
 
-.abendtime {
-    font-color: red;
+#abendtime {
+    background-color: red;
 }
 
-.nachttime {
-    font-color: blue;
+#nachttime {
+    background-color: blue;
 }
 
-.morgentime {
-    font-color: yellow;
+#morgentime {
+    background-color: yellow;
 }
 
 

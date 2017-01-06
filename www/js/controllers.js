@@ -339,7 +339,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Morgen/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Morgen");
       });
       $scope.getMorgenMedis(fullname, msecdatum);
     }
@@ -393,7 +393,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Morgen/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Morgen");
       });
       $scope.getMittagAppointbeforeMedi(fullname, msecdatum);
     }
@@ -421,7 +421,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Mittag/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Mittag");
       });
       $scope.getMittagMedi(fullname, msecdatum);
     }
@@ -476,7 +476,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Mittag/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Mittag");
       });
       $scope.getAbendAppointbeforeMedi(fullname, msecdatum);
     }
@@ -504,7 +504,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Abend/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Abend");
       });
       $scope.getAbendMedi(fullname, msecdatum);
     }
@@ -559,7 +559,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Abend/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Abend");
       });
       $scope.getNachtAppointbeforeMedi(fullname, msecdatum);
     }
@@ -587,7 +587,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Nacht/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Nacht");
       });
       $scope.getNachtMedi(fullname, msecdatum);
     }
@@ -642,7 +642,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
         var path = fullname + "/Appoint/Nacht/" + key;
-        $scope.AppointtoTable(beschreibung, timeoutput, path);
+        $scope.AppointtoTable(beschreibung, timeoutput, path, "Nacht");
       });
     }
 
@@ -680,19 +680,16 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
     }
 
-<<<<<<< Updated upstream
-    $scope.AppointtoTable = function(beschreibung, zeit, path) {
 
-=======
     $scope.AppointtoTable = function(beschreibung, zeit, path, tageszeit) {
 
       if (tageszeit == "Nacht"){
->>>>>>> Stashed changes
       var table = document.getElementById("table_calendar");
       var rowCount = table.rows.length;
       console.log(rowCount);
       var row = table.insertRow(rowCount);
-      row.insertCell(0).innerHTML= "<div class=nachttime><b>" + zeit + "</b></div>";
+      row.setAttribute('id', "nachttime")
+      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
       row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
@@ -701,7 +698,8 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       var rowCount = table.rows.length;
       console.log(rowCount);
       var row = table.insertRow(rowCount);
-      row.insertCell(0).innerHTML= "<p class=abendtime><b>" + zeit + "</b></p>";
+      row.setAttribute('id', "abendtime")
+      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
       row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
@@ -710,7 +708,8 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       var rowCount = table.rows.length;
       console.log(rowCount);
       var row = table.insertRow(rowCount);
-      row.insertCell(0).innerHTML= "<p class=morgentime><b>" + zeit + "</b></p>";
+      row.setAttribute('id', "morgentime")
+      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
       row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
@@ -720,7 +719,8 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       var rowCount = table.rows.length;
       console.log(rowCount);
       var row = table.insertRow(rowCount);
-      row.insertCell(0).innerHTML= "<p class=mittagtime><b>" + zeit + "</b></p>";
+      row.setAttribute('id', "mittagtime")
+      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
       row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
