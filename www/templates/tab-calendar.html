@@ -32,16 +32,15 @@
   </ion-list> -->
 <table id="table_calendar">
   <thead id="table_header">
-    <tr>
-      <th style="width: 50px;"><button class="button button-icon button-clear button-light ion-ios-arrow-thin-left" ng-click="backoneDay()"></button></th>
-      <th>
+      <th class="firstrow"><button ng-click="backoneDay()"><img src="../img/left.png" height="20" width="20"></button></th>
+      <th class="secondrow">
         <label class="item item-input" style="background-color:rgba(255,0,0,0)">
         <input type="date" id="changeDatum" ng-model="date.datum" ng-change="datechange()">
       </label></th>
       <!-- <label class="item item-input"><input id="selectDay" type="number" min="1" max="31" ng-model="date.day" ng-change="datechange()"></input>
         <input id="selectMonth" type="number" min="1" max="12" ng-model="date.month" ng-change="datechange()"></input>
         <input id="selectYear" type="number" min="1970" max="2100" ng-model="date.year" ng-change="datechange()"></input></label></th> -->
-      <th style="width: 50px;"><button class="button button-icon button-clear button-light ion-ios-arrow-thin-right" ng-click="forwardoneDay()"></button></th>
+      <th class="thirdrow"><button ng-click="forwardoneDay()"><img src="../img/right.png" height="20" width="20"></button></th>
     </tr>
   </thead>
   <tbody id="table_body">

@@ -680,16 +680,63 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
     }
 
+<<<<<<< Updated upstream
     $scope.AppointtoTable = function(beschreibung, zeit, path) {
 
+=======
+    $scope.AppointtoTable = function(beschreibung, zeit, path, tageszeit) {
+
+      if (tageszeit == "Nacht"){
+>>>>>>> Stashed changes
       var table = document.getElementById("table_calendar");
       var rowCount = table.rows.length;
       console.log(rowCount);
       var row = table.insertRow(rowCount);
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+      row.insertCell(0).innerHTML= "<div class=nachttime><b>" + zeit + "</b></div>";
       row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<button class=button onclick=convertToDeleteRow('"+path+"')>Löschen</button>";
+      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
+      else if (tageszeit == "Abend"){
+      var table = document.getElementById("table_calendar");
+      var rowCount = table.rows.length;
+      console.log(rowCount);
+      var row = table.insertRow(rowCount);
+      row.insertCell(0).innerHTML= "<p class=abendtime><b>" + zeit + "</b></p>";
+      row.insertCell(1).innerHTML= beschreibung;
+      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+    }
+      else if (tageszeit == "Morgen"){
+      var table = document.getElementById("table_calendar");
+      var rowCount = table.rows.length;
+      console.log(rowCount);
+      var row = table.insertRow(rowCount);
+      row.insertCell(0).innerHTML= "<p class=morgentime><b>" + zeit + "</b></p>";
+      row.insertCell(1).innerHTML= beschreibung;
+      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+    }
+
+      else if (tageszeit == "Mittag"){
+      var table = document.getElementById("table_calendar");
+      var rowCount = table.rows.length;
+      console.log(rowCount);
+      var row = table.insertRow(rowCount);
+      row.insertCell(0).innerHTML= "<p class=mittagtime><b>" + zeit + "</b></p>";
+      row.insertCell(1).innerHTML= beschreibung;
+      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+    }
+}
+
+
+    $('td').each(
+    function(){
+        $(this).text(Math.floor(Math.random() * (max - min + 1)) + min);
+    });
+
+
+
+
+
+
 
     /*--- Popup Add Appointment ---*/
     $ionicModal.fromTemplateUrl('templates/addappointment.html', {
