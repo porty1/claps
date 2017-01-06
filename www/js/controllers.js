@@ -783,23 +783,23 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         $scope.noValPop();
       } else if (isNaN(weight)) {
         $scope.notNumericPop();
+      }else{
+        var date = new Date();
+        var postData = {
+          Date: date,
+          weight: weight
+        };
+        var loggedinuser = firebase.auth().currentUser;
+        var loggedinref = firebase.database().ref();
+
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          var nameuser = snap.child("Name").val();
+          var vornameuser = snap.child("Vorname").val();
+          $scope.saveValWeight(nameuser, vornameuser, postData);
+        });
+
+        document.getElementById('weightValue').value = "";
       }
-
-      var date = new Date();
-      var postData = {
-        Date: date,
-        weight: weight
-      };
-      var loggedinuser = firebase.auth().currentUser;
-      var loggedinref = firebase.database().ref();
-
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        var nameuser = snap.child("Name").val();
-        var vornameuser = snap.child("Vorname").val();
-        $scope.saveValWeight(nameuser, vornameuser, postData);
-      });
-
-      document.getElementById('weightValue').value = "";
     }
 
     // Blutdruck speichern
@@ -811,27 +811,27 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         $scope.noValPop();
       } else if (isNaN(systol) || isNaN(diastol)) {
         $scope.notNumericPop();
+      }else{
+        var date = new Date();
+
+        var postData = {
+          Date: date,
+          Systol: systol,
+          Diastol: diastol
+        };
+
+        var loggedinuser = firebase.auth().currentUser;
+        var loggedinref = firebase.database().ref();
+
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          var nameuser = snap.child("Name").val();
+          var vornameuser = snap.child("Vorname").val();
+          $scope.saveValBP(nameuser, vornameuser, postData);
+        });
+
+        document.getElementById('bloodPressureValueSys').value = "";
+        document.getElementById('bloodPressureValueDis').value = "";
       }
-
-      var date = new Date();
-
-      var postData = {
-        Date: date,
-        Systol: systol,
-        Diastol: diastol
-      };
-
-      var loggedinuser = firebase.auth().currentUser;
-      var loggedinref = firebase.database().ref();
-
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        var nameuser = snap.child("Name").val();
-        var vornameuser = snap.child("Vorname").val();
-        $scope.saveValBP(nameuser, vornameuser, postData);
-      });
-
-      document.getElementById('bloodPressureValueSys').value = "";
-      document.getElementById('bloodPressureValueDis').value = "";
     }
 
     // Gewicht wird in der Datenbank gespeichert
