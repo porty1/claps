@@ -21,22 +21,22 @@
       </label>
       -->
       <label class="item item-input">
-        <input type="text" placeholder="Name" ng-model="form.name">
+        <input id="formname" type="text" placeholder="Name" ng-model="form.name" required="true">
       </label>
       <label class="item item-input">
-        <input type="text" placeholder="Vorname" ng-model="form.vorname">
+        <input id="formvorname" type="text" placeholder="Vorname" ng-model="form.vorname" required>
       </label>
       <label class="item item-input">
         <i class="icon ion-ios-email-outline placeholder-icon-large"></i>
-        <input type="email" placeholder="Email - Adresse" ng-model="form.email">
+        <input id="formemail" type="email" placeholder="Email - Adresse" ng-model="form.email" required>
       </label>
       <label class="item item-input">
         <i class="icon ion-ios-locked-outline placeholder-icon-large"></i>
-        <input type="password" placeholder="Passwort" ng-model="form.password">
+        <input id="formpassword" type="password" placeholder="Passwort" ng-model="form.password" required>
       </label>
       <label class="item item-input">
         <i class="icon ion-key placeholder-icon-large"></i>
-        <input type="number" placeholder="PIN - Code" ng-model="form.pin">
+        <input id="formpincode" type="number" placeholder="PIN - Code" ng-model="form.pin" required>
       </label>
 
       <!--
@@ -46,7 +46,7 @@
       </label>
       -->
     </div>
-
+    <div id="errorcreatelogin" style="display:none"><p id="createerrormessage">Ungültige Eingabe, bitte erneut versuchen!</p></div>
     <p class="calm text-center">
       Mit dem Erstellen eines Accounts erklären </br> Sie sich mit der Datenschutzerklärung einverstanden
     </p>

@@ -1,16 +1,13 @@
+// Initialisiert alle globalen Variablen
 var currentPatient;
+var currentPatientView;
 var todayDate = new Date();
-var todayDay = todayDate.getDate();
-var todayMonth = todayDate.getMonth() + 1;
-var todayYear = todayDate.getFullYear();
+var todayDay = todayDate.getUTCDate();
+var todayMonth = todayDate.getUTCMonth() + 1;
+var todayYear = todayDate.getUTCFullYear();
 var todaymsec = Date.parse(todayMonth + "/" + todayDay + "/" + todayYear);
 todaymsec = todaymsec + 3600000;
-console.log(todaymsec);
-
-
 var submitBtn = document.getElementById("submitBtn");
-
-// Add Medi
 var MediBlister = document.getElementById("SelectMediBlisterFormID");
 var MediForm = document.getElementById("SelectMediFormFormID");
 var MediDauer = document.getElementById("MediDurationFormID");
@@ -21,7 +18,6 @@ var patientheader = document.getElementById("patientheader");
 
 
 function addData(daymsecstring, dosispush, MediFormPush, MediNamePush, MediBlisterPush) {
-
   /* 0-0-0-1: Nacht */
   if (MediBlisterPush == "0-0-0-1"){
     var dataforpush = {
@@ -490,8 +486,10 @@ function addData(daymsecstring, dosispush, MediFormPush, MediNamePush, MediBlist
   else {
     console.log("error");
   }
+  userselection(currentPatient); // Um die Tabellen mit den neuen Inhalten korrekt zu laden, wird userselection nochmals aufgerufen
 }
 
+/* Schreibt die im dataforpush festgelegten Daten in den definierten Pfad "currentPatient/Medis/.../...newAppointmentKey" (... = Morgen, Mittag, Abend oder Nacht) */
 function addMorgen(morgenupdatedata){
   return firebase.database().ref().update(morgenupdatedata);
 }
@@ -505,9 +503,9 @@ function addNacht(nachtupdatedata){
   return firebase.database().ref().update(nachtupdatedata);
 }
 
+/* Formularhandler zur Medikamentenerfassung */
 function submitClick() {
-
-  console.log("test");
+  // Alle Werte aus dem Formular auslesen
   var MediBlisterPush = MediBlister.options[MediBlister.selectedIndex].text;
   var MediDosisSelectPush = MediDosisSelect.options[MediDosisSelect.selectedIndex].text;
   var MediDauerPush = MediDauer.value;
@@ -515,80 +513,133 @@ function submitClick() {
   var MediFormPush = MediForm.options[MediForm.selectedIndex].text;
   var MediNamePush = MediName.value;
   console.log(todaymsec);
-  var DayPush = new Date(todaymsec);
-  console.log(DayPush);
-
+  // Das Formular der Tabelle myTableData zurücksetzten
+  document.getElementById("MediNameFormID").value = "";
+  document.getElementById("MediDosisFormID").value = "";
+  document.getElementById("MediDurationFormID").value = "";
+  document.getElementById("SelectMediDosisFormID").selectedIndex = 0;
+  document.getElementById("SelectMediFormFormID").selectedIndex = 0;
+  document.getElementById("SelectMediBlisterFormID").selectedIndex = 0;
 
   for (var i = 0; i < MediDauerPush; i++){
-
     var daymsecpush = todaymsec;
     daymsecpush = daymsecpush + i * 86400000;
     var daymsecstring = "" + daymsecpush;
     var dosispush = MediDosisPush + MediDosisSelectPush;
-
-
     addData(daymsecstring, dosispush, MediFormPush, MediNamePush, MediBlisterPush);
   }
-
 }
 
+/* Leert die vier Tabellen tablemorgendata, tablemittagdata, tableabenddata und tablenachtdata */
 function emptytheTable (){
-  var table = document.getElementById("myTableData");
-  var rowCount = table.rows.length;
-  console.log("adsf" + rowCount);
-  for (i = rowCount-1; i >= 2; i--) {
-    table.deleteRow(i);
+  // Morgen
+  var tablemorgen = document.getElementById("tablemorgendata");
+  var rowCount = tablemorgen.rows.length;
+  for (i = rowCount-1; i >= 1; i--) {
+    tablemorgen.deleteRow(i);
     console.log("Deleted Row:" + i);
   }
-
+  // Mittag
+  var tablemittag = document.getElementById("tablemittagdata");
+  var rowCount = tablemittag.rows.length;
+  for (i = rowCount-1; i >= 1; i--) {
+    tablemittag.deleteRow(i);
+    console.log("Deleted Row:" + i);
+  }
+  // Abend
+  var tableabend = document.getElementById("tableabenddata");
+  var rowCount = tableabend.rows.length;
+  for (i = rowCount-1; i >= 1; i--) {
+    tableabend.deleteRow(i);
+    console.log("Deleted Row:" + i);
+  }
+  // Nacht
+  var tablenacht = document.getElementById("tablenachtdata");
+  var rowCount = tablenacht.rows.length;
+  for (i = rowCount-1; i >= 1; i--) {
+    tablenacht.deleteRow(i);
+    console.log("Deleted Row:" + i);
+  }
 }
 
+/* Schreibt die ausgelesenen Medikamentendaten in die entsprechenden Tabellen  */
 function addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path) {
+  // Quelle: http://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html
+  if (timeofday == "Morgen"){
+    var table = document.getElementById("tablemorgendata");
+    var rowCount = table.rows.length;
+    console.log(rowCount);
+    var row = table.insertRow(rowCount);
+    row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
+    row.insertCell(1).innerHTML= name;
+    row.insertCell(2).innerHTML= dosis;
+    row.insertCell(3).innerHTML= form;
+    row.insertCell(4).innerHTML= "<input type=button value=Delete onClick=Javacsript:deleteRow('"+path+"')>";
+  } else if (timeofday == "Mittag"){
+    var table = document.getElementById("tablemittagdata");
+    var rowCount = table.rows.length;
+    console.log(rowCount);
+    var row = table.insertRow(rowCount);
+    row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
+    row.insertCell(1).innerHTML= name;
+    row.insertCell(2).innerHTML= dosis;
+    row.insertCell(3).innerHTML= form;
+    row.insertCell(4).innerHTML= "<input type=button value=Delete onClick=Javacsript:deleteRow('"+path+"')>";
+  } else if (timeofday == "Abend"){
+    var table = document.getElementById("tableabenddata");
+    var rowCount = table.rows.length;
+    console.log(rowCount);
+    var row = table.insertRow(rowCount);
+    row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
+    row.insertCell(1).innerHTML= name;
+    row.insertCell(2).innerHTML= dosis;
+    row.insertCell(3).innerHTML= form;
+    row.insertCell(4).innerHTML= "<input type=button value=Delete onClick=Javacsript:deleteRow('"+path+"')>";
+  } else if (timeofday == "Nacht"){
+    var table = document.getElementById("tablenachtdata");
+    var rowCount = table.rows.length;
+    console.log(rowCount);
+    var row = table.insertRow(rowCount);
+    row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
+    row.insertCell(1).innerHTML= name;
+    row.insertCell(2).innerHTML= dosis;
+    row.insertCell(3).innerHTML= form;
+    row.insertCell(4).innerHTML= "<input type=button value=Delete onClick=Javacsript:deleteRow('"+path+"')>";
+  } else {
+    console.log("Error Writing in Table");
+  }
 
-  // http://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html
-
-  var table = document.getElementById("myTableData");
-
-  var rowCount = table.rows.length;
-  console.log(rowCount);
-  var row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
-  row.insertCell(1).innerHTML= name;
-  row.insertCell(2).innerHTML= dosis;
-  row.insertCell(3).innerHTML= form;
-  row.insertCell(4).innerHTML= blister;
-  row.insertCell(5).innerHTML= timeofday;
-  row.insertCell(6).innerHTML= "<input type=button value=Delete onClick=Javacsript:deleteRow('"+path+"')>";
 
 }
 
-
+/* Methode um das entsprechende Medikament zu löschen. Erhält den Pfad des Medikaments aus dem auf im Button hinterlegten deleteRow(path) */
 function deleteRow(path){
-
   console.log(path);
   var deleteRowRef = firebase.database().ref().child(path);
   deleteRowRef.remove();
   userselection(currentPatient);
 }
 
-function userselection(cred){
-
-  currentPatient = cred;
-  patientheader.innerText = "Patient: " + currentPatient;
+/* Wird beim Selektieren eines Patienten aus der Liste id=patientview aufgerufen. Erstellt die patientenbezogene Sicht unter id=medikamente */
+function userselection(cred, name, vorname){
+  document.getElementById("viewtables").style.display = "block"; // Schaltet die Tabellen tablemorgendata, tablemittagdata, tableabenddata und tablenachtdata auf sichtbar
+  currentPatient = cred; // Schreibt den gewählten User in eine globale Variable, wird benötigt um das Wechseln der Views zu ermöglichen
+  if(name != undefined && vorname != undefined){
+    patientheader.innerText = "Patient: " + name + " " + vorname;
+  }
   console.log(currentPatient);
-  emptytheTable();
-
+  emptytheTable(); // Die vorhanden Tabellen werden bevor sie beschrieben werden geleert, damit sie mit neuen korrekten Daten gefüllt werden können
   getMorgen(currentPatient);
   getMittag(currentPatient);
   getAbend(currentPatient);
   getNacht(currentPatient);
-
 }
 
+/* Je eine Funktion um die verschriebenen Medikamente für den gewählten User pro Blisterslot (Morgen, Mittag, Abend, Nacht) aus der Firebase Datenbank ausliest (Pfad: root/user/medis/...)
+Die gelesenen Daten werden für die Darstellung in einer Tabelle an die Funktion addRow() weitergeleitet */
 function getMorgen(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Morgen');
-  detailsRef.on("child_added", snap => {
+  detailsRef.orderByChild("Datum").on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
     var nmbdatummsec = parseInt(datum);
@@ -603,14 +654,12 @@ function getMorgen(currentPatient){
     var timeofday = "Morgen";
     var key = snap.key;
     var path = currentPatient + "/Medis/Morgen/" + key;
-
     addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
-
   });
 }
 function getMittag(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Mittag');
-  detailsRef.on("child_added", snap => {
+  detailsRef.orderByChild("Datum").on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
     var nmbdatummsec = parseInt(datum);
@@ -625,14 +674,12 @@ function getMittag(currentPatient){
     var timeofday = "Mittag";
     var key = snap.key;
     var path = currentPatient + "/Medis/Mittag/" + key;
-
     addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
-
   });
 }
 function getAbend(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Abend');
-  detailsRef.on("child_added", snap => {
+  detailsRef.orderByChild("Datum").on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
     var nmbdatummsec = parseInt(datum);
@@ -647,16 +694,15 @@ function getAbend(currentPatient){
     var timeofday = "Abend";
     var key = snap.key;
     var path = currentPatient + "/Medis/Abend/" + key;
-
     addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
-
   });
 }
 function getNacht(currentPatient){
   var detailsRef = firebase.database().ref().child(currentPatient + '/Medis/Nacht');
-  detailsRef.on("child_added", snap => {
+  detailsRef.orderByChild("Datum").on("child_added", snap => {
     var blister = snap.child("Blister").val();
     var datum = snap.child("Datum").val();
+    var nmbdatummsec = parseInt(datum);
     var datumoutput = new Date(nmbdatummsec);
     var dayoutput = datumoutput.getDate();
     var monthoutput = datumoutput.getMonth() + 1;
@@ -668,18 +714,17 @@ function getNacht(currentPatient){
     var timeofday = "Nacht";
     var key = snap.key;
     var path = currentPatient + "/Medis/Nacht/" + key;
-
     addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, timeofday, path);
-
   });
 }
 
-
-
+/* Liest alle Äste vom Punkt .root der Firebase Datenbank aus (die ersten Äste sind die User).
+Deren Childs (Name & Vorname) werden verwendet um den Patientview zu generieren -> userselection(cred, name, vorname) */
 var testsRef = firebase.database().ref().child('/');
 testsRef.on("child_added", snap => {
   var vorname = snap.child("Vorname").val();
   var name = snap.child("Name").val();
   var cred = name + vorname;
-  $("#Patientview").append("<li onClick=userselection('"+cred+"')><a> " + name + " " + vorname + "</a></li>");
+  var selecteduser = name + vorname;
+  $("#Patientview").append("<li onClick=userselection('"+cred+"','"+ name+"','"+vorname+"')><a> " + name + " " + vorname + "</a></li>");
 });

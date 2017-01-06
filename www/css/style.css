@@ -104,13 +104,16 @@ td {
        border-right: 0px;
      }
 
+#loginheader {
+  text-align: center;
+}
 
 
      /* Center the loader */
 #loader {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 20%;
   z-index: 1;
   width: 150px;
   height: 150px;
@@ -156,4 +159,23 @@ td {
 #myDiv {
   display: none;
   text-align: center;
+}
+#errorpinlogin {
+  text-align: center;
+  color: red;
+}
+#errorcreatelogin {
+  text-align: center;
+  color: red;
+}
+#registerlink {
+  text-align: center;
+  margin-top: 20px;
+}
+#table_settings {
+  width: 100%
+}
+td {
+  border-bottom: 1px solid lightgrey;
+  padding: 15px
 }
