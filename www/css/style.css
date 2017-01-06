@@ -74,7 +74,7 @@ Pin Login
 }
 th {
   background-color:white;
-  border-bottom: 10px solid white;
+  padding-bottom: 10px;
 
 
 }
@@ -107,19 +107,19 @@ width: 25%;
 
 
 #mittagtime {
-    background-color: green;
+    border-left: 20px solid #38B0DE;
 }
 
 #abendtime {
-    background-color: red;
+    border-left: 20px solid #4F94CD;
 }
 
 #nachttime {
-    background-color: blue;
+    border-left: 20px solid #104E8B;
 }
 
 #morgentime {
-    background-color: yellow;
+    border-left: 20px solid #BFEFFF;
 }
 
 

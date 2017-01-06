@@ -365,7 +365,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var zeit = snap.child("Zeit").val();
         var key = snap.key;
         var path = fullname + "/Medis/Morgen/" + key;
-        $scope.MeditoTable(dosis, form, name, zeit, path);
+        $scope.MeditoTable(dosis, form, name, zeit, path, "Morgen");
       });
       $scope.getMorgenAppointafterMedi(fullname, msecdatum);
     }
@@ -448,7 +448,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var zeit = snap.child("Zeit").val();
         var key = snap.key;
         var path = fullname + "/Medis/Mittag/" + key;
-        $scope.MeditoTable(dosis, form, name, zeit, path);
+        $scope.MeditoTable(dosis, form, name, zeit, path, "Mittag");
       });
       $scope.getMittagAppointafterMedi(fullname, msecdatum);
     }
@@ -531,7 +531,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var zeit = snap.child("Zeit").val();
         var key = snap.key;
         var path = fullname + "/Medis/Abend/" + key;
-        $scope.MeditoTable(dosis, form, name, zeit, path);
+        $scope.MeditoTable(dosis, form, name, zeit, path, "Abend");
       });
       $scope.getAbendAppointafterMedi(fullname, msecdatum);
     }
@@ -614,7 +614,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var zeit = snap.child("Zeit").val();
         var key = snap.key;
         var path = fullname + "/Medis/Nacht/" + key;
-        $scope.MeditoTable(dosis, form, name, zeit, path);
+        $scope.MeditoTable(dosis, form, name, zeit, path, "Nacht");
       });
       $scope.getNachtAppointafterMedi(fullname, msecdatum);
     }
@@ -669,15 +669,48 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       }
     }
 
-    $scope.MeditoTable = function(dosis, form, name, zeit, path) {
+    $scope.MeditoTable = function(dosis, form, name, zeit, path, tageszeit) {
       // Quelle: http://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html
+      if (tageszeit == "Nacht"){
       var table = document.getElementById("table_calendar");
       var rowCount = table.rows.length;
       console.log(rowCount);
       var row = table.insertRow(rowCount);
+      row.setAttribute('id', "nachttime")
       row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
       row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+    }
+      else if (tageszeit == "Abend"){
+      var table = document.getElementById("table_calendar");
+      var rowCount = table.rows.length;
+      console.log(rowCount);
+      var row = table.insertRow(rowCount);
+      row.setAttribute('id', "abendtime")
+      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+      row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+      row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+    }
+      else if (tageszeit == "Mittag"){
+      var table = document.getElementById("table_calendar");
+      var rowCount = table.rows.length;
+      console.log(rowCount);
+      var row = table.insertRow(rowCount);
+      row.setAttribute('id', "mittagtime")
+      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+      row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+      row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+    }
+    else if (tageszeit == "Morgen"){
+      var table = document.getElementById("table_calendar");
+      var rowCount = table.rows.length;
+      console.log(rowCount);
+      var row = table.insertRow(rowCount);
+      row.setAttribute('id', "morgentime")
+      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+      row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+      row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+    }
     }
 
 
