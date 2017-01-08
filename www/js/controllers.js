@@ -928,54 +928,19 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
       }
     }
 
-
-    // Loads all the values for weight from the database
-    $scope.loadWeight = function(fullname){
-      console.log("LoadWeight: " + loggedinuser.email);
-      // var loggedinuser = firebase.auth().currentUser;
-      var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht/').limitToLast(5);
-      var vitalDates = [];
-      var vitalWeights = [];
-
-      patientRefVital.orderByChild("Email").equalTo(loggedinuser.email).on("value", snapshot => {
-        vitalDates.push(snapshot.child("Gewicht/Date").val());
-        vitalWeights.push(snapshot.child("Gewicht/Weight").val());
-        console.log(snapshot.child("Date").val());
-        console.log(snapshot.child("Weight").val());
-        console.log(vitalDates);
-        console.log(vitalWeights);
-      });
-
-    }
-
-    // Loads all the values for blood pressure from the database
-    $scope.loadbp = function(){
-      var loggedinuser = firebase.auth().currentUser;
-      var patientRefVital = firebase.database().ref(fullname + '/Vital/Blutdruck').limitToLast(5);
-      var vitalDatesBP = [];
-      var bpSystol = [];
-      var bpDiastol = [];
-
-      patientRefVital.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        vitalDatesBP.push(snap.child("Date").val());
-        bpDiastol.push(snap.child("Diastol").val());
-        bpSystol.push(snap.child("Systol").val());
-      });
-    }
-
     // Draws the chart with the values from the database
-    $scope.drawChart = function(result) {
+    $scope.drawChart = function(vitalDates, data) {
       var dates = new Array();
-      var vals = new Array();
+      // var vals = new Array();
       //result = result.reverse();
+      // var dates = vitalDates;
 
-      if (result.length > 5) {
-        result = result.slice(Math.max(result.length - 5, 1));
-      }
+      // if (result.length > 5) {
+      //   result = result.slice(Math.max(result.length - 5, 1));
+      // }
 
-      for (var i = 0; i < result.length; i++){
-        vals.push(result[i].value);
-        var d = new Date(result[i].time);
+      for (var i = 0; i < vitalDates.length; i++){
+        var d = new Date(vitalDates[i]);
         var currentMinutes = d.getMinutes();
         if (currentMinutes.toString().length == 1) {
           currentMinutes = "0" + currentMinutes;
@@ -986,20 +951,84 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
       var $configBar = {
         name: '.ct-chartBar',
         labels: 'Custom',
-        series: vals
+        series: data
       };
       var chartBar = new ChartJS($configBar, dates);
-      chartBar.bar(vals);
-
+      chartBar.bar(data);
     }
 
-    // var $configBar = {
-    //   name: '.ct-chartBar',
-    //   labels: 'Year',
-    //   series: '[5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8]',
-    // };
-    // var chartBar = new ChartJS($configBar);
-    // chartBar.bar();
+    // Lädt alle Daten zum Gewicht aus der Datenbank
+    $scope.loadWeight = function(fullname){
+      console.log("LoadWeight: " + loggedinuser.email);
+      // var loggedinuser = firebase.auth().currentUser;
+      var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht/').limitToLast(5);
+      console.log(fullname);
+      var vitalDates = [];
+      var vitalWeights = [];
+      var data = [];
+
+      patientRefVital.on('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var childData = childSnapshot.val();
+          data.push(childData);
+        });
+      });
+
+      // Iteriert über die Daten as der Datenbank und füllt die entsprechenden Arrays ab
+      for (var j = 0; j < data.length; j++){
+        vitalDates.push(data[j].Date);
+        vitalWeights.push(data[j].Weight);
+      }
+      //TODO
+      //$scope.drawChart(vitalDates, vitalWeights);
+    }
+
+    // Generiert die Tabelle für die Blutdruckdaten
+    $scope.bloodPressureToTable = function(value1, value2, value3) {
+      var table = document.getElementById("table_bp");
+
+      var rowCount = table.rows.length;
+      var row = table.insertRow(rowCount);
+
+      row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Datum </div>";
+      row.insertCell(1).innerHTML= "<div style='text-align:left; font-size:16px'>Systolisch </div>";
+      row.insertCell(2).innerHTML= "<div style='text-align:left; font-size:16px'>Diastolisch </div>";
+
+      row.insertCell(0).innerHTML= "<div style='text-align:right; font-size:14px'>"+value1+"</div>";
+      row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value2+"</div>";
+      row.insertCell(2).innerHTML= "<div style='text-align:right; font-size:14px'>"+value3+"</div>";
+    }
+
+    // Lädt alle Daten vom Blutdruck aus der Datenbank
+    $scope.loadbp = function(fullname){
+      var loggedinuser = firebase.auth().currentUser;
+      var patientRefVital = firebase.database().ref(fullname + '/Vital/Blutdruck');
+      var vitalDatesBP = [];
+      var bpSystol = [];
+      var bpDiastol = [];
+      var data = [];
+
+      patientRefVital.on('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var childData = childSnapshot.val();
+          data.push(childData);
+        });
+      });
+
+      // Iteriert über die Daten as der Datenbank und füllt die entsprechenden Arrays ab
+      for (var j = 0; j < data.length; j++){
+        vitalDatesBP.push(data[j].Date);
+        bpSystol.push(data[j].Systol);
+        bpDiastol.push(data[j].Diastol);
+      }
+
+      //$scope.bloodPressureToTable(datum, systolisch, diastolisch);
+
+      for(var i = 0; i < vitalDatesBP.length; i++){
+        $scope.bloodPressureToTable(vitalDatesBP, bpSystol, bpDiastol);
+      }
+
+    }
 
     $scope.saveWeight = function(){
       var weight = document.getElementById('weightValue').value;
@@ -1098,26 +1127,6 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
         });
       }
 
-      // Generiert die Tabelle für die Blutdruckdaten
-      $scope.bloodPressureToTable = function(index, value) {
-        // var table = document.getElementById("table_bp");
-        //
-        // var rowCount = table.rows.length;
-        // console.log(rowCount);
-        // var row = table.insertRow(rowCount);
-        //
-        // if (index == 1) {
-        //   row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Datum </div>";
-        //   row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
-        // } else if (index == 2) {
-        //   row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Vorname </div>";
-        //   row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
-        // } else {
-        //   row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Nachname </div>";
-        //   row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
-        // }
-      }
-
       // Methodenaufruf für den PageStyle
       $scope.setPageStyle();
       loggedinuser = firebase.auth().currentUser;
@@ -1126,6 +1135,7 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
         var vornameuser = snap.child("Vorname").val();
         var fullname = nameuser + vornameuser;
         $scope.loadWeight(fullname);
+        $scope.loadbp(fullname);
       });
   })
 
