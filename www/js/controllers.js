@@ -757,17 +757,12 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.insertCell(1).innerHTML= beschreibung;
       row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
-}
-
+  }
 
     $('td').each(
     function(){
         $(this).text(Math.floor(Math.random() * (max - min + 1)) + min);
     });
-
-
-
-
 
 
 
@@ -908,7 +903,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     $scope.setPageStyle();
   })
 
-  app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
+app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
     // Globale Controllervariablen setzen
     var loggedinuser = firebase.auth().currentUser;
     var loggedinref = firebase.database().ref();
@@ -933,25 +928,24 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       }
     }
 
-    loggedinuser = firebase.auth().currentUser;
-    loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-      var nameuser = snap.child("Name").val();
-      var vornameuser = snap.child("Vorname").val();
-      var fullname = nameuser + vornameuser;
-      $scope.loadWeight(fullname);
-    });
 
     // Loads all the values for weight from the database
     $scope.loadWeight = function(fullname){
-      var loggedinuser = firebase.auth().currentUser;
-      var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht').limitToLast(5);
+      console.log("LoadWeight: " + loggedinuser.email);
+      // var loggedinuser = firebase.auth().currentUser;
+      var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht/').limitToLast(5);
       var vitalDates = [];
       var vitalWeights = [];
 
-      patientRefVital.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        vitalDates.push(snap.child("Date").val());
-        vitalWeights.push(snap.child("Weight").val());
+      patientRefVital.orderByChild("Email").equalTo(loggedinuser.email).on("value", snapshot => {
+        vitalDates.push(snapshot.child("Gewicht/Date").val());
+        vitalWeights.push(snapshot.child("Gewicht/Weight").val());
+        console.log(snapshot.child("Date").val());
+        console.log(snapshot.child("Weight").val());
+        console.log(vitalDates);
+        console.log(vitalWeights);
       });
+
     }
 
     // Loads all the values for blood pressure from the database
@@ -1126,6 +1120,13 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
       // Methodenaufruf für den PageStyle
       $scope.setPageStyle();
+      loggedinuser = firebase.auth().currentUser;
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        var nameuser = snap.child("Name").val();
+        var vornameuser = snap.child("Vorname").val();
+        var fullname = nameuser + vornameuser;
+        $scope.loadWeight(fullname);
+      });
   })
 
 app.controller('DetailsCtrl', function($scope) {})
