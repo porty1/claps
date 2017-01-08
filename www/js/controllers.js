@@ -980,7 +980,7 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
         vitalWeights.push(data[j].Weight);
       }
       //TODO
-      //$scope.drawChart(vitalDates, vitalWeights);
+      $scope.drawChart(vitalDates, vitalWeights);
     }
 
     // Generiert die Tabelle für die Blutdruckdaten
@@ -1025,7 +1025,7 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
       //$scope.bloodPressureToTable(datum, systolisch, diastolisch);
 
       for(var i = 0; i < vitalDatesBP.length; i++){
-        $scope.bloodPressureToTable(vitalDatesBP, bpSystol, bpDiastol);
+        //$scope.bloodPressureToTable(vitalDatesBP, bpSystol, bpDiastol);
       }
 
     }
