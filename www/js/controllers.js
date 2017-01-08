@@ -909,17 +909,19 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
   })
 
   app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
-
+    // Globale Controllervariablen setzen
+    var loggedinuser = firebase.auth().currentUser;
+    var loggedinref = firebase.database().ref();
 
     $scope.setPageStyle = function(){
-      var loggedinuser = firebase.auth().currentUser;
       var setpagesize;
-
+      var loggedinuser = firebase.auth().currentUser;
       if(loggedinuser.email == null){
         location.reload();
       } else {
-        var loggedinref = firebase.database().ref();
         loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          var nameuser = snap.child("Name").val();
+          var vornameuser = snap.child("Vorname").val();
           setpagesize = snap.child("Size/Size").val();
           console.log("setPageStyle: " + setpagesize);
         });
@@ -930,6 +932,80 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         // Alle Styles in der Grossansicht
       }
     }
+
+    loggedinuser = firebase.auth().currentUser;
+    loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+      var nameuser = snap.child("Name").val();
+      var vornameuser = snap.child("Vorname").val();
+      var fullname = nameuser + vornameuser;
+      $scope.loadWeight(fullname);
+    });
+
+    // Loads all the values for weight from the database
+    $scope.loadWeight = function(fullname){
+      var loggedinuser = firebase.auth().currentUser;
+      var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht').limitToLast(5);
+      var vitalDates = [];
+      var vitalWeights = [];
+
+      patientRefVital.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        vitalDates.push(snap.child("Date").val());
+        vitalWeights.push(snap.child("Weight").val());
+      });
+    }
+
+    // Loads all the values for blood pressure from the database
+    $scope.loadbp = function(){
+      var loggedinuser = firebase.auth().currentUser;
+      var patientRefVital = firebase.database().ref(fullname + '/Vital/Blutdruck').limitToLast(5);
+      var vitalDatesBP = [];
+      var bpSystol = [];
+      var bpDiastol = [];
+
+      patientRefVital.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        vitalDatesBP.push(snap.child("Date").val());
+        bpDiastol.push(snap.child("Diastol").val());
+        bpSystol.push(snap.child("Systol").val());
+      });
+    }
+
+    // Draws the chart with the values from the database
+    $scope.drawChart = function(result) {
+      var dates = new Array();
+      var vals = new Array();
+      //result = result.reverse();
+
+      if (result.length > 5) {
+        result = result.slice(Math.max(result.length - 5, 1));
+      }
+
+      for (var i = 0; i < result.length; i++){
+        vals.push(result[i].value);
+        var d = new Date(result[i].time);
+        var currentMinutes = d.getMinutes();
+        if (currentMinutes.toString().length == 1) {
+          currentMinutes = "0" + currentMinutes;
+        }
+        dates.push(d.getDate() + "." + d.getMonth() + "." + d.getFullYear() + " - " + d.getHours() + ":" + currentMinutes + " Uhr");
+      }
+
+      var $configBar = {
+        name: '.ct-chartBar',
+        labels: 'Custom',
+        series: vals
+      };
+      var chartBar = new ChartJS($configBar, dates);
+      chartBar.bar(vals);
+
+    }
+
+    // var $configBar = {
+    //   name: '.ct-chartBar',
+    //   labels: 'Year',
+    //   series: '[5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8]',
+    // };
+    // var chartBar = new ChartJS($configBar);
+    // chartBar.bar();
 
     $scope.saveWeight = function(){
       var weight = document.getElementById('weightValue').value;
@@ -942,10 +1018,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var date = new Date();
         var postData = {
           Date: date,
-          weight: weight
+          Weight: weight
         };
-        var loggedinuser = firebase.auth().currentUser;
-        var loggedinref = firebase.database().ref();
+
+        // var loggedinref = firebase.database().ref();
+        // var loggedinuser = firebase.auth().currentUser;
 
         loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
           var nameuser = snap.child("Name").val();
@@ -975,8 +1052,8 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           Diastol: diastol
         };
 
-        var loggedinuser = firebase.auth().currentUser;
-        var loggedinref = firebase.database().ref();
+        // var loggedinuser = firebase.auth().currentUser;
+        // var loggedinref = firebase.database().ref();
 
         loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
           var nameuser = snap.child("Name").val();
@@ -1027,6 +1104,27 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         });
       }
 
+      // Generiert die Tabelle für die Blutdruckdaten
+      $scope.bloodPressureToTable = function(index, value) {
+        // var table = document.getElementById("table_bp");
+        //
+        // var rowCount = table.rows.length;
+        // console.log(rowCount);
+        // var row = table.insertRow(rowCount);
+        //
+        // if (index == 1) {
+        //   row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Datum </div>";
+        //   row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
+        // } else if (index == 2) {
+        //   row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Vorname </div>";
+        //   row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
+        // } else {
+        //   row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Nachname </div>";
+        //   row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
+        // }
+      }
+
+      // Methodenaufruf für den PageStyle
       $scope.setPageStyle();
   })
 
