@@ -1,26 +1,8 @@
 <ion-view view-title="VitalData">
   <ion-content padding="true" class="has-header calm">
-
-      <div class="list">
-        <label class="item item-input">
-          <input type="number" id="weightValue" name="weight" min="20" max="200" placeholder="Gewicht in Kilogramm">
-        </label>
-      </div>
-      <div class="padding">
-        <button id="saveWeight" ng-click="saveWeight()" class="button button-full button-positive">Gewicht speichern</button>
-      </div>
-
-      <div class="list">
-        <label class="item item-input">
-          <input type="number" id="bloodPressureValueSys" name="bloodpressure" min="20" max="200" placeholder="Systolisch">
-          <input type="number" id="bloodPressureValueDis" name="bloodpressure" min="20" max="200" placeholder="Diastolisch">
-        </label>
-      </div>
-      <div class="padding">
-        <button id="saveBP" ng-click="saveBloodPressure()" class="button button-full button-positive">Blutdruck speichern</button>
-      </div>
-
-      <div class="ct-chartBar ct-perfect-fourth chart"></div>
-
+    <ion-item-group>
+      <ion-item href="#/weight">Gewicht</ion-item>
+      <ion-item href="#/bp">Blutdruck</ion-item>
+    </ion-item-group>
   </ion-content>
 </ion-view>

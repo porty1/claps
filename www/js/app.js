@@ -38,17 +38,27 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'for
       controller: 'LoginCtrl'
     })
 
-    .state('details', {
+  .state('details', {
         url: '/details',
         templateUrl: 'templates/details.html',
         controller: 'DetailsCtrl'
-      })
+  })
 
-      .state('addappointment', {
+  .state('addappointment', {
           url: '/addappointment',
           templateUrl: 'templates/addappointment.html',
           controller: 'addappointmentCtrl'
-        })
+    })
+  .state('vitaldataWeight', {
+            url: '/weight',
+            templateUrl: 'templates/vitaldata/weight.html',
+            controller: 'VitalDataCtrl'
+    })
+    .state('vitaldataBP', {
+              url: '/bp',
+              templateUrl: 'templates/vitaldata/bp.html',
+              controller: 'VitalDataCtrl'
+      })
 
   // setup an abstract state for the tabs directive
     .state('tab', {
@@ -77,7 +87,6 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'for
       }
     }
   })
-
 
   .state('tab.settings', {
     url: '/settings',

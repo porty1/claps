@@ -1,0 +1,19 @@
+<ion-view view-title="VitalData Weight">
+  <ion-nav-bar class="bar-positive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar>
+  <ion-content padding="true" class="has-header calm">
+
+      <div class="list">
+        <label class="item item-input">
+          <input type="number" id="weightValue" name="weight" min="20" max="200" placeholder="Gewicht in Kilogramm">
+        </label>
+      </div>
+      <div class="padding">
+        <button id="saveWeight" ng-click="saveWeight()" class="button button-full button-positive">Gewicht speichern</button>
+      </div>
+
+      <!-- <div class="ct-chartBar ct-perfect-fourth chart"></div> -->
+  </ion-content>
+</ion-view>
