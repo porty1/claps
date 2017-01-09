@@ -47,13 +47,12 @@ ChartJS.prototype.line = function() {
   });
 };
 
-
 //Change
-ChartJS.prototype.bar = function(ser) {
+ChartJS.prototype.bar = function(series) {
   var data = {
     labels: $config['labels'],
     series: [
-      ser
+      series
     ]
   };
 
@@ -74,8 +73,6 @@ ChartJS.prototype.bar = function(ser) {
 
   new Chartist.Bar($config['name'], data, options, responsiveOptions);
 };
-
-
 
 ChartJS.prototype.pie = function(data) {
   var sum = function(a, b) { return a + b };

@@ -1,10 +1,10 @@
-<ion-view view-title="VitalData Blood Pressure">
-  <ion-nav-bar class="bar-positive">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
-    </ion-nav-bar>
+<ion-view view-title="VitalData Blood Pressure" ng-init="initPageBP()">
+  <ion-nav-bar class="bar-calm">
+    <ion-nav-buttons side="left">
+        <a class="icon ion-arrow-left-a" ng-click="goBackVital()"> Back </a>
+      </ion-nav-buttons>
+  </ion-nav-bar>
   <ion-content padding="true" class="has-header calm">
-
       <div class="list">
         <label class="item item-input">
           <input type="number" id="bloodPressureValueSys" name="bloodpressure" min="20" max="200" placeholder="Systolisch">
@@ -14,8 +14,12 @@
       <div class="padding">
         <button id="saveBP" ng-click="saveBloodPressure()" class="button button-full button-positive">Blutdruck speichern</button>
       </div>
-
-      <table id="table_bp"></table>
-
+      <table id="table_bp">
+        <tr>
+          <th><b>Datum</b></th>
+          <th><b>Systolisch</b></th>
+          <th><b>Diastolisch</b></th>
+        </tr>
+      </table>
   </ion-content>
 </ion-view>

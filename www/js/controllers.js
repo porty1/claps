@@ -996,15 +996,10 @@ app.controller('VitalDataCtrl', function($scope, $state, $ionicPopup) {
       var table = document.getElementById("table_bp");
 
       var rowCount = table.rows.length;
-      var row = table.insertRow(rowCount);
-
-      row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Datum </div>";
-      row.insertCell(1).innerHTML= "<div style='text-align:left; font-size:16px'>Systolisch </div>";
-      row.insertCell(2).innerHTML= "<div style='text-align:left; font-size:16px'>Diastolisch </div>";
-
-      row.insertCell(0).innerHTML= "<div style='text-align:right; font-size:14px'>"+value1+"</div>";
-      row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value2+"</div>";
-      row.insertCell(2).innerHTML= "<div style='text-align:right; font-size:14px'>"+value3+"</div>";
+      var row = table.insertRow(1);
+      row.insertCell(0).innerHTML= "<div style='text-align:center; font-size:14px'>"+value1+"</div>";
+      row.insertCell(1).innerHTML= "<div style='text-align:center; font-size:14px'>"+value2+"</div>";
+      row.insertCell(2).innerHTML= "<div style='text-align:center; font-size:14px'>"+value3+"</div>";
     }
 
     // Lädt alle Daten vom Blutdruck aus der Datenbank
@@ -1033,9 +1028,8 @@ app.controller('VitalDataCtrl', function($scope, $state, $ionicPopup) {
       //$scope.bloodPressureToTable(datum, systolisch, diastolisch);
 
       for(var i = 0; i < vitalDatesBP.length; i++){
-        //$scope.bloodPressureToTable(vitalDatesBP, bpSystol, bpDiastol);
+        $scope.bloodPressureToTable(vitalDatesBP[i], bpSystol[i], bpDiastol[i]);
       }
-
     }
 
     $scope.saveWeight = function(){
@@ -1051,9 +1045,6 @@ app.controller('VitalDataCtrl', function($scope, $state, $ionicPopup) {
           Date: date,
           Weight: weight
         };
-
-        // var loggedinref = firebase.database().ref();
-        // var loggedinuser = firebase.auth().currentUser;
 
         loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
           var nameuser = snap.child("Name").val();
@@ -1139,16 +1130,36 @@ app.controller('VitalDataCtrl', function($scope, $state, $ionicPopup) {
         $state.go('homescreen');
       }
 
+      $scope.goBackVital = function(){
+        $state.go('tab.vitaldata');
+      }
+
       // Methodenaufruf für den PageStyle
       $scope.setPageStyle();
-      loggedinuser = firebase.auth().currentUser;
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        var nameuser = snap.child("Name").val();
-        var vornameuser = snap.child("Vorname").val();
-        var fullname = nameuser + vornameuser;
+
+      $scope.initPage = function (){
+        loggedinuser = firebase.auth().currentUser;
+        var fullname;
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          var nameuser = snap.child("Name").val();
+          var vornameuser = snap.child("Vorname").val();
+          fullname = nameuser + vornameuser;
+        });
+        return fullname;
+      }
+
+      $scope.initPageWeight = function(){
+        var fullname = $scope.initPage();
+
         $scope.loadWeight(fullname);
+      }
+
+      $scope.initPageBP = function(){
+        var fullname = $scope.initPage();
         $scope.loadbp(fullname);
-      });
+      }
+
+
   })
 
 app.controller('DetailsCtrl', function($scope) {})
@@ -1264,7 +1275,6 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
   $scope.login.password = '';
   $scope.login.server = 'https://test.midata.coop:9000';
 
-  console.log("test");
   var fullname = "";
   var loggedinuser = firebase.auth().currentUser;
   console.log(loggedinuser);
@@ -1288,7 +1298,6 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
       // Alle Styles in der Grossansicht
     }
   }
-
 
   $scope.checkforAccountInfo = function(){
     console.log("checking...");
