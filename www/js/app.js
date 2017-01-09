@@ -38,6 +38,12 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'for
       controller: 'LoginCtrl'
     })
 
+      .state('homescreen', {
+      url: '/homescreen',
+      templateUrl: 'templates/homescreen.html',
+      controller: 'HomescreenCtrl'
+    })
+
   .state('details', {
         url: '/details',
         templateUrl: 'templates/details.html',
