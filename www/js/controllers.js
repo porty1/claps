@@ -724,7 +724,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.setAttribute('id', "nachttime")
       row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
       else if (tageszeit == "Abend"){
       var table = document.getElementById("table_calendar");
@@ -734,7 +734,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.setAttribute('id', "abendtime")
       row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
       else if (tageszeit == "Morgen"){
       var table = document.getElementById("table_calendar");
@@ -744,7 +744,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.setAttribute('id', "morgentime")
       row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
 
       else if (tageszeit == "Mittag"){
@@ -755,7 +755,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.setAttribute('id', "mittagtime")
       row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
       row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=../img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
     }
   }
 
