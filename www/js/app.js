@@ -104,6 +104,16 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'for
     }
   })
 
+  .state('tab.menueplan', {
+    url: '/menueplan',
+    views: {
+      'tab-menueplan': {
+        templateUrl: 'templates/tab-menueplan.html',
+        controller: 'MenueplanCtrl'
+      }
+    }
+  })
+
   /*.state('tab.login', {
       url: '/login',
       views: {

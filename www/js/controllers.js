@@ -97,7 +97,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
   firebase.auth().onAuthStateChanged(function(user) {
     if (user){
       console.log(user.email);
-      $state.go('tab.calendar');
+      $state.go('homescreen');
     }else{
       console.log("No User Logged In");
     }
@@ -164,7 +164,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
       firebase.database().ref(name + vorname + "/Size/").set({
         Size: 0
       });
-      $state.go('tab.calendar');
+      $state.go('homescreen');
       $scope.closeRegister();
     }
   }
@@ -759,10 +759,13 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     }
   }
 
+    /*
     $('td').each(
     function(){
         $(this).text(Math.floor(Math.random() * (max - min + 1)) + min);
     });
+
+    */
 
 
 
@@ -1140,6 +1143,101 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
   })
 
 app.controller('DetailsCtrl', function($scope) {})
+
+app.controller('MenueplanCtrl', function($scope) {
+
+  $scope.setPageStyle = function(){
+    var loggedinuser = firebase.auth().currentUser;
+    var setpagesize;
+
+    if(loggedinuser.email == null){
+      location.reload();
+    } else {
+      var loggedinref = firebase.database().ref();
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        setpagesize = snap.child("Size/Size").val();
+        // var name = snap.child("Name").val();
+        // var vorname = snap.child("Vorname").val();
+        console.log("setPageStyle: " + setpagesize);
+      });
+    }
+    if (setpagesize == 0){
+      // Alle Styles im Standardview
+    } else if (setpagesize == 1) {
+      // Alle Styles in der Grossansicht
+    }
+  }
+
+ $scope.getMenueplan = function(){
+   var storageRef = firebase.storage().ref();
+   storageRef.child('menueplan.png').getDownloadURL().then(function(url) {
+  // `url` is the download URL for 'images/stars.jpg'
+
+
+  // Or inserted into an <img> element:
+  var img = document.getElementById('myimg');
+  img.src = url;
+  }).catch(function(error) {
+  // Handle any errors
+  });
+ }
+ $scope.setPageStyle();
+ $scope.getMenueplan();
+})
+
+app.controller('HomescreenCtrl', function($scope, $state) {
+
+  $scope.setPageStyle = function(){
+    var loggedinuser = firebase.auth().currentUser;
+    var setpagesize;
+
+    if(loggedinuser.email == null){
+      location.reload();
+    } else {
+      var loggedinref = firebase.database().ref();
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        setpagesize = snap.child("Size/Size").val();
+        var name = snap.child("Name").val();
+        var vorname = snap.child("Vorname").val();
+        homename.innerHTML = "Willkommen " + vorname + " " + name;
+        console.log("setPageStyle: " + setpagesize);
+      });
+    }
+    if (setpagesize == 0){
+      // Alle Styles im Standardview
+    } else if (setpagesize == 1) {
+      // Alle Styles in der Grossansicht
+    }
+  }
+
+  gotoCalendar = function() {
+    $scope.goCalendar();
+  }
+  gotoVitalData = function(){
+    $scope.goVitalData();
+  }
+  gotoMenue = function(){
+    $scope.goMenue();
+  }
+  gotoSettings = function(){
+    $scope.goSettings();
+  }
+
+  $scope.goCalendar = function(){
+    $state.go('tab.calendar');
+  }
+  $scope.goVitalData = function(){
+    $state.go('tab.vitaldata');
+  }
+  $scope.goMenue = function(){
+    $state.go('tab.menueplan');
+  }
+  $scope.goSettings = function(){
+    $state.go('tab.settings');
+  }
+
+  $scope.setPageStyle();
+})
 
 app.controller('addappointmentCtrl', function($scope) {})
 
