@@ -34,7 +34,7 @@
 				</tr>
 			</thead>
 			<tbody id="Mediview">
-			</tbody>
+
 			<tr>
 				<td><b>Neues Medikament erfassen:</b></td>
 				<td><input id="MediNameFormID" placeholder="Medikamentenname" class="element text medium" type="text" maxlength="255" value=""/></td>
@@ -69,6 +69,16 @@
 					<td><input id="MediDurationFormID" class="element text medium" type="number" min="1" max="999"/> Tage</td>
 					<td><button id="submitBtn" onclick="submitClick()" class="button button-block button-stable">Hinzufügen</button></td>
 				</tr>
+				<tr>
+					<td><b>Menüplan hochladen: </b></td>
+					<td><input type="file" id="fileselect" accept=".png" onchange="pdfhochladen()"/></td>
+					<td><input type="button" id="filedownloadbutton" onclick="downloadpic()" value="Download"/></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				</tbody>
 			</table>
 			<br>
 			<div id="viewtables" style="display:none">
@@ -127,6 +137,8 @@
 			messagingSenderId: "81865488549"
 		};
 		firebase.initializeApp(config);
+		// Get a reference to the storage service, which is used to create references in your storage bucket
+  	var storage = firebase.storage();
 		</script>
 		<script type="text/javascript" src="webcmd_firebase.js"></script>
 	</body>

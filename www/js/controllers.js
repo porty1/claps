@@ -426,8 +426,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       $scope.getMittagMedi(fullname, msecdatum);
     }
 
+
     $scope.getMittagMedi = function(fullname, msecdatum){
-      // Step 6: Medis am Morgen
+      // Step 7: Medis am Mittag
       var msecmedidatum = msecdatum + 3600000;
       var msecstartpush = "" + msecmedidatum;
 
@@ -711,8 +712,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
       row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
     }
-    }
-
+  }
 
     $scope.AppointtoTable = function(beschreibung, zeit, path, tageszeit) {
 

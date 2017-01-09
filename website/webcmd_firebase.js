@@ -728,3 +728,36 @@ testsRef.on("child_added", snap => {
   var selecteduser = name + vorname;
   $("#Patientview").append("<li onClick=userselection('"+cred+"','"+ name+"','"+vorname+"')><a> " + name + " " + vorname + "</a></li>");
 });
+
+
+  pdfhochladen = function(){
+    var pdfpath = document.getElementById('fileselect').files[0];
+    var filename = pdfpath.name;
+    console.log(pdfpath);
+    console.log(filename);
+
+    var storageRef = firebase.storage().ref().child("menueplan.png");
+
+    storageRef.put(pdfpath).then(function(snapshot) {
+      console.log('Uploaded a blob or file!');
+    });
+  }
+
+  downloadpic = function(){
+    var storageRef = firebase.storage().ref();
+    storageRef.child('menueplan.png').getDownloadURL().then(function(url) {
+      // `url` is the download URL for 'menueplan.png'
+
+      // This can be downloaded directly:
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function(event) {
+        var blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+
+      }).catch(function(error) {
+        // Handle any errors
+      });
+  }
