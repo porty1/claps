@@ -902,11 +902,16 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         return firebase.database().ref().update(nachtupdatedata);
       }
     }
+
+    $scope.goBackHome = function(){
+      $state.go('homescreen');
+    }
+
     $scope.datechange();
     $scope.setPageStyle();
   })
 
-app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
+app.controller('VitalDataCtrl', function($scope, $state, $ionicPopup) {
     // Globale Controllervariablen setzen
     var loggedinuser = firebase.auth().currentUser;
     var loggedinref = firebase.database().ref();
@@ -1130,6 +1135,10 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
         });
       }
 
+      $scope.goBackHome = function(){
+        $state.go('homescreen');
+      }
+
       // Methodenaufruf für den PageStyle
       $scope.setPageStyle();
       loggedinuser = firebase.auth().currentUser;
@@ -1144,7 +1153,7 @@ app.controller('VitalDataCtrl', function($scope, $ionicPopup) {
 
 app.controller('DetailsCtrl', function($scope) {})
 
-app.controller('MenueplanCtrl', function($scope) {
+app.controller('MenueplanCtrl', function($scope, $state) {
 
   $scope.setPageStyle = function(){
     var loggedinuser = firebase.auth().currentUser;
@@ -1180,7 +1189,13 @@ app.controller('MenueplanCtrl', function($scope) {
   }).catch(function(error) {
   // Handle any errors
   });
+}
+
+
+ $scope.goBackHome = function(){
+   $state.go('homescreen');
  }
+
  $scope.setPageStyle();
  $scope.getMenueplan();
 })
@@ -1360,6 +1375,11 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     console.log("StyleChanged to " + selectedstyle);
     return firebase.database().ref().update(updateStyle);
   }
+
+  $scope.goBackHome = function(){
+    $state.go('homescreen');
+  }
+
   $scope.setPageStyle();
 
   // ---------------------------------------
