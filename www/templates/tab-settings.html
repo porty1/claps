@@ -1,50 +1,46 @@
 <ion-view view-title="Einstellungen">
   <ion-nav-buttons side="left">
-      <a class="button ion-ios-home button-calm" ng-click="goBackHome()"> Home</a>
-    </ion-nav-buttons>
+    <a id="goBackHomeLink" class="button ion-ios-home button-calm" ng-click="goBackHome()"> Home</a>
+  </ion-nav-buttons>
   <ion-content>
     <div class="list">
       <div class="item item-divider">
-        Anzeigeeinstellungen
+        <p id="listHeaderAnzeige">Anzeigeeinstellungen</p>
       </div>
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Schriftgrösse
-            </div>
-            <select id="sizeselector" onchange="setStyle()">
-              <option selected>Standard</option>
-              <option>Gross</option>
-            </select>
-          </label>
-          <br>
-        <div class="item item-divider">
-          Accountinformationen
+      <label class="item item-input item-select">
+        <div class="input-label">
+          <p id="listItem">Schriftgrösse</p>
         </div>
-        <table id="table_settings"></table>
-        <br>
-        <!-- Login -->
-        <!--<i4mi-midata-login user="user" controller-name="I4MIMidataLoginController"></i4mi-midata-login>-->
-        <div class="item item-divider">
-          Midata Login
-        </div>
-        <label class="item item-input">
-          <input ng-model="login.email" type="text" placeholder="Email">
-        </label>
-        <label class="item item-input">
-          <input ng-model="login.password" type="password" placeholder="Password">
-        </label>
-        <label class="item item-input">
-            <input ng-model="login.server" type="text" value='https://test.midata.coop:9000' placeholder="https://test.midata.coop:9000">
-        </label>
-          <button class="button button-full button-calm" ng-click="doLogin()">Midata verbinden</button>
+        <select id="sizeselector" onchange="setStyle()">
+          <option selected>Standard</option>
+          <option>Gross</option>
+        </select>
+      </label>
+      <br>
+      <div class="item item-divider">
+        <p id="listHeaderAccount">Accountinformationen</p>
       </div>
+      <table id="table_settings"></table>
+      <br>
+      <button id="LogoutButton" class="button button-full button-calm" ng-click="logout()">
+        Logout
+      </button>
+      <!-- Login -->
+      <!--<i4mi-midata-login user="user" controller-name="I4MIMidataLoginController"></i4mi-midata-login>-->
+      <div class="item item-divider">
+        Midata Login
+      </div>
+      <label class="item item-input">
+        <input ng-model="login.email" type="text" placeholder="Email">
+      </label>
+      <label class="item item-input">
+        <input ng-model="login.password" type="password" placeholder="Password">
+      </label>
+      <label class="item item-input">
+        <input ng-model="login.server" type="text" value='https://test.midata.coop:9000' placeholder="https://test.midata.coop:9000">
+      </label>
+      <button class="button button-calm" ng-click="doLogin()">Midata verbinden</button>
     </div>
-
-        <button class="button button-full button-calm" ng-click="logout()">
-          Logout
-        </button>
-
-
-
-  </ion-content>
+  </div>
+</ion-content>
 </ion-view>

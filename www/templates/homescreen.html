@@ -1,32 +1,29 @@
 <ion-view view-title="Home">
   <ion-content>
-
     <div align="center" id="homescreen">
       <br>
       <p id="homename"></p>
-      <table>
-            <th id="hometh">
-              <img src="img/calendar.png"  style="width:128px;height:128px;"  onclick="gotoCalendar()"/>
-              <br><b>Kalender</b></br>
-            </th>
-            <th id="hometh">
-              <img src="img/folder.png"  style="width:128px;height:128px;" onclick="gotoVitalData()">
-              <br><b>Vitaldaten</b></br>
-            </th>
-          </tr>
-          <tr>
-            <th id="hometh">
-              <img src="img/menu.png"  style="width:128px;height:128px;" onclick="gotoMenue()">
-              <br><b>Menü</b></br>
-            </th>
-            <th id="hometh">
-              <img src="img/settings.png"  style="width:128px;height:128px;" onclick="gotoSettings()">
-              <br><b>Einstellungen</b></br>
-            </th>
-          </tr>
-        </table>
-      </div>
-
-
-    </ion-content>
-  </ion-view>
+      <table id="homescreenTable">
+        <th id="hometh">
+          <img id="imgCalendar" src="img/calendar.png" onclick="gotoCalendar()"/>
+          <br><b>Kalender</b></br>
+        </th>
+        <th id="hometh">
+          <img id="imgVitaldata" src="img/folder.png" onclick="gotoVitalData()">
+          <br><b>Vitaldaten</b></br>
+        </th>
+      </tr>
+      <tr>
+        <th id="hometh">
+          <img id="imgMenue" src="img/menu.png" onclick="gotoMenue()">
+          <br><b>Menü</b></br>
+        </th>
+        <th id="hometh">
+          <img id="imgSettings" src="img/settings.png" onclick="gotoSettings()">
+          <br><b>Einstellungen</b></br>
+        </th>
+      </tr>
+    </table>
+  </div>
+</ion-content>
+</ion-view>

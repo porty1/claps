@@ -6,7 +6,6 @@ filter('plainText', function() {
 }
 );
 
-/* Login Page */
 app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $timeout) {
 
   $scope.cleanVariables = function() {
@@ -200,7 +199,6 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
 
 app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, $timeout) {
 
-
     var fullname = "";
     var currentDatum = new Date();
     console.log(currentDatum);
@@ -211,28 +209,6 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     currentDatummsec = currentDatummsec + 3600000;
     $scope.date = {datum: new Date(currentDatummsec)};
     console.log($scope.date.datum);
-
-
-    $scope.setPageStyle = function(){
-      var loggedinuser = firebase.auth().currentUser;
-      var setpagesize;
-
-      if(loggedinuser.email == null){
-        location.reload();
-      } else {
-        var loggedinref = firebase.database().ref();
-        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-          setpagesize = snap.child("Size/Size").val();
-          console.log("setPageStyle: " + setpagesize);
-        });
-      }
-      if (setpagesize == 0){
-        // Alle Styles im Standardview
-      } else if (setpagesize == 1) {
-        // Alle Styles in der Grossansicht
-      }
-    }
-
 
     $scope.forwardoneDay = function(){
       var selectedchangeDatumforward = $scope.date.datum;
@@ -271,12 +247,12 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       if(loggedinuser.email == null){
         location.reload();
       } else {
-              var loggedinref = firebase.database().ref();
-              loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-                var nameuser = snap.child("Name").val();
-                var vornameuser = snap.child("Vorname").val();
-                $scope.startgetAllDates(nameuser, vornameuser, selectedDateParse);
-              });
+        var loggedinref = firebase.database().ref();
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          var nameuser = snap.child("Name").val();
+          var vornameuser = snap.child("Vorname").val();
+          $scope.startgetAllDates(nameuser, vornameuser, selectedDateParse);
+        });
       }
     }
 
@@ -425,7 +401,6 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       });
       $scope.getMittagMedi(fullname, msecdatum);
     }
-
 
     $scope.getMittagMedi = function(fullname, msecdatum){
       // Step 7: Medis am Mittag
@@ -673,250 +648,480 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     $scope.MeditoTable = function(dosis, form, name, zeit, path, tageszeit) {
       // Quelle: http://www.mysamplecode.com/2012/04/generate-html-table-using-javascript.html
       if (tageszeit == "Nacht"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "nachttime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
-      row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
-    }
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "nachttime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+        row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+      }
       else if (tageszeit == "Abend"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "abendtime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
-      row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
-    }
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "abendtime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+        row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+      }
       else if (tageszeit == "Mittag"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "mittagtime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
-      row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "mittagtime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+        row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+      }
+      else if (tageszeit == "Morgen"){
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "morgentime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
+        row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
+      }
     }
-    else if (tageszeit == "Morgen"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "morgentime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= name + ' ' + dosis + '' + form;
-      row.insertCell(2).innerHTML= ""; //<button class='button' ng-click='deleteRow('"+path+"')'>Delete</button>;
-    }
-  }
 
     $scope.AppointtoTable = function(beschreibung, zeit, path, tageszeit) {
 
       if (tageszeit == "Nacht"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "nachttime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
-    }
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "nachttime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= beschreibung;
+        row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      }
       else if (tageszeit == "Abend"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "abendtime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
-    }
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "abendtime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= beschreibung;
+        row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      }
       else if (tageszeit == "Morgen"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "morgentime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
-    }
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "morgentime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= beschreibung;
+        row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      }
 
       else if (tageszeit == "Mittag"){
-      var table = document.getElementById("table_calendar");
-      var rowCount = table.rows.length;
-      console.log(rowCount);
-      var row = table.insertRow(rowCount);
-      row.setAttribute('id', "mittagtime")
-      row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
-      row.insertCell(1).innerHTML= beschreibung;
-      row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+        var table = document.getElementById("table_calendar");
+        var rowCount = table.rows.length;
+        console.log(rowCount);
+        var row = table.insertRow(rowCount);
+        row.setAttribute('id', "mittagtime")
+        row.insertCell(0).innerHTML= "<b>" + zeit + "</b>";
+        row.insertCell(1).innerHTML= beschreibung;
+        row.insertCell(2).innerHTML= "<img src=img/delete.png height=20 width=20 onclick=convertToDeleteRow('"+path+"')></img>";
+      }
     }
-  }
 
     /*
     $('td').each(
     function(){
-        $(this).text(Math.floor(Math.random() * (max - min + 1)) + min);
-    });
+    $(this).text(Math.floor(Math.random() * (max - min + 1)) + min);
+  });
 
-    */
+  */
 
+  /*--- Popup Add Appointment ---*/
+  $ionicModal.fromTemplateUrl('templates/addappointment.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.addappointmentmodal = modal;
+  });
 
+  // Modal View öffnen
+  $scope.openAddAppointment = function() {
+    console.log("openapo");
+    $scope.appointForm = {time: "", datum: "", area: ""};
+    $scope.addappointmentmodal.show();
+  };
 
-    /*--- Popup Add Appointment ---*/
-    $ionicModal.fromTemplateUrl('templates/addappointment.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.addappointmentmodal = modal;
-    });
+  // Modal View schliessen
+  $scope.closeAddAppointment = function() {
+    console.log("closeapp");
+    $scope.clearWrongInput();
+    $scope.addappointmentmodal.hide();
+  };
 
-    // Modal View öffnen
-    $scope.openAddAppointment = function() {
-      console.log("openapo");
-      $scope.appointForm = {time: "", datum: "", area: ""};
-      $scope.addappointmentmodal.show();
-    };
+  $scope.clearWrongInput = function(){
+    document.getElementById("changeDatumAddAppoint").style.border = "0px solid red"
+    document.getElementById("changeTimeAddAppoint").style.border = "0px solid red"
+    document.getElementById("beschreibungAddAppoint").style.border = "1px solid grey"
+    document.getElementById("errorcreateappoint").style.display = "none";
+  }
 
-    // Modal View schliessen
-    $scope.closeAddAppointment = function() {
-      console.log("closeapp");
+  $scope.createAppointment = function(appointvalue) {
+
+    var datum = new Date(appointvalue.datum);
+    var zeit = new Date(appointvalue.time);
+    console.log(datum + " " + zeit);
+    var beschreibungpush = appointvalue.area;
+
+    // Errorhandling Appointmentinput
+    var timestampdatum = Date.parse(datum);
+    var timestampzeit = Date.parse(zeit);
+
+    if (isNaN(timestampdatum) == true || isNaN(timestampzeit) == true || beschreibungpush.length == 0){
+      document.getElementById("appointerrormessage").innerHTML = "Bitte überprüfen Sie Ihre Angaben!";
+      document.getElementById("errorcreateappoint").style.display = "block";
+
+      if (isNaN(timestampdatum) == true) {
+        document.getElementById("changeDatumAddAppoint").style.border = "1px solid red";
+      }
+      if (isNaN(timestampzeit) == true){
+        document.getElementById("changeTimeAddAppoint").style.border = "1px solid red";
+      }
+      if (beschreibungpush.length == 0){
+        document.getElementById("beschreibungAddAppoint").style.border = "1px solid red";
+      }
+    } else {
+      var loggedinuser = firebase.auth().currentUser;
+      var loggedinref = firebase.database().ref();
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        var nameuser = snap.child("Name").val();
+        var vornameuser = snap.child("Vorname").val();
+        $scope.setAppoint(nameuser, vornameuser, datum, zeit, beschreibungpush);
+      });
       $scope.clearWrongInput();
       $scope.addappointmentmodal.hide();
+    }
+  }
+
+  $scope.setAppoint = function(nameuser, vornameuser, datum, zeit, beschreibungpush){
+
+    var currentPatient = nameuser + vornameuser;
+    var datumpush = datum.getTime();
+    datumpush = datumpush + zeit.getTime() + 3600000;
+    datumpush = "" + datumpush;
+
+    if(zeit.getUTCMinutes() == 0){
+      var zeitcompare = zeit.getUTCHours() + "00";
+    } else {
+      var zeitcompare = zeit.getUTCHours() + "" + zeit.getUTCMinutes();
+    }
+
+    var dataforpush = {
+      Datum: datumpush,
+      Beschreibung: beschreibungpush
     };
 
-    $scope.clearWrongInput = function(){
-      document.getElementById("changeDatumAddAppoint").style.border = "0px solid red"
-      document.getElementById("changeTimeAddAppoint").style.border = "0px solid red"
-      document.getElementById("beschreibungAddAppoint").style.border = "1px solid grey"
-      document.getElementById("errorcreateappoint").style.display = "none";
+    if (zeitcompare >= 0400 && zeitcompare < 1000){
+      var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+      var morgenupdatedata = {};
+      morgenupdatedata[currentPatient + '/Appoint/Morgen/' + morgennewAppointmentKey] = dataforpush;
+      addMorgen(morgenupdatedata);
+      console.log("morgen");
+      $scope.datechange();
+    }
+    else if (zeitcompare >= 1000 && zeitcompare < 1600){
+      var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+      var mittagupdatedata = {};
+      mittagupdatedata[currentPatient + '/Appoint/Mittag/' + mittagnewAppointmentKey] = dataforpush;
+      addMittag(mittagupdatedata);
+      console.log("mittag");
+      $scope.datechange();
+    }
+    else if (zeitcompare >= 1600 && zeitcompare < 2200){
+      var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+      var abendupdatedata = {};
+      abendupdatedata[currentPatient + '/Appoint/Abend/' + abendnewAppointmentKey] = dataforpush;
+      addAbend(abendupdatedata);
+      console.log("abend");
+      $scope.datechange();
+    }
+    else if (zeitcompare >= 2200 || zeitcompare < 0400) {
+      var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
+      var nachtupdatedata = {};
+      nachtupdatedata[currentPatient + '/Appoint/Nacht/' + nachtnewAppointmentKey] = dataforpush;
+      addNacht(nachtupdatedata);
+      console.log("nacht");
+      $scope.datechange();
+    }
+    else {
+      console.log("error");
     }
 
-    $scope.createAppointment = function(appointvalue) {
+    function addMorgen(morgenupdatedata){
+      return firebase.database().ref().update(morgenupdatedata);
+    }
+    function addMittag(mittagupdatedata){
+      return firebase.database().ref().update(mittagupdatedata);
+    }
+    function addAbend(abendupdatedata){
+      return firebase.database().ref().update(abendupdatedata);
+    }
+    function addNacht(nachtupdatedata){
+      return firebase.database().ref().update(nachtupdatedata);
+    }
+  }
 
-      var datum = new Date(appointvalue.datum);
-      var zeit = new Date(appointvalue.time);
-      console.log(datum + " " + zeit);
-      var beschreibungpush = appointvalue.area;
+  $scope.goBackHome = function(){
+    $state.go('homescreen');
+  }
 
-      // Errorhandling Appointmentinput
-      var timestampdatum = Date.parse(datum);
-      var timestampzeit = Date.parse(zeit);
+  $scope.setPageStyle = function(){
+    $timeout(function () {
+      var loggedinuser = firebase.auth().currentUser;
+      var setpagesize;
 
-      if (isNaN(timestampdatum) == true || isNaN(timestampzeit) == true || beschreibungpush.length == 0){
-        document.getElementById("appointerrormessage").innerHTML = "Bitte überprüfen Sie Ihre Angaben!";
-        document.getElementById("errorcreateappoint").style.display = "block";
-
-        if (isNaN(timestampdatum) == true) {
-          document.getElementById("changeDatumAddAppoint").style.border = "1px solid red";
-        }
-        if (isNaN(timestampzeit) == true){
-          document.getElementById("changeTimeAddAppoint").style.border = "1px solid red";
-        }
-        if (beschreibungpush.length == 0){
-          document.getElementById("beschreibungAddAppoint").style.border = "1px solid red";
-        }
+      if(loggedinuser.email == null){
+        location.reload();
       } else {
-        var loggedinuser = firebase.auth().currentUser;
         var loggedinref = firebase.database().ref();
         loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-          var nameuser = snap.child("Name").val();
-          var vornameuser = snap.child("Vorname").val();
-          $scope.setAppoint(nameuser, vornameuser, datum, zeit, beschreibungpush);
+          setpagesize = snap.child("Size/Size").val();
+          console.log("setPageStyle: " + setpagesize);
+          console.log("Vor if: " + setpagesize);
+          if (setpagesize == 0){
+            // Alle Styles im Standardview
+            console.log("Set to 15px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "15px";
+            document.getElementById("OpenAddAppointLink").style.fontSize = "15px";
+            document.getElementById("table_calendar").style.fontSize = "15px";
+            document.getElementById("changeDatum").style.fontSize = "15px";
+          } else if (setpagesize == 1) {
+            // Alle Styles in der Grossansicht
+            console.log("Set to 20px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "20px";
+            document.getElementById("OpenAddAppointLink").style.fontSize = "20px";
+            document.getElementById("table_calendar").style.fontSize = "20px";
+            document.getElementById("changeDatum").style.fontSize = "20px";
+          }
         });
-        $scope.clearWrongInput();
-        $scope.addappointmentmodal.hide();
       }
+    }, 50);
+  }
+
+  $scope.datechange();
+  $scope.setPageStyle();
+})
+
+app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) {
+  // Globale Controllervariablen setzen
+  var loggedinuser = firebase.auth().currentUser;
+  var loggedinref = firebase.database().ref();
+
+  // Draws the chart with the values from the database
+  $scope.drawChart = function(vitalDates, data) {
+    var dates = new Array();
+    // var vals = new Array();
+    //result = result.reverse();
+    // var dates = vitalDates;
+
+    // if (result.length > 5) {
+    //   result = result.slice(Math.max(result.length - 5, 1));
+    // }
+
+    for (var i = 0; i < vitalDates.length; i++){
+      var d = new Date(vitalDates[i]);
+      var currentMinutes = d.getMinutes();
+      if (currentMinutes.toString().length == 1) {
+        currentMinutes = "0" + currentMinutes;
+      }
+      dates.push(d.getDate() + "." + d.getMonth() + "." + d.getFullYear() + " - " + d.getHours() + ":" + currentMinutes + " Uhr");
     }
 
-    $scope.setAppoint = function(nameuser, vornameuser, datum, zeit, beschreibungpush){
+    var $configBar = {
+      name: '.ct-chartBar',
+      labels: 'Custom',
+      series: data
+    };
+    var chartBar = new ChartJS($configBar, dates);
+    chartBar.bar(data);
+  }
 
-      var currentPatient = nameuser + vornameuser;
-      var datumpush = datum.getTime();
-      datumpush = datumpush + zeit.getTime() + 3600000;
-      datumpush = "" + datumpush;
+  // Lädt alle Daten zum Gewicht aus der Datenbank
+  $scope.loadWeight = function(fullname){
+    console.log("LoadWeight: " + loggedinuser.email);
+    // var loggedinuser = firebase.auth().currentUser;
+    var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht/').limitToLast(5);
+    console.log(fullname);
+    var vitalDates = [];
+    var vitalWeights = [];
+    var data = [];
 
-      if(zeit.getUTCMinutes() == 0){
-        var zeitcompare = zeit.getUTCHours() + "00";
-      } else {
-        var zeitcompare = zeit.getUTCHours() + "" + zeit.getUTCMinutes();
-      }
+    patientRefVital.on('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var childData = childSnapshot.val();
+        data.push(childData);
+      });
+    });
 
-      var dataforpush = {
-        Datum: datumpush,
-        Beschreibung: beschreibungpush
+    // Iteriert über die Daten as der Datenbank und füllt die entsprechenden Arrays ab
+    for (var j = 0; j < data.length; j++){
+      vitalDates.push(data[j].Date);
+      vitalWeights.push(data[j].Weight);
+    }
+    //TODO
+    $scope.drawChart(vitalDates, vitalWeights);
+  }
+
+  // Generiert die Tabelle für die Blutdruckdaten
+  $scope.bloodPressureToTable = function(value1, value2, value3) {
+    var table = document.getElementById("table_bp");
+
+    var rowCount = table.rows.length;
+    var row = table.insertRow(1);
+    row.insertCell(0).innerHTML= "<div style='text-align:center; font-size:14px'>"+value1+"</div>";
+    row.insertCell(1).innerHTML= "<div style='text-align:center; font-size:14px'>"+value2+"</div>";
+    row.insertCell(2).innerHTML= "<div style='text-align:center; font-size:14px'>"+value3+"</div>";
+  }
+
+  // Lädt alle Daten vom Blutdruck aus der Datenbank
+  $scope.loadbp = function(fullname){
+    var loggedinuser = firebase.auth().currentUser;
+    var patientRefVital = firebase.database().ref(fullname + '/Vital/Blutdruck');
+    var vitalDatesBP = [];
+    var bpSystol = [];
+    var bpDiastol = [];
+    var data = [];
+
+    patientRefVital.on('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var childData = childSnapshot.val();
+        data.push(childData);
+      });
+    });
+
+    // Iteriert über die Daten as der Datenbank und füllt die entsprechenden Arrays ab
+    for (var j = 0; j < data.length; j++){
+      vitalDatesBP.push(data[j].Date);
+      bpSystol.push(data[j].Systol);
+      bpDiastol.push(data[j].Diastol);
+    }
+
+    //$scope.bloodPressureToTable(datum, systolisch, diastolisch);
+
+    for(var i = 0; i < vitalDatesBP.length; i++){
+      $scope.bloodPressureToTable(vitalDatesBP[i], bpSystol[i], bpDiastol[i]);
+    }
+  }
+
+  $scope.saveWeight = function(){
+    var weight = document.getElementById('weightValue').value;
+
+    if (weight == "") {
+      $scope.noValPop();
+    } else if (isNaN(weight)) {
+      $scope.notNumericPop();
+    }else{
+      var date = new Date();
+      var postData = {
+        Date: date,
+        Weight: weight
       };
 
-      if (zeitcompare >= 0400 && zeitcompare < 1000){
-        var morgennewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-        var morgenupdatedata = {};
-        morgenupdatedata[currentPatient + '/Appoint/Morgen/' + morgennewAppointmentKey] = dataforpush;
-        addMorgen(morgenupdatedata);
-        console.log("morgen");
-        $scope.datechange();
-      }
-      else if (zeitcompare >= 1000 && zeitcompare < 1600){
-        var mittagnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-        var mittagupdatedata = {};
-        mittagupdatedata[currentPatient + '/Appoint/Mittag/' + mittagnewAppointmentKey] = dataforpush;
-        addMittag(mittagupdatedata);
-        console.log("mittag");
-        $scope.datechange();
-      }
-      else if (zeitcompare >= 1600 && zeitcompare < 2200){
-        var abendnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-        var abendupdatedata = {};
-        abendupdatedata[currentPatient + '/Appoint/Abend/' + abendnewAppointmentKey] = dataforpush;
-        addAbend(abendupdatedata);
-        console.log("abend");
-        $scope.datechange();
-      }
-      else if (zeitcompare >= 2200 || zeitcompare < 0400) {
-        var nachtnewAppointmentKey = firebase.database().ref().child(currentPatient + 'Appoint/').push().key;
-        var nachtupdatedata = {};
-        nachtupdatedata[currentPatient + '/Appoint/Nacht/' + nachtnewAppointmentKey] = dataforpush;
-        addNacht(nachtupdatedata);
-        console.log("nacht");
-        $scope.datechange();
-      }
-      else {
-        console.log("error");
-      }
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        var nameuser = snap.child("Name").val();
+        var vornameuser = snap.child("Vorname").val();
+        $scope.saveValWeight(nameuser, vornameuser, postData);
+      });
 
-      function addMorgen(morgenupdatedata){
-        return firebase.database().ref().update(morgenupdatedata);
-      }
-      function addMittag(mittagupdatedata){
-        return firebase.database().ref().update(mittagupdatedata);
-      }
-      function addAbend(abendupdatedata){
-        return firebase.database().ref().update(abendupdatedata);
-      }
-      function addNacht(nachtupdatedata){
-        return firebase.database().ref().update(nachtupdatedata);
-      }
+      document.getElementById('weightValue').value = "";
     }
+  }
 
-    $scope.goBackHome = function(){
-      $state.go('homescreen');
+  // Blutdruck speichern
+  $scope.saveBloodPressure = function(){
+    var systol = document.getElementById('bloodPressureValueSys').value;
+    var diastol = document.getElementById('bloodPressureValueDis').value;
+
+    if (systol == "" || diastol == "") {
+      $scope.noValPop();
+    } else if (isNaN(systol) || isNaN(diastol)) {
+      $scope.notNumericPop();
+    }else{
+      var date = new Date();
+
+      var postData = {
+        Date: date,
+        Systol: systol,
+        Diastol: diastol
+      };
+
+      // var loggedinuser = firebase.auth().currentUser;
+      // var loggedinref = firebase.database().ref();
+
+      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+        var nameuser = snap.child("Name").val();
+        var vornameuser = snap.child("Vorname").val();
+        $scope.saveValBP(nameuser, vornameuser, postData);
+      });
+
+      document.getElementById('bloodPressureValueSys').value = "";
+      document.getElementById('bloodPressureValueDis').value = "";
     }
+  }
 
-    $scope.datechange();
-    $scope.setPageStyle();
-  })
+  // Gewicht wird in der Datenbank gespeichert
+  $scope.saveValWeight = function(nameuser, vornameuser, postData){
+    var fullname = nameuser + vornameuser;
+    var newPostKey = firebase.database().ref().child(fullname).push().key;
+    var path = fullname + "/Vital/Gewicht/";
+    var updates = {};
+    updates[path + newPostKey] = postData;
+    //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+    return firebase.database().ref().update(updates);
+  }
 
-app.controller('VitalDataCtrl', function($scope, $state, $ionicPopup) {
-    // Globale Controllervariablen setzen
-    var loggedinuser = firebase.auth().currentUser;
-    var loggedinref = firebase.database().ref();
+  // Blutdruck wird in der Datenbank gespeichert
+  $scope.saveValBP = function(nameuser, vornameuser, postData){
+    var fullname = nameuser + vornameuser;
+    var newPostKey = firebase.database().ref().child(fullname).push().key;
+    var path = fullname + "/Vital/Blutdruck/";
+    var updates = {};
+    updates[path + newPostKey] = postData;
+    //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+    return firebase.database().ref().update(updates);
+  }
 
-    $scope.setPageStyle = function(){
+  // PopUp wird angezeigt, falls ein nicht nummerischer Wert angegeben wird
+  $scope.notNumericPop = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Ungültiger Wert!',
+      template: 'Das Gewicht bitte in einer ganzen Zahl angeben! Beispiel: 70'
+    });
+  }
+
+  // PopUp wird angezeigt, falls kein Wert eingetragen wurde
+  $scope.noValPop = function(){
+    var alertPopup = $ionicPopup.alert({
+      title: 'Es wurde kein Wert eingetragen!',
+      template: 'Bitte einen Wert eingeben!'
+    });
+  }
+
+  $scope.goBackHome = function(){
+    $state.go('homescreen');
+  }
+
+  $scope.goBackVital = function(){
+    $state.go('tab.vitaldata');
+  }
+
+  $scope.setPageStyle = function(){
+    $timeout(function () {
       var setpagesize;
       var loggedinuser = firebase.auth().currentUser;
       if(loggedinuser.email == null){
@@ -927,314 +1132,104 @@ app.controller('VitalDataCtrl', function($scope, $state, $ionicPopup) {
           var vornameuser = snap.child("Vorname").val();
           setpagesize = snap.child("Size/Size").val();
           console.log("setPageStyle: " + setpagesize);
+          if (setpagesize == 0){
+            // Alle Styles im Standardview
+            console.log("Set to 15px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "15px";
+            document.getElementById("VitalListGewicht").style.fontSize = "15px";
+            document.getElementById("VitalListBlutdruck").style.fontSize = "15px";
+          } else if (setpagesize == 1) {
+            // Alle Styles in der Grossansicht
+            console.log("Set to 20px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "20px";
+            document.getElementById("VitalListGewicht").style.fontSize = "20px";
+            document.getElementById("VitalListBlutdruck").style.fontSize = "20px";
+          }
         });
       }
-      if (setpagesize == 0){
-        // Alle Styles im Standardview
-      } else if (setpagesize == 1) {
-        // Alle Styles in der Grossansicht
-      }
-    }
-
-    // Draws the chart with the values from the database
-    $scope.drawChart = function(vitalDates, data) {
-      var dates = new Array();
-      // var vals = new Array();
-      //result = result.reverse();
-      // var dates = vitalDates;
-
-      // if (result.length > 5) {
-      //   result = result.slice(Math.max(result.length - 5, 1));
-      // }
-
-      for (var i = 0; i < vitalDates.length; i++){
-        var d = new Date(vitalDates[i]);
-        var currentMinutes = d.getMinutes();
-        if (currentMinutes.toString().length == 1) {
-          currentMinutes = "0" + currentMinutes;
-        }
-        dates.push(d.getDate() + "." + d.getMonth() + "." + d.getFullYear() + " - " + d.getHours() + ":" + currentMinutes + " Uhr");
-      }
-
-      var $configBar = {
-        name: '.ct-chartBar',
-        labels: 'Custom',
-        series: data
-      };
-      var chartBar = new ChartJS($configBar, dates);
-      chartBar.bar(data);
-    }
-
-    // Lädt alle Daten zum Gewicht aus der Datenbank
-    $scope.loadWeight = function(fullname){
-      console.log("LoadWeight: " + loggedinuser.email);
-      // var loggedinuser = firebase.auth().currentUser;
-      var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht/').limitToLast(5);
-      console.log(fullname);
-      var vitalDates = [];
-      var vitalWeights = [];
-      var data = [];
-
-      patientRefVital.on('value', function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          var childData = childSnapshot.val();
-          data.push(childData);
-        });
-      });
-
-      // Iteriert über die Daten as der Datenbank und füllt die entsprechenden Arrays ab
-      for (var j = 0; j < data.length; j++){
-        vitalDates.push(data[j].Date);
-        vitalWeights.push(data[j].Weight);
-      }
-      //TODO
-      $scope.drawChart(vitalDates, vitalWeights);
-    }
-
-    // Generiert die Tabelle für die Blutdruckdaten
-    $scope.bloodPressureToTable = function(value1, value2, value3) {
-      var table = document.getElementById("table_bp");
-
-      var rowCount = table.rows.length;
-      var row = table.insertRow(1);
-      row.insertCell(0).innerHTML= "<div style='text-align:center; font-size:14px'>"+value1+"</div>";
-      row.insertCell(1).innerHTML= "<div style='text-align:center; font-size:14px'>"+value2+"</div>";
-      row.insertCell(2).innerHTML= "<div style='text-align:center; font-size:14px'>"+value3+"</div>";
-    }
-
-    // Lädt alle Daten vom Blutdruck aus der Datenbank
-    $scope.loadbp = function(fullname){
-      var loggedinuser = firebase.auth().currentUser;
-      var patientRefVital = firebase.database().ref(fullname + '/Vital/Blutdruck');
-      var vitalDatesBP = [];
-      var bpSystol = [];
-      var bpDiastol = [];
-      var data = [];
-
-      patientRefVital.on('value', function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          var childData = childSnapshot.val();
-          data.push(childData);
-        });
-      });
-
-      // Iteriert über die Daten as der Datenbank und füllt die entsprechenden Arrays ab
-      for (var j = 0; j < data.length; j++){
-        vitalDatesBP.push(data[j].Date);
-        bpSystol.push(data[j].Systol);
-        bpDiastol.push(data[j].Diastol);
-      }
-
-      //$scope.bloodPressureToTable(datum, systolisch, diastolisch);
-
-      for(var i = 0; i < vitalDatesBP.length; i++){
-        $scope.bloodPressureToTable(vitalDatesBP[i], bpSystol[i], bpDiastol[i]);
-      }
-    }
-
-    $scope.saveWeight = function(){
-      var weight = document.getElementById('weightValue').value;
-
-      if (weight == "") {
-        $scope.noValPop();
-      } else if (isNaN(weight)) {
-        $scope.notNumericPop();
-      }else{
-        var date = new Date();
-        var postData = {
-          Date: date,
-          Weight: weight
-        };
-
-        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-          var nameuser = snap.child("Name").val();
-          var vornameuser = snap.child("Vorname").val();
-          $scope.saveValWeight(nameuser, vornameuser, postData);
-        });
-
-        document.getElementById('weightValue').value = "";
-      }
-    }
-
-    // Blutdruck speichern
-    $scope.saveBloodPressure = function(){
-      var systol = document.getElementById('bloodPressureValueSys').value;
-      var diastol = document.getElementById('bloodPressureValueDis').value;
-
-      if (systol == "" || diastol == "") {
-        $scope.noValPop();
-      } else if (isNaN(systol) || isNaN(diastol)) {
-        $scope.notNumericPop();
-      }else{
-        var date = new Date();
-
-        var postData = {
-          Date: date,
-          Systol: systol,
-          Diastol: diastol
-        };
-
-        // var loggedinuser = firebase.auth().currentUser;
-        // var loggedinref = firebase.database().ref();
-
-        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-          var nameuser = snap.child("Name").val();
-          var vornameuser = snap.child("Vorname").val();
-          $scope.saveValBP(nameuser, vornameuser, postData);
-        });
-
-        document.getElementById('bloodPressureValueSys').value = "";
-        document.getElementById('bloodPressureValueDis').value = "";
-      }
-    }
-
-    // Gewicht wird in der Datenbank gespeichert
-    $scope.saveValWeight = function(nameuser, vornameuser, postData){
-      var fullname = nameuser + vornameuser;
-      var newPostKey = firebase.database().ref().child(fullname).push().key;
-      var path = fullname + "/Vital/Gewicht/";
-      var updates = {};
-      updates[path + newPostKey] = postData;
-      //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-      return firebase.database().ref().update(updates);
-    }
-
-    // Blutdruck wird in der Datenbank gespeichert
-    $scope.saveValBP = function(nameuser, vornameuser, postData){
-      var fullname = nameuser + vornameuser;
-      var newPostKey = firebase.database().ref().child(fullname).push().key;
-      var path = fullname + "/Vital/Blutdruck/";
-      var updates = {};
-      updates[path + newPostKey] = postData;
-      //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-      return firebase.database().ref().update(updates);
-    }
-
-    // PopUp wird angezeigt, falls ein nicht nummerischer Wert angegeben wird
-    $scope.notNumericPop = function() {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Ungültiger Wert!',
-        template: 'Das Gewicht bitte in einer ganzen Zahl angeben! Beispiel: 70'
-        });
-      }
-
-      // PopUp wird angezeigt, falls kein Wert eingetragen wurde
-      $scope.noValPop = function(){
-        var alertPopup = $ionicPopup.alert({
-          title: 'Es wurde kein Wert eingetragen!',
-          template: 'Bitte einen Wert eingeben!'
-        });
-      }
-
-      $scope.goBackHome = function(){
-        $state.go('homescreen');
-      }
-
-      $scope.goBackVital = function(){
-        $state.go('tab.vitaldata');
-      }
-
-      // Methodenaufruf für den PageStyle
-      $scope.setPageStyle();
-
-      $scope.initPage = function (){
-        loggedinuser = firebase.auth().currentUser;
-        var fullname;
-        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-          var nameuser = snap.child("Name").val();
-          var vornameuser = snap.child("Vorname").val();
-          fullname = nameuser + vornameuser;
-        });
-        return fullname;
-      }
-
-      $scope.initPageWeight = function(){
-        var fullname = $scope.initPage();
-
-        $scope.loadWeight(fullname);
-      }
-
-      $scope.initPageBP = function(){
-        var fullname = $scope.initPage();
-        $scope.loadbp(fullname);
-      }
-
-
-  })
-
-app.controller('DetailsCtrl', function($scope) {})
-
-app.controller('MenueplanCtrl', function($scope, $state) {
-
-  $scope.setPageStyle = function(){
-    var loggedinuser = firebase.auth().currentUser;
-    var setpagesize;
-
-    if(loggedinuser.email == null){
-      location.reload();
-    } else {
-      var loggedinref = firebase.database().ref();
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        setpagesize = snap.child("Size/Size").val();
-        // var name = snap.child("Name").val();
-        // var vorname = snap.child("Vorname").val();
-        console.log("setPageStyle: " + setpagesize);
-      });
-    }
-    if (setpagesize == 0){
-      // Alle Styles im Standardview
-    } else if (setpagesize == 1) {
-      // Alle Styles in der Grossansicht
-    }
+    }, 50);
   }
 
- $scope.getMenueplan = function(){
-   var storageRef = firebase.storage().ref();
-   storageRef.child('menueplan.png').getDownloadURL().then(function(url) {
-  // `url` is the download URL for 'images/stars.jpg'
+  // Methodenaufruf für den PageStyle
+  $scope.setPageStyle();
+
+  $scope.initPage = function (){
+    loggedinuser = firebase.auth().currentUser;
+    var fullname;
+    loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+      var nameuser = snap.child("Name").val();
+      var vornameuser = snap.child("Vorname").val();
+      fullname = nameuser + vornameuser;
+    });
+    return fullname;
+  }
+
+  $scope.initPageWeight = function(){
+    var fullname = $scope.initPage();
+
+    $scope.loadWeight(fullname);
+  }
+
+  $scope.initPageBP = function(){
+    var fullname = $scope.initPage();
+    $scope.loadbp(fullname);
+  }
 
 
-  // Or inserted into an <img> element:
-  var img = document.getElementById('myimg');
-  img.src = url;
-  }).catch(function(error) {
-  // Handle any errors
-  });
-}
-
-
- $scope.goBackHome = function(){
-   $state.go('homescreen');
- }
-
- $scope.setPageStyle();
- $scope.getMenueplan();
 })
 
-app.controller('HomescreenCtrl', function($scope, $state) {
+app.controller('MenueplanCtrl', function($scope, $state, $timeout) {
+
+  $scope.getMenueplan = function(){
+    var storageRef = firebase.storage().ref();
+    storageRef.child('menueplan.png').getDownloadURL().then(function(url) {
+      // `url` is the download URL for 'images/stars.jpg'
+      // Or inserted into an <img> element:
+      var img = document.getElementById('myimg');
+      img.src = url;
+    }).catch(function(error) {
+      // Handle any errors
+    });
+  }
+
+  $scope.goBackHome = function(){
+    $state.go('homescreen');
+  }
 
   $scope.setPageStyle = function(){
-    var loggedinuser = firebase.auth().currentUser;
-    var setpagesize;
+    $timeout(function () {
+      var loggedinuser = firebase.auth().currentUser;
+      var setpagesize;
 
-    if(loggedinuser.email == null){
-      location.reload();
-    } else {
-      var loggedinref = firebase.database().ref();
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        setpagesize = snap.child("Size/Size").val();
-        var name = snap.child("Name").val();
-        var vorname = snap.child("Vorname").val();
-        homename.innerHTML = "Willkommen " + vorname + " " + name;
-        console.log("setPageStyle: " + setpagesize);
-      });
-    }
-    if (setpagesize == 0){
-      // Alle Styles im Standardview
-    } else if (setpagesize == 1) {
-      // Alle Styles in der Grossansicht
-    }
+      if(loggedinuser.email == null){
+        location.reload();
+      } else {
+        var loggedinref = firebase.database().ref();
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          setpagesize = snap.child("Size/Size").val();
+          // var name = snap.child("Name").val();
+          // var vorname = snap.child("Vorname").val();
+          console.log("setPageStyle: " + setpagesize);
+          if (setpagesize == 0){
+            // Alle Styles im Standardview
+            console.log("Set to 15px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "15px";
+            document.getElementById("headerMenuePlan").style.fontSize = "15px";
+          } else if (setpagesize == 1) {
+            // Alle Styles in der Grossansicht
+            console.log("Set to 20px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "20px";
+            document.getElementById("headerMenuePlan").style.fontSize = "20px";
+          }
+        });
+      }
+    }, 10);
   }
+  $scope.setPageStyle();
+  $scope.getMenueplan();
+})
+
+app.controller('HomescreenCtrl', function($scope, $state, $timeout) {
 
   gotoCalendar = function() {
     $scope.goCalendar();
@@ -1262,10 +1257,56 @@ app.controller('HomescreenCtrl', function($scope, $state) {
     $state.go('tab.settings');
   }
 
+  $scope.setPageStyle = function(){
+    $timeout(function () {
+      var loggedinuser = firebase.auth().currentUser;
+      var setpagesize;
+
+      if(loggedinuser.email == null){
+        location.reload();
+      } else {
+        var loggedinref = firebase.database().ref();
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          setpagesize = snap.child("Size/Size").val();
+          var name = snap.child("Name").val();
+          var vorname = snap.child("Vorname").val();
+          homename.innerHTML = "Willkommen <br><br>" + vorname + " " + name;
+          console.log("setPageStyle: " + setpagesize);
+          if (setpagesize == 0){
+            // Alle Styles im Standardview
+            console.log("Set to 15px View");
+            document.getElementById("homename").style.fontSize = "30px";
+            document.getElementById("homescreenTable").style.fontSize = "15px";
+            document.getElementById("imgCalendar").style.width = "140px";
+            document.getElementById("imgCalendar").style.height = "140px";
+            document.getElementById("imgVitaldata").style.width = "140px";
+            document.getElementById("imgVitaldata").style.height = "140px";
+            document.getElementById("imgMenue").style.width = "140px";
+            document.getElementById("imgMenue").style.height = "140px";
+            document.getElementById("imgSettings").style.width = "140px";
+            document.getElementById("imgSettings").style.height = "140px";
+          } else if (setpagesize == 1) {
+            // Alle Styles in der Grossansicht
+            console.log("Set to 20px View");
+            document.getElementById("homename").style.fontSize = "40px";
+            document.getElementById("homescreenTable").style.fontSize = "20px";
+            document.getElementById("imgCalendar").style.width = "180px";
+            document.getElementById("imgCalendar").style.height = "180px";
+            document.getElementById("imgVitaldata").style.width = "180px";
+            document.getElementById("imgVitaldata").style.height = "180px";
+            document.getElementById("imgMenue").style.width = "180px";
+            document.getElementById("imgMenue").style.height = "180px";
+            document.getElementById("imgSettings").style.width = "180px";
+            document.getElementById("imgSettings").style.height = "180px";
+          }
+        });
+      }
+    }, 50);
+  }
   $scope.setPageStyle();
 })
 
-app.controller('addappointmentCtrl', function($scope) {})
+app.controller('addappointmentCtrl', function($scope, $timeout) {})
 
 app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $state) {
   // Values for MidataLogin
@@ -1278,26 +1319,6 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
   var fullname = "";
   var loggedinuser = firebase.auth().currentUser;
   console.log(loggedinuser);
-
-  $scope.setPageStyle = function(){
-    var loggedinuser = firebase.auth().currentUser;
-    var setpagesize;
-
-    if(loggedinuser.email == null){
-      location.reload();
-    } else {
-      var loggedinref = firebase.database().ref();
-      loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
-        setpagesize = snap.child("Size/Size").val();
-        console.log("setPageStyle: " + setpagesize);
-      });
-    }
-    if (setpagesize == 0){
-      // Alle Styles im Standardview
-    } else if (setpagesize == 1) {
-      // Alle Styles in der Grossansicht
-    }
-  }
 
   $scope.checkforAccountInfo = function(){
     console.log("checking...");
@@ -1337,14 +1358,14 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     var row = table.insertRow(rowCount);
 
     if (index == 1) {
-      row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Email </div>";
-      row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
+      row.insertCell(0).innerHTML= "<div style='text-align:left' id='listLeftItem'>Email </div>";
+      row.insertCell(1).innerHTML= "<div style='text-align:right' id='listRightItem'>"+value+"</div>";
     } else if (index == 2) {
-      row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Vorname </div>";
-      row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
+      row.insertCell(0).innerHTML= "<div style='text-align:left' id='listLeftItem'>Vorname </div>";
+      row.insertCell(1).innerHTML= "<div style='text-align:right' id='listRightItem'>"+value+"</div>";
     } else {
-      row.insertCell(0).innerHTML= "<div style='text-align:left; font-size:16px'>Nachname </div>";
-      row.insertCell(1).innerHTML= "<div style='text-align:right; font-size:14px'>"+value+"</div>";
+      row.insertCell(0).innerHTML= "<div style='text-align:left' id='listLeftItem'>Nachname </div>";
+      row.insertCell(1).innerHTML= "<div style='text-align:right' id='listRightItem'>"+value+"</div>";
     }
   }
 
@@ -1367,8 +1388,7 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     location.reload();
   }
 
-  $scope.checkforAccountInfo();
-
+  $scope.checkforAccountInfo()
   setStyle = function(){
     $scope.setStyle();
   }
@@ -1382,6 +1402,13 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     updateStyle['/' + fullname + "/Size/"] = postStyle;
 
     console.log("StyleChanged to " + selectedstyle);
+    $scope.returnUpdateStyle(updateStyle);
+    alert("Die Anzeige Einstellungen wurden geändert. Bitte Loggen Sie sich neu ein");
+    $scope.logout();
+    // $scope.setPageStyle();
+  }
+
+  $scope.returnUpdateStyle = function(updateStyle){
     return firebase.database().ref().update(updateStyle);
   }
 
@@ -1389,6 +1416,43 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     $state.go('homescreen');
   }
 
+  $scope.setPageStyle = function(){
+    $timeout(function () {
+      var loggedinuser = firebase.auth().currentUser;
+      var setpagesize;
+
+      if(loggedinuser.email == null){
+        location.reload();
+      } else {
+        var loggedinref = firebase.database().ref();
+        loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
+          setpagesize = snap.child("Size/Size").val();
+          console.log("setPageStyle: " + setpagesize);
+          if (setpagesize == 0){
+            // Alle Styles im Standardview
+            console.log("Set to 15px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "15px";
+            document.getElementById("listHeaderAnzeige").style.fontSize = "15px";
+            document.getElementById("listHeaderAccount").style.fontSize = "15px";
+            document.getElementById("table_settings").style.fontSize = "15px";
+            document.getElementById("listItem").style.fontSize = "15px";
+            document.getElementById("sizeselector").selectedIndex = 0;
+            document.getElementById("sizeselector").style.fontSize = "15px";
+          } else if (setpagesize == 1) {
+            // Alle Styles in der Grossansicht
+            console.log("Set to 20px View");
+            document.getElementById("goBackHomeLink").style.fontSize = "20px";
+            document.getElementById("listHeaderAnzeige").style.fontSize = "20px";
+            document.getElementById("listHeaderAccount").style.fontSize = "20px";
+            document.getElementById("table_settings").style.fontSize = "20px";
+            document.getElementById("listItem").style.fontSize = "20px";
+            document.getElementById("sizeselector").selectedIndex = 1;
+            document.getElementById("sizeselector").style.fontSize = "20px";
+          }
+        });
+      }
+    }, 50);
+  }
   $scope.setPageStyle();
 
   // ---------------------------------------

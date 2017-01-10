@@ -44,12 +44,6 @@ angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'for
       controller: 'HomescreenCtrl'
     })
 
-  .state('details', {
-        url: '/details',
-        templateUrl: 'templates/details.html',
-        controller: 'DetailsCtrl'
-  })
-
   .state('addappointment', {
           url: '/addappointment',
           templateUrl: 'templates/addappointment.html',

@@ -1,11 +1,11 @@
 <ion-view view-title="Vitaldaten">
   <ion-nav-buttons side="left">
-      <a class="button ion-ios-home button-calm" ng-click="goBackHome()"> Home</a>
-    </ion-nav-buttons>
+    <a id="goBackHomeLink" class="button ion-ios-home button-calm" ng-click="goBackHome()"> Home</a>
+  </ion-nav-buttons>
   <ion-content padding="true" class="has-header calm">
     <ion-item-group>
-      <ion-item href="#/weight">Gewicht</ion-item>
-      <ion-item href="#/bp">Blutdruck</ion-item>
+      <ion-item id="VitalListGewicht" href="#/weight">Gewicht</ion-item>
+      <ion-item id="VitalListBlutdruck" href="#/bp">Blutdruck</ion-item>
     </ion-item-group>
   </ion-content>
 </ion-view>

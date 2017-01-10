@@ -1,71 +1,23 @@
 <ion-view view-title="Kalendar">
   <ion-nav-buttons side="left">
-      <a class="button ion-ios-home button-calm" ng-click="goBackHome()"> Home</a>
-    </ion-nav-buttons>
+    <a id="goBackHomeLink" class="button ion-ios-home button-calm" ng-click="goBackHome()"> Home</a>
+  </ion-nav-buttons>
   <ion-nav-buttons side="right">
-      <a class="button icon-right ion-plus-round button-calm" ng-click="openAddAppointment()">Eintrag anlegen </a>
-    </ion-nav-buttons>
-
-    <!-- <ion-header-bar class="bar-subheader bar-calm" style="text-align: center">
-
-      <div>
-          <span class="input-label" style="color:white">Datum</span>
-      </div>
-      <div id="datediv">
-        <label class="item item-input" style="background-color:rgba(255,0,0,0)">
-          <input type="date" id="changeDatum" value="" ng-model="user.Name" ng-change="datechange()">
-        </label>
-      </div>
-
-    </ion-header-bar> -->
-
-
+    <a id="OpenAddAppointLink" class="button icon-right ion-plus-round button-calm" ng-click="openAddAppointment()">Eintrag anlegen </a>
+  </ion-nav-buttons>
   <ion-content class="padding">
-
-
-
-  <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
-  <!-- <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
-      <ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}" class="item-remove-animate">
-          <b>{{ item.start }} - {{ item.end }} Uhr </b> <br> {{ item.title }}
-      </ion-item>
-  </ion-list> -->
-<table id="table_calendar">
-  <thead id="table_header">
-      <th class="firstrow"><button ng-click="backoneDay()"><img src="img/left.png" height="20" width="20"></button></th>
-      <th class="secondrow">
-        <label class="item item-input" style="background-color:rgba(255,0,0,0)">
-        <input type="date" id="changeDatum" ng-model="date.datum" ng-change="datechange()">
-      </label></th>
-      <!-- <label class="item item-input"><input id="selectDay" type="number" min="1" max="31" ng-model="date.day" ng-change="datechange()"></input>
-        <input id="selectMonth" type="number" min="1" max="12" ng-model="date.month" ng-change="datechange()"></input>
-        <input id="selectYear" type="number" min="1970" max="2100" ng-model="date.year" ng-change="datechange()"></input></label></th> -->
-      <th class="thirdrow"><button ng-click="forwardoneDay()"><img src="img/right.png" height="20" width="20"></button></th>
-    </tr>
-  </thead>
-  <tbody id="table_body">
-  </tbody>
-  <!-- <tbody id="table_mittag">
-  </tbody>
-  <tbody id="table_abend">
-  </tbody>
-  <tbody id="table_nacht">
-  </tbody> -->
-</table>
-
-  <!--
-  <ul class="list" id="list_morgen">
-    <li class="item item-calm">Morgen</li>
-  </ul>
-  <ul class="list" id="list_mittag">
-    <li class="item item-calm">Mittag</li>
-  </ul>
-  <ul class="list" id="list_abend">
-    <li class="item item-calm">Abend</li>
-  </ul>
-  <ul class="list" id="list_nacht">
-    <li class="item item-calm">Nacht</li>
-  </ul> -->
-
+    <table id="table_calendar">
+      <thead id="table_header">
+        <th class="firstrow"><button ng-click="backoneDay()"><img src="img/left.png" height="20" width="20"></button></th>
+        <th class="secondrow">
+          <label class="item item-input" style="background-color:rgba(255,0,0,0)">
+            <input type="date" id="changeDatum" ng-model="date.datum" ng-change="datechange()">
+          </label></th>
+          <th class="thirdrow"><button ng-click="forwardoneDay()"><img src="img/right.png" height="20" width="20"></button></th>
+        </tr>
+      </thead>
+      <tbody id="table_body">
+      </tbody>
+    </table>
   </ion-content>
 </ion-view>
