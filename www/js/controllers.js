@@ -200,6 +200,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
 app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, $timeout) {
 
     var fullname = "";
+    var errorhandlnmb = 0;
     var currentDatum = new Date();
     console.log(currentDatum);
     var currentDatumDay = currentDatum.getUTCDate();
@@ -256,10 +257,10 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
       }
     }
 
-
     $scope.startgetAllDates = function(name, vorname, msecdatum){
       // Step 0: Instanzieren
       fullname = name + vorname;
+      errorhandlnmb = 0;
       msecdatum = msecdatum - 3600000;
       var msecend = msecdatum + 86399999;
       console.log("getAllDates: " + fullname, msecdatum, msecend);
@@ -284,6 +285,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -311,6 +315,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -322,6 +329,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     $scope.getMorgenMedis = function(fullname, msecdatum){
       // Step 3: Medis am Morgen
+      errorhandlnmb = 1;
       var msecmedidatum = msecdatum + 3600000;
       var msecstartpush = "" + msecmedidatum;
       console.log("Step 3: " + msecstartpush);
@@ -342,6 +350,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var key = snap.key;
         var path = fullname + "/Medis/Morgen/" + key;
         $scope.MeditoTable(dosis, form, name, zeit, path, "Morgen");
+        if(errorhandlnmb != 1){
+          $timeout(function () {
+            $scope.datechange();
+          }, 50);
+        }
       });
       $scope.getMorgenAppointafterMedi(fullname, msecdatum);
     }
@@ -365,6 +378,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -389,10 +405,13 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var nmbdatummsec = parseInt(datum);
         var datumoutput = new Date(nmbdatummsec);
         var minuteoutput = datumoutput.getMinutes();
-        if(minuteoutput == 0){
-          minuteoutput = "00";
+        if(minuteoutput < 10){
+          minuteoutput = "0" + datumoutput.getMinutes();
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -404,6 +423,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     $scope.getMittagMedi = function(fullname, msecdatum){
       // Step 7: Medis am Mittag
+      errorhandlnmb = 2;
       var msecmedidatum = msecdatum + 3600000;
       var msecstartpush = "" + msecmedidatum;
 
@@ -425,6 +445,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var key = snap.key;
         var path = fullname + "/Medis/Mittag/" + key;
         $scope.MeditoTable(dosis, form, name, zeit, path, "Mittag");
+        if(errorhandlnmb != 2){
+          $timeout(function () {
+            $scope.datechange();
+          }, 50);
+        }
       });
       $scope.getMittagAppointafterMedi(fullname, msecdatum);
     }
@@ -448,6 +473,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -476,6 +504,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -487,6 +518,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     $scope.getAbendMedi = function(fullname, msecdatum){
       // Step 9: Medis am Abend
+      errorhandlnmb = 3;
       var msecmedidatum = msecdatum + 3600000;
       var msecstartpush = "" + msecmedidatum;
 
@@ -508,6 +540,11 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var key = snap.key;
         var path = fullname + "/Medis/Abend/" + key;
         $scope.MeditoTable(dosis, form, name, zeit, path, "Abend");
+        if(errorhandlnmb != 3){
+          $timeout(function () {
+            $scope.datechange();
+          }, 50);
+        }
       });
       $scope.getAbendAppointafterMedi(fullname, msecdatum);
     }
@@ -531,6 +568,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -559,6 +599,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -570,6 +613,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 
     $scope.getNachtMedi = function(fullname, msecdatum){
       // Step 12: Medis in der Nacht
+      errorhandlnmb = 4;
       var msecmedidatum = msecdatum + 3600000;
       var msecstartpush = "" + msecmedidatum;
 
@@ -591,12 +635,18 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         var key = snap.key;
         var path = fullname + "/Medis/Nacht/" + key;
         $scope.MeditoTable(dosis, form, name, zeit, path, "Nacht");
+        if(errorhandlnmb != 4){
+          $timeout(function () {
+            $scope.datechange();
+          }, 50);
+        }
       });
       $scope.getNachtAppointafterMedi(fullname, msecdatum);
     }
 
     $scope.getNachtAppointafterMedi = function(fullname, msecdatum){
       // Step 13: All Appointments between 23:00Uhr and 23:59
+      errorhandlnmb = 0;
       var msecstart = msecdatum + 82800000;
       var msecstartpush = "" + msecstart;
       var msecend = msecdatum + 86399999;
@@ -614,6 +664,9 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
           minuteoutput = "00";
         }
         var houroutput = datumoutput.getHours();
+        if (houroutput < 10){
+          houroutput = "0" + datumoutput.getHours();
+        }
         var timeoutput = houroutput + ":" + minuteoutput;
         var beschreibung = snap.child("Beschreibung").val();
         var key = snap.key;
@@ -621,6 +674,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
         $scope.AppointtoTable(beschreibung, timeoutput, path, "Nacht");
       });
     }
+
 
     // Liest den Pfad aus dem Button - Element und gibt in an $scope.deleteRow weiter. Aus Referenzgründen darf es keine $scope Funktion sein
     convertToDeleteRow = function(path){
@@ -1371,9 +1425,11 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
 
   $scope.deletetableRow = function(){
     var table = document.getElementById("table_settings");
-    table.deleteRow(2);
-    table.deleteRow(1);
-    table.deleteRow(0);
+    if (table.rows.length == 2){
+      table.deleteRow(2);
+      table.deleteRow(1);
+      table.deleteRow(0);
+    }
   }
   // Logout
   $scope.logout = function() {
@@ -1404,8 +1460,6 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     console.log("StyleChanged to " + selectedstyle);
     $scope.returnUpdateStyle(updateStyle);
     alert("Die Anzeige Einstellungen wurden geändert. Bitte Loggen Sie sich neu ein");
-    $scope.logout();
-    // $scope.setPageStyle();
   }
 
   $scope.returnUpdateStyle = function(updateStyle){
