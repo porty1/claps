@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ionic-datepicker', 'ionic-timepicker', 'formlyIonic', 'nvd3', 'i4mi', 'starter.controllers', 'starter.services','jsonFormatter'])
-.constant('APPNAME', 'HelloI4MI')
+.constant('APPNAME', 'clapsBFH')
 .constant('APPSECRET', '8385bee7542099b10315dcb7b803b61a')
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

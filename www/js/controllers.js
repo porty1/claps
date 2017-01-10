@@ -979,13 +979,6 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
   // Draws the chart with the values from the database
   $scope.drawChart = function(vitalDates, data) {
     var dates = new Array();
-    // var vals = new Array();
-    //result = result.reverse();
-    // var dates = vitalDates;
-
-    // if (result.length > 5) {
-    //   result = result.slice(Math.max(result.length - 5, 1));
-    // }
 
     for (var i = 0; i < vitalDates.length; i++){
       var d = new Date(vitalDates[i]);
@@ -1010,11 +1003,11 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
     console.log("LoadWeight: " + loggedinuser.email);
     // var loggedinuser = firebase.auth().currentUser;
     var patientRefVital = firebase.database().ref(fullname + '/Vital/Gewicht/').limitToLast(5);
-    console.log(fullname);
-    var vitalDates = [];
-    var vitalWeights = [];
-    var data = [];
+    var vitalDates = new Array();
+    var vitalWeights = new Array();
+    var data = new Array();
 
+    // Holt die Daten aus der Firebase Datenbank via Referenz
     patientRefVital.on('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         var childData = childSnapshot.val();
@@ -1027,7 +1020,7 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
       vitalDates.push(data[j].Date);
       vitalWeights.push(data[j].Weight);
     }
-    //TODO
+
     $scope.drawChart(vitalDates, vitalWeights);
   }
 
@@ -1065,10 +1058,20 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
       bpDiastol.push(data[j].Diastol);
     }
 
-    //$scope.bloodPressureToTable(datum, systolisch, diastolisch);
+    // Das Datum muss ins richtige Format gebracht werden
+    var dates = new Array();
 
-    for(var i = 0; i < vitalDatesBP.length; i++){
-      $scope.bloodPressureToTable(vitalDatesBP[i], bpSystol[i], bpDiastol[i]);
+    for (var i = 0; i < vitalDatesBP.length; i++){
+      var d = new Date(vitalDatesBP[i]);
+      var currentMinutes = d.getMinutes();
+      if (currentMinutes.toString().length == 1) {
+        currentMinutes = "0" + currentMinutes;
+      }
+      dates.push(d.getDate() + "." + d.getMonth() + "." + d.getFullYear() + " - " + d.getHours() + ":" + currentMinutes + " Uhr");
+    }
+
+    for(var i = 0; i < dates.length; i++){
+      $scope.bloodPressureToTable(dates[i], bpSystol[i], bpDiastol[i]);
     }
   }
 
@@ -1092,6 +1095,8 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
         $scope.saveValWeight(nameuser, vornameuser, postData);
       });
 
+      $scope.initPageWeight();
+
       document.getElementById('weightValue').value = "";
     }
   }
@@ -1114,14 +1119,13 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
         Diastol: diastol
       };
 
-      // var loggedinuser = firebase.auth().currentUser;
-      // var loggedinref = firebase.database().ref();
-
       loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
         var nameuser = snap.child("Name").val();
         var vornameuser = snap.child("Vorname").val();
         $scope.saveValBP(nameuser, vornameuser, postData);
       });
+
+      $scope.initPageBP();
 
       document.getElementById('bloodPressureValueSys').value = "";
       document.getElementById('bloodPressureValueDis').value = "";
@@ -1135,7 +1139,6 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
     var path = fullname + "/Vital/Gewicht/";
     var updates = {};
     updates[path + newPostKey] = postData;
-    //updates['/user-posts/' + uid + '/' + newPostKey] = postData;
     return firebase.database().ref().update(updates);
   }
 
@@ -1362,14 +1365,7 @@ app.controller('HomescreenCtrl', function($scope, $state, $timeout) {
 
 app.controller('addappointmentCtrl', function($scope, $timeout) {})
 
-app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $state) {
-  // Values for MidataLogin
-  I4MIMidataService.logout();
-  $scope.login = {};
-  $scope.login.email = '';
-  $scope.login.password = '';
-  $scope.login.server = 'https://test.midata.coop:9000';
-
+app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $state, $ionicPopup) {
   var fullname = "";
   var loggedinuser = firebase.auth().currentUser;
   console.log(loggedinuser);
@@ -1511,6 +1507,13 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
 
   // ---------------------------------------
   //Midata Login
+  // Values for MidataLogin
+  I4MIMidataService.logout();
+  $scope.login = {};
+  $scope.login.email = '';
+  $scope.login.password = '';
+  $scope.login.server = 'https://test.midata.coop:9000';
+
   // Login
   $scope.doLogin = function() {
     //console.info(I4MIMidataService.currentUser());
@@ -1519,19 +1522,51 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
     //$scope.closeModal();
     setTimeout(function() {
       $scope.checkUser();
-      // Verstecke Loading Spinner
-    }, 3000);
+      // Verstecketer loading Spinner
+    }, 2000);
   }
 
-  // Check if valid User
+  // Login erfolgreich Popup
+  $scope.loginPopup = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Login MIDATA erfolgreich',
+      template: 'Erfolgreich eingeloggt!'
+    });
+  }
+
+  // Nicht valides Login
+  $scope.loginNotValidPopup = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Login MIDATA nicht erfolgreich',
+      template: 'Bitte Angaben überprüfen!'
+    });
+  }
+
+// Logout Popup
+  $scope.logoutPopup = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Logout MIDATA erfolgreich',
+      template: 'Bis zum nächsten Mal!'
+    });
+  }
+
+  // Überprüfung auf validen Benutzer
   $scope.checkUser = function() {
-    console.info(I4MIMidataService.currentUser());
     if (I4MIMidataService.currentUser() !== undefined) {
-      //$state.go('home');
-      //$state.go('tab.calendar');
-      console.info($scope.login.logOut)
+      console.info("Current User: " + I4MIMidataService.currentUser());
+      $scope.loginPopup();
     } else {
+      document.getElementById('email').value = "";
+      document.getElementById('password').value = "";
+      $scope.loginNotValidPopup();
       I4MIMidataService.logout();
     }
   }
+
+  $scope.doMidataLogout = function(){
+    $scope.logoutPopup();
+    I4MIMidataService.logout();
+    console.info("Current User: " + I4MIMidataService.currentUser());
+  }
+
 })

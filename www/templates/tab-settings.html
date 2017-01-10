@@ -31,15 +31,16 @@
         Midata Login
       </div>
       <label class="item item-input">
-        <input ng-model="login.email" type="text" placeholder="Email">
+        <input id="email" ng-model="login.email" type="text" placeholder="Email">
       </label>
       <label class="item item-input">
-        <input ng-model="login.password" type="password" placeholder="Password">
+        <input id="password" ng-model="login.password" type="password" placeholder="Password">
       </label>
       <label class="item item-input">
         <input ng-model="login.server" type="text" value='https://test.midata.coop:9000' placeholder="https://test.midata.coop:9000">
       </label>
-      <button class="button button-calm" ng-click="doLogin()">Midata verbinden</button>
+      <button type="submit" id="midata_login" class="button button-calm" ng-click="doLogin()">Midata verbinden</button>
+      <button type="submit" class="button button-calm" ng-click="doMidataLogout()">Midata trennen</button>
     </div>
   </div>
 </ion-content>
