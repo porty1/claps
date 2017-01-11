@@ -1108,7 +1108,9 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
       loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
         var nameuser = snap.child("Name").val();
         var vornameuser = snap.child("Vorname").val();
-        $scope.saveValWeight(nameuser, vornameuser, postData);
+        $scope.saveValWeight(nameuser, vornameuser, postData).then(function(val){
+          $scope.initPageWeight();
+        });
       });
 
       $timeout(function () {
@@ -1141,11 +1143,15 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
       loggedinref.orderByChild("Email").equalTo(loggedinuser.email).on("child_added", snap => {
         var nameuser = snap.child("Name").val();
         var vornameuser = snap.child("Vorname").val();
-        $scope.saveValBP(nameuser, vornameuser, postData);
+        $scope.saveValBP(nameuser, vornameuser, postData).then(function(val){
+          $scope.initPageBP();
+        });
       });
-      $timeout(function () {
-        $scope.initPageBP();
-      }, 100);
+
+      // $timeout(function () {
+      //   $scope.initPageBP();
+      // }, 100);
+
       document.getElementById('bloodPressureValueSys').value = "";
       document.getElementById('bloodPressureValueDis').value = "";
     }
