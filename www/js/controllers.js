@@ -1038,9 +1038,15 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
   // Generiert die Tabelle für die Blutdruckdaten
   $scope.bloodPressureToTable = function(value1, value2, value3) {
     var table = document.getElementById("table_bp");
-
     var rowCount = table.rows.length;
-    var row = table.insertRow(1);
+    console.log("adsf" + rowCount);
+
+
+
+    //var table = document.getElementById("table_bp");
+
+    //var rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= "<div style='text-align:center; font-size:14px'>"+value1+"</div>";
     row.insertCell(1).innerHTML= "<div style='text-align:center; font-size:14px'>"+value2+"</div>";
     row.insertCell(2).innerHTML= "<div style='text-align:center; font-size:14px'>"+value3+"</div>";
@@ -1086,7 +1092,15 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
 
     }
 
+
+    var table = document.getElementById("table_bp");
+    var rowCount = table.rows.length;
+    for (i = rowCount-1; i >= 1; i--) {
+      table.deleteRow(i);
+    }
+    dates.reverse();
     for(var i = 0; i < dates.length; i++){
+      console.log("Aufruf: " + dates.length);
       $scope.bloodPressureToTable(dates[i], bpSystol[i], bpDiastol[i]);
     }
   }
