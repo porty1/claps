@@ -97,6 +97,9 @@ app.controller('LoginCtrl', function($scope, $state, $ionicModal, $location, $ti
     if (user){
       console.log(user.email);
       $state.go('homescreen');
+      $timeout(function () {
+        location.reload();
+      }, 50);
     }else{
       console.log("No User Logged In");
     }
@@ -825,12 +828,12 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
     document.getElementById("errorcreateappoint").style.display = "none";
   }
 
-  $scope.createAppointment = function(appointvalue) {
+  $scope.createAppointment = function(appointForm) {
 
-    var datum = new Date(appointvalue.datum);
-    var zeit = new Date(appointvalue.time);
+    var datum = new Date(appointForm.datum);
+    var zeit = new Date(appointForm.time);
     console.log(datum + " " + zeit);
-    var beschreibungpush = appointvalue.area;
+    var beschreibungpush = appointForm.area;
 
     // Errorhandling Appointmentinput
     var timestampdatum = Date.parse(datum);
@@ -1454,7 +1457,10 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
       console.log("error");
     })
     $state.go('login');
-    location.reload();
+    $timeout(function () {
+      location.reload();
+    }, 25);
+
   }
 
   $scope.checkforAccountInfo()
@@ -1472,7 +1478,7 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
 
     console.log("StyleChanged to " + selectedstyle);
     $scope.returnUpdateStyle(updateStyle);
-    alert("Die Anzeige Einstellungen wurden geändert. Bitte Loggen Sie sich neu ein");
+    // alert("Die Anzeige Einstellungen wurden geändert. Bitte Loggen Sie sich neu ein");
   }
 
   $scope.returnUpdateStyle = function(updateStyle){
