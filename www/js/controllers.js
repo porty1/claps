@@ -972,7 +972,7 @@ app.controller('CalendarCtrl', function($scope, $state, $ionicModal, $location, 
 })
 
 app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) {
-  // Globale Controllervariablen setzen
+    // Globale Controllervariablen setzen
   var loggedinuser = firebase.auth().currentUser;
   var loggedinref = firebase.database().ref();
 
@@ -982,11 +982,19 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
 
     for (var i = 0; i < vitalDates.length; i++){
       var d = new Date(vitalDates[i]);
-      var currentMinutes = d.getMinutes();
-      if (currentMinutes.toString().length == 1) {
-        currentMinutes = "0" + currentMinutes;
-      }
-      dates.push(d.getDate() + "." + d.getMonth() + "." + d.getFullYear() + " - " + d.getHours() + ":" + currentMinutes + " Uhr");
+
+
+      var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
+      d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+      dates.push(datestring);
+
+
+
+      // var currentMinutes = d.getMinutes();
+      // if (currentMinutes.toString().length == 1) {
+      //   currentMinutes = "0" + currentMinutes;
+      // }
+      // dates.push(d.getDate() + "." + d.getMonth() + "." + d.getFullYear() + " - " + d.getHours() + ":" + currentMinutes + " Uhr");
     }
 
     var $configBar = {
@@ -1044,6 +1052,8 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
     var bpDiastol = [];
     var data = [];
 
+
+
     patientRefVital.on('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         var childData = childSnapshot.val();
@@ -1062,12 +1072,15 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
     var dates = new Array();
 
     for (var i = 0; i < vitalDatesBP.length; i++){
+      //var dateFormat = require('dateformat');
       var d = new Date(vitalDatesBP[i]);
-      var currentMinutes = d.getMinutes();
-      if (currentMinutes.toString().length == 1) {
-        currentMinutes = "0" + currentMinutes;
-      }
-      dates.push(d.getDate() + "." + d.getMonth() + "." + d.getFullYear() + " - " + d.getHours() + ":" + currentMinutes + " Uhr");
+
+
+
+      var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
+      d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+      dates.push(datestring);
+
     }
 
     for(var i = 0; i < dates.length; i++){
@@ -1095,7 +1108,10 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
         $scope.saveValWeight(nameuser, vornameuser, postData);
       });
 
-      $scope.initPageWeight();
+      $timeout(function () {
+        $scope.initPageWeight();
+      }, 100);
+
 
       document.getElementById('weightValue').value = "";
     }
@@ -1124,9 +1140,9 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
         var vornameuser = snap.child("Vorname").val();
         $scope.saveValBP(nameuser, vornameuser, postData);
       });
-
-      $scope.initPageBP();
-
+      $timeout(function () {
+        $scope.initPageBP();
+      }, 100);
       document.getElementById('bloodPressureValueSys').value = "";
       document.getElementById('bloodPressureValueDis').value = "";
     }
@@ -1222,12 +1238,13 @@ app.controller('VitalDataCtrl', function($scope, $state, $timeout, $ionicPopup) 
   }
 
   $scope.initPageWeight = function(){
+    console.log("Hier wird die Seite aufgerufen");
     var fullname = $scope.initPage();
-
     $scope.loadWeight(fullname);
   }
 
   $scope.initPageBP = function(){
+    console.log("Hier wird die Seite aufgerufen");
     var fullname = $scope.initPage();
     $scope.loadbp(fullname);
   }
@@ -1565,6 +1582,8 @@ app.controller('SettingsCtrl', function($scope, I4MIMidataService, $timeout, $st
 
   $scope.doMidataLogout = function(){
     $scope.logoutPopup();
+    document.getElementById('email').value = "";
+    document.getElementById('password').value = "";
     I4MIMidataService.logout();
     console.info("Current User: " + I4MIMidataService.currentUser());
   }
