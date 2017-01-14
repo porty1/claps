@@ -568,7 +568,6 @@ function addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, 
   if (timeofday == "Morgen"){
     var table = document.getElementById("tablemorgendata");
     var rowCount = table.rows.length;
-    console.log(rowCount);
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
     row.insertCell(1).innerHTML= name;
@@ -578,7 +577,6 @@ function addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, 
   } else if (timeofday == "Mittag"){
     var table = document.getElementById("tablemittagdata");
     var rowCount = table.rows.length;
-    console.log(rowCount);
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
     row.insertCell(1).innerHTML= name;
@@ -588,7 +586,6 @@ function addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, 
   } else if (timeofday == "Abend"){
     var table = document.getElementById("tableabenddata");
     var rowCount = table.rows.length;
-    console.log(rowCount);
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
     row.insertCell(1).innerHTML= name;
@@ -598,7 +595,6 @@ function addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, 
   } else if (timeofday == "Nacht"){
     var table = document.getElementById("tablenachtdata");
     var rowCount = table.rows.length;
-    console.log(rowCount);
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= '' + dayoutput + '.' + monthoutput + '.' + yearoutput + '';
     row.insertCell(1).innerHTML= name;
@@ -608,8 +604,6 @@ function addRow(dayoutput, monthoutput, yearoutput, name, dosis, form, blister, 
   } else {
     console.log("Error Writing in Table");
   }
-
-
 }
 
 /* Methode um das entsprechende Medikament zu löschen. Erhält den Pfad des Medikaments aus dem auf im Button hinterlegten deleteRow(path) */
@@ -627,7 +621,6 @@ function userselection(cred, name, vorname){
   if(name != undefined && vorname != undefined){
     patientheader.innerText = "Patient: " + name + " " + vorname;
   }
-  console.log(currentPatient);
   emptytheTable(); // Die vorhanden Tabellen werden bevor sie beschrieben werden geleert, damit sie mit neuen korrekten Daten gefüllt werden können
   getMorgen(currentPatient);
   getMittag(currentPatient);
@@ -730,34 +723,10 @@ testsRef.on("child_added", snap => {
 });
 
 
-  pdfhochladen = function(){
+function pdfhochladen(){
     var pdfpath = document.getElementById('fileselect').files[0];
     var filename = pdfpath.name;
-    console.log(pdfpath);
-    console.log(filename);
-
     var storageRef = firebase.storage().ref().child("menueplan.png");
-
     storageRef.put(pdfpath).then(function(snapshot) {
-      console.log('Uploaded a blob or file!');
     });
-  }
-
-  downloadpic = function(){
-    var storageRef = firebase.storage().ref();
-    storageRef.child('menueplan.png').getDownloadURL().then(function(url) {
-      // `url` is the download URL for 'menueplan.png'
-
-      // This can be downloaded directly:
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = function(event) {
-        var blob = xhr.response;
-      };
-      xhr.open('GET', url);
-      xhr.send();
-
-      }).catch(function(error) {
-        // Handle any errors
-      });
   }

@@ -1,25 +1,13 @@
 <ion-modal-view>
   <ion-header-bar class="bar-calm">
-
-    <!-- style attribute for Android -->
     <h1 class="title" style="text-align:center!important;">Einen neuen Account erstellen</h1>
-
     <!-- Button left -->
     <button class="button button-icon button-clear button-light ion-ios-arrow-thin-left" ng-click="closeRegister()"></button>
-
     <!-- Button right [empty] -->
     <button class="button button-icon button-clear button-light"></button>
-
   </ion-header-bar>
-
   <ion-content scroll="false">
     <div class="list">
-      <!--
-      <label class="item item-input">
-        <i class="icon ion-ios-person-outline placeholder-icon-large"></i>
-        <input type="text" placeholder="Nom">
-      </label>
-      -->
       <label class="item item-input">
         <input id="formname" type="text" placeholder="Name" ng-model="form.name" required="true">
       </label>
@@ -38,20 +26,12 @@
         <i class="icon ion-key placeholder-icon-large"></i>
         <input id="formpincode" type="number" placeholder="PIN - Code" ng-model="form.pin" required>
       </label>
-
-      <!--
-      <label class="item item-input">
-        <i class="icon ion-ios-locked-outline placeholder-icon-large"></i>
-        <input type="text" placeholder="Confirmer mot de passe">
-      </label>
-      -->
     </div>
     <div id="errorcreatelogin" style="display:none"><p id="createerrormessage">Ungültige Eingabe, bitte erneut versuchen!</p></div>
     <p class="calm text-center">
       Mit dem Erstellen eines Accounts erklären </br> Sie sich mit der Datenschutzerklärung einverstanden
     </p>
     <p class="assertive text-center" ng-if="error"><strong>{{ error }}</strong></p>
-
     <div class="validation-center">
       <button class="button button-calm button-full" ng-click="createUser(form)">
         Erstellen

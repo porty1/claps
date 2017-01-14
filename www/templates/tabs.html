@@ -4,29 +4,20 @@ Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
 <ion-tabs class="tabs-icon-top tabs-background-calm tabs-color-light">
-
-  <!-- Dashboard Tab -->
-   <ion-tab title="Kalendar" icon-on="ion-ios-calendar" icon-off="ion-ios-calendar-outline" href="#/tab/calendar">
-     <ion-nav-view name="tab-calendar"></ion-nav-view>
-   </ion-tab>
-
-   <!-- Chats Tab -->
-   <ion-tab title="Vitaldaten" icon-on="ion-ios-flask" icon-off="ion-ios-flask-outline" href="#/tab/vitaldata">
-     <ion-nav-view name="tab-vitaldata"></ion-nav-view>
-   </ion-tab>
-
-   <ion-tab title="Menüplan" icon-off="ion-ios-list-outline" icon-on="ion-ios-list" href="#/tab/menueplan">
-     <ion-nav-view name="tab-menueplan"></ion-nav-view>
-   </ion-tab>
-
-   <!-- Account Tab -->
-   <ion-tab title="Einstellungen" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/settings">
-     <ion-nav-view name="tab-settings"></ion-nav-view>
-   </ion-tab>
-
-
-
-   <!--<ion-tab title="Login" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/login" hidden="true">
-     <ion-nav-view name="tab-login"></ion-nav-view>
-   </ion-tab> -->
+  <!-- Kalender Tab -->
+  <ion-tab title="Kalendar" icon-on="ion-ios-calendar" icon-off="ion-ios-calendar-outline" href="#/tab/calendar">
+    <ion-nav-view name="tab-calendar"></ion-nav-view>
+  </ion-tab>
+  <!-- Vitaldaten Tab -->
+  <ion-tab title="Vitaldaten" icon-on="ion-ios-flask" icon-off="ion-ios-flask-outline" href="#/tab/vitaldata">
+    <ion-nav-view name="tab-vitaldata"></ion-nav-view>
+  </ion-tab>
+  <!-- Menüplan Tab -->
+  <ion-tab title="Menüplan" icon-off="ion-ios-list-outline" icon-on="ion-ios-list" href="#/tab/menueplan">
+    <ion-nav-view name="tab-menueplan"></ion-nav-view>
+  </ion-tab>
+  <!-- Einstellungen Tab -->
+  <ion-tab title="Einstellungen" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/settings">
+    <ion-nav-view name="tab-settings"></ion-nav-view>
+  </ion-tab>
 </ion-tabs>

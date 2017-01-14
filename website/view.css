@@ -1,6 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
-
-
 #header {
 	float: left;
 	width: 100%;
@@ -10,7 +8,6 @@
 	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
 	color: Black;
 }
-
 #patubersicht {
     float: left;
     max-width: 200px;
@@ -18,22 +15,18 @@
     padding: 1em;
 
 }
-
 #patubersicht ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-
 #patubersicht li {
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
   border-bottom: 1px solid #ccc;
 }
-
 #patubersicht li:last-child {
   border: none;
 }
-
 #patubersicht li a {
   text-decoration: none;
   color: #000;
@@ -46,27 +39,21 @@
   -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
   transition: font-size 0.3s ease, background-color 0.3s ease;
 }
-
 #patubersicht li a:hover {
   font-size: 30px;
   background: powderblue;
 }
-
-
 #medikamente {
-
  	margin-left: 200px;
     border-left: 1px solid gray;
     padding: 1em;
     overflow: hidden;
     font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-
 }
 #medikamente table {
     border-collapse: collapse;
     width: 100%;
 }
-
 #medikamente th{
     padding: 8px;
     text-align: left;
@@ -81,11 +68,8 @@
     border-bottom: 1px solid #ddd;
     font: 15px/1.5 Helvetica, Verdana, sans-serif;
 }
-
 tr:nth-child(even){background-color: #f2f2f2}
 tr:hover{background-color:#f5f5f5}
-
-
 #verordnen {
  	margin-left: 232px;
     border-left: 1px solid gray;
@@ -95,17 +79,13 @@ tr:hover{background-color:#f5f5f5}
     font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
     background-color: ;
 }
-
 #verordnen li {
 	list-style:none;
 }
-
 #verordnen buttons {
   padding-top: 50px;
   text-align: left;
 }
-
-
 .btn {
   border-radius: 5px;
   padding: 15px 25px;
@@ -115,22 +95,18 @@ tr:hover{background-color:#f5f5f5}
   color: #fff;
   display: inline-block;
 }
-
 .btn:active {
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
   box-shadow: 0px 1px 0px 0px;
 }
-
 .blue {
   background-color: dodgerblue;
   box-shadow: 0px 5px 0px 0px #3C93D5;
 }
-
 .blue:hover {
   background-color: #6FC6FF;
 }
-
 #tablemorgen {
 	background-color: khaki;
 }
